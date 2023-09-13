@@ -66,6 +66,9 @@ namespace Rosetta.Class {
                 }
             }
             if (Create) QuickStream.SaveString(FileName,$"[Creation]\nCreatorApp=Rosetta\nDate={DateTime.Now}\n");
+            _Data.ListAdd("Projects", "Projects", SFN);
+            PRJ[SFN] = new PrjD(SFN);
+            PRJ[SFN].ProjectFile = FileName;
             ToListBox(LB);
         }
 
