@@ -1,0 +1,11 @@
+bin
+obj
+MKL_*
+*.MKL.*
+Test
+.vs
+
+
+
+# MINE! Put in your own mascot pictures if you want to!
+Myrah.png
