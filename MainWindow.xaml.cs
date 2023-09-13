@@ -24,6 +24,8 @@ namespace Rosetta {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
+
+            ProjectList.ToListBox(LB_Projects);
         }
 
         private void BT_NewProject_Click(object sender, RoutedEventArgs e) {

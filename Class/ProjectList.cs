@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using TrickyUnits;
@@ -29,6 +30,20 @@ namespace Rosetta.Class {
 
         }
 
+        internal class GetProject {
+            private SortedDictionary<string, ProjectData> Reg = new SortedDictionary<string, ProjectData>();
+            internal ProjectData this[string key] {
+                get {
+                    if (Reg.ContainsKey(key)) { return Reg[key]; }
+                    Reg[key] = new ProjectData(PRJ[key].ProjectFile);
+                    return Reg[key];
+                }
+
+            }
+        }
+
+        internal static GetProject Project=new GetProject();
+
         static internal string GlobalConfigFile => Dirry.AD("$AppSupport$/Rosetta.Global.ini");
 
         static internal readonly GINIE _Data = GINIE.FromFile(GlobalConfigFile);
@@ -50,8 +65,8 @@ namespace Rosetta.Class {
                     default: throw new Exception("Internal error in project creation!");
                 }
             }
-            if (Create) qstr.SafeString($"[Creation]\nCreatorApp=Rosetta\nDate={DateTime.Now}\n");
-            
+            if (Create) QuickStream.SaveString(FileName,$"[Creation]\nCreatorApp=Rosetta\nDate={DateTime.Now}\n");
+            ToListBox(LB);
         }
 
 
@@ -63,7 +78,7 @@ namespace Rosetta.Class {
                 if (PRJ.ContainsKey(P)) {
                     string NP = "";
                     uint c = 0;
-                    do { NP=$"{P} ({c++}" }while (PRJ.ContainsKey(NP));
+                    do { NP = $"{P} ({c++}"; } while (PRJ.ContainsKey(NP));
                     PRJ[NP] = new PrjD(NP);                    
                 } else {
                     PRJ[P] = new PrjD(P);
