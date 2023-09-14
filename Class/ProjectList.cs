@@ -75,6 +75,7 @@ namespace Rosetta.Class {
         static internal SortedDictionary<string, PrjD> PRJ = new SortedDictionary<string, PrjD>();
 
         static internal void ToListBox(ListBox LB) {
+            ProjectData.CurrentProject = null;
             LB.Items.Clear();
             foreach (var K in PRJ.Keys) LB.Items.Add(K);
         }
@@ -97,6 +98,12 @@ namespace Rosetta.Class {
             ToListBox(LB);
         }
 
+        static internal void Select(ProjectData Prj) {
+            ProjectData.CurrentProject = Prj;
+        }
+
+        static internal void Select(string Prj) => Select(Project[Prj]);
+        
 
 
         static ProjectList() {

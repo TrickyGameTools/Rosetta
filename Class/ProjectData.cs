@@ -32,6 +32,9 @@ using TrickyUnits;
 
 namespace Rosetta.Class {
     internal class ProjectData {
+
+        internal static ProjectData CurrentProject = null;
+
         GINIE Settings = null;
 
         internal ProjectData(string FileName) { 

@@ -38,30 +38,59 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+//using System.Windows.Forms;
+using TrickyUnits;
+
 namespace Rosetta {
-    using Class;
-    using System.Windows.Forms;
-    using TrickyUnits;
+	using Class;
+	using System.Diagnostics;
 
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window {
-        public MainWindow() {
-            InitializeComponent();
+	/// <summary>
+	/// Interaction logic for MainWindow.xaml
+	/// </summary>
+	public partial class MainWindow : Window {
 
-            ProjectList.ToListBox(LB_Projects);
-        }
+		static public bool strings_allowmodify = true;
+		static public bool config_allowmodify = true;
 
-        private void BT_NewProject_Click(object sender, RoutedEventArgs e) {
-            var NewProject = FFS.RequestFile(true);
-            if (NewProject == "") return;
-            var NPK = qstr.StripDir(NewProject);
-            if (ProjectList.PRJ.ContainsKey(NPK)) {
-                Confirm.Annoy("Duplicate project name!\nPlease select another", "Error", System.Windows.Forms.MessageBoxIcon.Error);
-                return;
-            }
-            ProjectList.Create(LB_Projects, NewProject);
-        }
-    }
+		ProjectData CurrentProject =>ProjectData.CurrentProject;
+
+		public MainWindow() {
+			InitializeComponent();
+
+			ProjectList.ToListBox(LB_Projects);
+			AllowCheck();
+		}
+
+		public Visibility Vis(bool K) { if (K) return Visibility.Visible; else return Visibility.Hidden; }
+
+		public void AllowCheck() {
+			Debug.WriteLine("Allow Check Requested");
+			MainTabber.Visibility = Vis(CurrentProject != null);
+		}
+
+		private void BT_NewProject_Click(object sender, RoutedEventArgs e) {
+			var NewProject = FFS.RequestFile(true);
+			if (NewProject == "") return;
+			var NPK = qstr.StripDir(NewProject);
+			if (ProjectList.PRJ.ContainsKey(NPK)) {
+				Confirm.Annoy("Duplicate project name!\nPlease select another", "Error", System.Windows.Forms.MessageBoxIcon.Error);
+				return;
+			}
+			ProjectList.Create(LB_Projects, NewProject);
+		}
+
+		private void LB_Projects_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+			var item=LB_Projects.SelectedItem;
+			if (item == null) {
+				ProjectData.CurrentProject = null;
+				Debug.WriteLine("No item selected. So no project is there");
+			} else {
+				var itemname = item.ToString();
+				Debug.WriteLine($"Item selected: {itemname}");				
+				ProjectList.Select(itemname);
+			}
+			AllowCheck();
+		}
+	}
 }
