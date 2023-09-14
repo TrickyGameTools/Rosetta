@@ -103,6 +103,8 @@ namespace Rosetta.Class {
             ProjectData.CurrentProject = Prj;
             MainWindow.ProjectTB = Prj.ProjectFile;
             CurrentProject.RenewSettings();
+            CurrentProject.UpdateStrings();
+            MainWindow.RenewLanguages();
         }
 
         static internal void Select(string Prj) => Select(Project[Prj]);

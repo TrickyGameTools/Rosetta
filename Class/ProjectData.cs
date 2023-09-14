@@ -63,6 +63,31 @@ namespace Rosetta.Class {
 			return Strings[Language];
 		}
 
+		internal void UpdateStrings() {
+			if (!MainWindow.strings_allowmodify) return;
+			var old = MainWindow.strings_allowmodify;
+			MainWindow.strings_allowmodify = false;
+			var sc = MainWindow.Me.StringCats;
+			sc.Items.Clear();
+			foreach (var cat in Settings.List("Strings", "^Categories^")) sc.Items.Add(cat);
+			MainWindow.strings_allowmodify = old;
+		}
+
+		internal void UpdateStringsCats() {
+			if (MainWindow.Me.StringCat == "") return;
+			var Lst = Settings.List("Strings", $"CAT_{MainWindow.Me.StringCat}");
+			foreach (var ES in RegisterStrings.Lijst) {
+				ES.Key.Items.Clear();
+				foreach (var K in Lst) {
+					ES.Key.Items.Add(K);
+				}
+				for(int i = 0; i < Lst.Count; ++i) {
+					if (Lst[i] == CurrentProject.Settings["Strings", $"Key_{MainWindow.Me.StringCat}_{ES.Index}"]) ES.Key.SelectedIndex = i;
+				}
+
+			}
+		}
+
 		~ProjectData() { SaveMe(); }
 
 		internal string StringsDir => Dirry.AD(Settings["Directories", "Strings"]);
