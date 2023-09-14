@@ -68,6 +68,7 @@ namespace Rosetta.Class {
         }
 
         internal static GetProject Project=new GetProject();
+        internal static ProjectData CurrentProject => ProjectData.CurrentProject;
 
         static internal string GlobalConfigFile => Dirry.AD("$AppSupport$/Rosetta.Global.ini");
 
@@ -100,6 +101,8 @@ namespace Rosetta.Class {
 
         static internal void Select(ProjectData Prj) {
             ProjectData.CurrentProject = Prj;
+            MainWindow.ProjectTB = Prj.ProjectFile;
+            CurrentProject.RenewSettings();
         }
 
         static internal void Select(string Prj) => Select(Project[Prj]);
