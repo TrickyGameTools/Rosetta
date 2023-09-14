@@ -25,21 +25,65 @@
 // EndLic
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TrickyUnits;
 
 namespace Rosetta.Class {
-    internal class ProjectData {
+	internal class ProjectData {
 
-        internal static ProjectData CurrentProject = null;
+		internal readonly string ProjectFile;
+		internal static ProjectData CurrentProject = null;
 
-        GINIE Settings = null;
+		internal readonly GINIE Settings = null;
+		internal readonly Dictionary<string,GINIE> Strings = new Dictionary<string,GINIE>();
 
-        internal ProjectData(string FileName) { 
-            Settings=GINIE.FromFile(FileName);
-            Settings.AutoSaveSource = FileName;
-        }
-    }
+		internal string[] SupportedLanguages {
+			get {
+				var ret = Settings["Support", "Languages"].Split(',');
+				for(uint i=0; i<ret.Length; i++) ret[i] = ret[i].Trim();
+				return ret;
+			}
+		}
+
+		internal ProjectData(string FileName) { 
+			Settings=GINIE.FromFile(FileName);            
+			ProjectFile = FileName;
+			Settings.AutoSaveSource = FileName;
+			Settings.NewValue("Support", "Languages", "English, Dutch");
+			Settings.NewValue("Support", "Language_Def", "English"); // Used when no suitable translation is found.
+		}
+
+		internal GINIE GetStrings(string Language) {
+			if (!Strings.ContainsKey(Language)) {
+				Strings[Language] = GINIE.FromFile($"{StringsDir}/{Language}.ini");
+			}
+			return Strings[Language];
+		}
+
+		~ProjectData() { SaveMe(); }
+
+		internal string StringsDir => Dirry.AD(Settings["Directories", "Strings"]);
+
+		internal void SaveMe() {
+			// Strings			
+			var StrDir = StringsDir;
+			if (!Directory.Exists(StrDir)) { Directory.CreateDirectory(StrDir); }
+			foreach(var str in Strings) {
+				QuickStream.SaveString($"{StrDir}/{str.Key}.ini", str.Value.ToSource());
+			}
+		}
+
+		internal void RenewSettings() {
+			var tallow = MainWindow.config_allowmodify;
+			MainWindow.config_allowmodify = false;
+			foreach(var item in RegisterSettings.Reg.Values) {
+				item.TarTextBox.Text = Settings[item.Category, item.Key];
+			}
+			MainWindow.config_allowmodify = tallow;
+
+		}
+	}
 }
