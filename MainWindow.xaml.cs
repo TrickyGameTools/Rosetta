@@ -37,29 +37,44 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
+using Rosetta.Class;
 
 //using System.Windows.Forms;
 using TrickyUnits;
 
 namespace Rosetta {
-	using Class;
-	using System.Diagnostics;
 
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
 	public partial class MainWindow : Window {
 
+		static MainWindow Me = null;
+
 		static public bool strings_allowmodify = true;
 		static public bool config_allowmodify = true;
 
-		ProjectData CurrentProject =>ProjectData.CurrentProject;
+
+		ProjectData CurrentProject => ProjectData.CurrentProject;
+
+		public static string ProjectTB {
+			get => Me.TB_Project.Text;
+			set => Me.TB_Project.Text = value;
+		}
 
 		public MainWindow() {
 			InitializeComponent();
 
 			ProjectList.ToListBox(LB_Projects);
 			AllowCheck();
+			Me = this;
+
+			new RegisterSettings(TB_Languages, "Support", "Languages");
+			new RegisterSettings(TB_LanguageDefault, "Support", "Language_Def");
+			new RegisterSettings(TB_DirStrings, "Directories", "Strings");
+			new RegisterSettings(TB_DirScenario, "Directories", "Scenario");
+			new RegisterSettings(TB_DirScenarioExport, "Export", "Scenario");
 		}
 
 		public Visibility Vis(bool K) { if (K) return Visibility.Visible; else return Visibility.Hidden; }
@@ -67,7 +82,15 @@ namespace Rosetta {
 		public void AllowCheck() {
 			Debug.WriteLine("Allow Check Requested");
 			MainTabber.Visibility = Vis(CurrentProject != null);
+			TabStrings.IsEnabled = CurrentProject != null && CurrentProject.Settings["Directories", "Strings"] != "";
+			TabScenario.IsEnabled = CurrentProject != null && CurrentProject.Settings["Directories", "Scenario"] != "";
+			Pick_DirScenarioExport.IsEnabled = TabScenario.IsEnabled;
+			TB_DirScenarioExport.IsEnabled = TabScenario.IsEnabled;
+			String_NewCategoryActivate.IsEnabled = String_NewCategory.Text != "";
+
 		}
+
+		public void AllowCheck(object o, TextChangedEventArgs NotNeededCrap) => AllowCheck(); 
 
 		private void BT_NewProject_Click(object sender, RoutedEventArgs e) {
 			var NewProject = FFS.RequestFile(true);
@@ -81,16 +104,42 @@ namespace Rosetta {
 		}
 
 		private void LB_Projects_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-			var item=LB_Projects.SelectedItem;
+			var item = LB_Projects.SelectedItem;
 			if (item == null) {
 				ProjectData.CurrentProject = null;
 				Debug.WriteLine("No item selected. So no project is there");
 			} else {
 				var itemname = item.ToString();
-				Debug.WriteLine($"Item selected: {itemname}");				
+				Debug.WriteLine($"Item selected: {itemname}");
 				ProjectList.Select(itemname);
 			}
 			AllowCheck();
+		}
+
+		private void TextBoxMainSettingsChanged(object sender, TextChangedEventArgs NotNeededCrap) {
+			if (config_allowmodify) {
+				var s = (TextBox)sender;
+				var e = RegisterSettings.Reg[s];
+				CurrentProject.Settings[e.Category, e.Key] = s.Text;
+				AllowCheck();
+			}
+		}
+
+		Dictionary<Button, TextBox> DirButtonReg = null;
+		private void DirButtonClick(object sender, RoutedEventArgs e) {
+			if (DirButtonReg == null) {
+				Debug.WriteLine("Creating Dir Button Register!");
+				DirButtonReg = new Dictionary<Button, TextBox>();
+				DirButtonReg[Pick_DirStrings] = TB_DirStrings;
+				DirButtonReg[Pick_DirScenario] = TB_DirScenario;
+				DirButtonReg[Pick_DirScenarioExport] = TB_DirScenarioExport;
+			}
+			var PDir = FFS.RequestDir();
+			if (PDir != "") DirButtonReg[(Button)sender].Text = PDir.Replace('\\','/');
+		}
+
+		private void CreateNewStringCategory(object sender, RoutedEventArgs e) {
+
 		}
 	}
 }
