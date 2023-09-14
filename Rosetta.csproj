@@ -93,6 +93,7 @@
     </Compile>
     <Compile Include="Class\ProjectData.cs" />
     <Compile Include="Class\ProjectList.cs" />
+    <Compile Include="Class\RegisterSettings.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -129,6 +130,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Myrah.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Francis.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Aziella.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
