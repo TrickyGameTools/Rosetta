@@ -70,7 +70,7 @@ namespace Rosetta.Class {
         internal static GetProject Project=new GetProject();
         internal static ProjectData CurrentProject => ProjectData.CurrentProject;
 
-        static internal string GlobalConfigFile => Dirry.AD("$AppSupport$/Rosetta.Global.ini");
+        static internal string GlobalConfigFile => Dirry.C("$AppSupport$/Rosetta.Global.ini");
 
         static internal readonly GINIE _Data = GINIE.FromFile(GlobalConfigFile);
         static internal SortedDictionary<string, PrjD> PRJ = new SortedDictionary<string, PrjD>();
