@@ -21,10 +21,11 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 23.09.15
+// Version: 23.09.14
 // EndLic
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -59,6 +60,9 @@ namespace Rosetta.Class {
 		internal GINIE GetStrings(string Language) {
 			if (!Strings.ContainsKey(Language)) {
 				Strings[Language] = GINIE.FromFile($"{StringsDir}/{Language}.ini");
+				Strings[Language].NewValue("^SYS^","CreationDate",$"{DateTime.Now}");
+				Strings[Language].NewValue("^SYS^", "CreationTool", "Rosetta");
+				Strings[Language].NewValue("^SYS^", "Active", "Yes"); // Setting for my own programs to make it easy to hide languages.
 			}
 			return Strings[Language];
 		}
@@ -83,8 +87,26 @@ namespace Rosetta.Class {
 				foreach (var K in Lst) {
 					ES.Key.Items.Add(K);
 				}
-				for(int i = 0; i < Lst.Count; ++i) {
-					if (Lst[i] == CurrentProject.Settings["Strings", $"Key_{MainWindow.Me.StringCat}_{ES.Index}"]) ES.Key.SelectedIndex = i;
+				var CKey = CurrentProject.Settings["Strings", $"Key_{MainWindow.Me.StringCat}_{ES.Index}"];
+				for (int i = 0; i < Lst.Count; ++i) {
+					if (Lst[i] == CKey) ES.Key.SelectedIndex = i;
+				}
+				if (CKey=="") {
+					ES.Value1.Text = "";
+					ES.Value2.Text = "";
+				} else {
+					if (MainWindow.Lang1 == "")
+						ES.Value1.Text = "";
+					else {
+						var LG=CurrentProject.GetStrings(MainWindow.Lang1);
+						ES.Value1.Text = LG[MainWindow.Me.StringCat, CKey];
+					}
+					if (MainWindow.Lang2 == "")
+						ES.Value2.Text = "";
+					else {
+						var LG = CurrentProject.GetStrings(MainWindow.Lang2);
+						ES.Value2.Text = LG[MainWindow.Me.StringCat, CKey];
+					}
 				}
 			}
 			MainWindow.strings_allowmodify = old;
@@ -97,7 +119,8 @@ namespace Rosetta.Class {
 		internal void SaveMe() {
 			// Strings			
 			var StrDir = StringsDir;
-			if (!Directory.Exists(StrDir)) { Directory.CreateDirectory(StrDir); }
+			Debug.WriteLine(StrDir);
+			if (!Directory.Exists(StrDir)) { Directory.CreateDirectory(StringsDir); }
 			foreach(var str in Strings) {
 				QuickStream.SaveString($"{StrDir}/{str.Key}.ini", str.Value.ToSource());
 			}
