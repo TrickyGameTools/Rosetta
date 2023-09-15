@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Rosetta.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -137,6 +140,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Aziella.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Rosetta.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Seelah Gandra Groot.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
