@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 23.09.14
+// Version: 23.09.15
 // EndLic
 using System;
 using System.Collections.Generic;
@@ -75,7 +75,9 @@ namespace Rosetta.Class {
 
 		internal void UpdateStringsCats() {
 			if (MainWindow.Me.StringCat == "") return;
+			var old = MainWindow.strings_allowmodify;
 			var Lst = Settings.List("Strings", $"CAT_{MainWindow.Me.StringCat}");
+			MainWindow.strings_allowmodify = false;
 			foreach (var ES in RegisterStrings.Lijst) {
 				ES.Key.Items.Clear();
 				foreach (var K in Lst) {
@@ -84,8 +86,8 @@ namespace Rosetta.Class {
 				for(int i = 0; i < Lst.Count; ++i) {
 					if (Lst[i] == CurrentProject.Settings["Strings", $"Key_{MainWindow.Me.StringCat}_{ES.Index}"]) ES.Key.SelectedIndex = i;
 				}
-
 			}
+			MainWindow.strings_allowmodify = old;
 		}
 
 		~ProjectData() { SaveMe(); }
