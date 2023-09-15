@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 23.09.15
+// Version: 23.09.14
 // EndLic
 using System;
 using System.Collections.Generic;
@@ -42,6 +42,7 @@ using Rosetta.Class;
 
 //using System.Windows.Forms;
 using TrickyUnits;
+using System.Windows.Media.Animation;
 
 namespace Rosetta {
 
@@ -88,6 +89,8 @@ namespace Rosetta {
 			new RegisterStrings(10, StrKey10, StrLan1Val10, StrLan2Val10);
 			new RegisterStrings(11, StrKey11, StrLan1Val11, StrLan2Val11);
 			new RegisterStrings(12, StrKey12, StrLan1Val12, StrLan2Val12);
+
+			Dirry.InitAltDrives();
 		}
 
 		public Visibility Vis(bool K) { if (K) return Visibility.Visible; else return Visibility.Hidden; }
@@ -106,8 +109,11 @@ namespace Rosetta {
 
 			foreach (var RS in RegisterStrings.Lijst) {
 				var HasKey = RS.Key.SelectedItem != null;
-				var Lang1 = CurrentProject.Settings["Strings", "Lang1"];
-				var Lang2 = CurrentProject.Settings["Strings", "Lang2"];
+				string Lang1 = "", Lang2 = "";
+				if (CurrentProject != null) {
+					Lang1 = CurrentProject.Settings["Strings", "Lang1"];
+					Lang2 = CurrentProject.Settings["Strings", "Lang2"];
+				}
 				RS.Value1.IsEnabled = HasKey && Lang1 != "" && Lang1 != Lang2;
 				RS.Value2.IsEnabled = HasKey && Lang2 != "" && Lang1 != Lang2;
 				foreach (var RS2 in RegisterStrings.Lijst) {
@@ -116,7 +122,6 @@ namespace Rosetta {
 						RS.Value2.IsEnabled = false;
 					}
 				}
-
 			}
 		}
 
@@ -253,10 +258,23 @@ namespace Rosetta {
 			String_NewString.Text = "";
 		}
 
+		static public string Lang1 {
+			get {
+				if (Me.Strings_Lang1.SelectedItem == null) return "";
+				return Me.Strings_Lang1.SelectedItem.ToString();
+			}
+		}
+
+		static public string Lang2 {
+			get {
+				if (Me.Strings_Lang2.SelectedItem == null) return "";
+				return Me.Strings_Lang2.SelectedItem.ToString();
+			}
+		}
 
 
-		private void Strings_Lang1_SelectionChanged(object sender, SelectionChangedEventArgs e) { if (config_allowmodify) { CurrentProject.Settings["Strings", "Lang1"] = Strings_Lang1.SelectedItem.ToString(); AllowCheck(); } }
-		private void Strings_Lang2_SelectionChanged(object sender, SelectionChangedEventArgs e) { if (config_allowmodify) CurrentProject.Settings["Strings", "Lang2"] = Strings_Lang2.SelectedItem.ToString(); AllowCheck(); }
+		private void Strings_Lang1_SelectionChanged(object sender, SelectionChangedEventArgs e) { if (config_allowmodify) { if (Strings_Lang1.SelectedItem == null) CurrentProject.Settings["Strings", "Lang1"] = ""; else CurrentProject.Settings["Strings", "Lang1"] = Strings_Lang1.SelectedItem.ToString(); AllowCheck(); } }
+		private void Strings_Lang2_SelectionChanged(object sender, SelectionChangedEventArgs e) { if (config_allowmodify) { if (Strings_Lang2.SelectedItem == null) CurrentProject.Settings["Strings", "Lang2"] = ""; else CurrentProject.Settings["Strings", "Lang2"] = Strings_Lang2.SelectedItem.ToString(); AllowCheck(); } }
 
 		private void StringKeyChanged(object sender, SelectionChangedEventArgs e) {
 			if (!strings_allowmodify) return;
@@ -269,9 +287,23 @@ namespace Rosetta {
 		}
 
 		private void StringsChanged(object sender, TextChangedEventArgs e) {
-
+			if (!strings_allowmodify) return;
+			var TB = (TextBox)sender;
+			var RS = RegisterStrings.RegValue[TB];
+			var Lang = "";
+			if (RS.Value1 == TB) Lang = Strings_Lang1.SelectedItem.ToString();
+			else if (RS.Value2==TB) Lang = Strings_Lang2.SelectedItem.ToString();
+			else {
+				Confirm.Error("Language could not be determine!\n\nPlease report", "Internal Error");
+				Environment.Exit(255);
+			}
+			var LG = CurrentProject.GetStrings(Lang);
+			LG[StringCat, RS.Key.SelectedItem.ToString()] = TB.Text;
 		}
 
-
+		private void SaveButton(object sender, RoutedEventArgs e) {
+			if (CurrentProject == null) return;
+			CurrentProject.SaveMe();
+		}
 	}
 }
