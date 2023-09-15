@@ -110,6 +110,13 @@ namespace Rosetta {
 				var Lang2 = CurrentProject.Settings["Strings", "Lang2"];
 				RS.Value1.IsEnabled = HasKey && Lang1 != "" && Lang1 != Lang2;
 				RS.Value2.IsEnabled = HasKey && Lang2 != "" && Lang1 != Lang2;
+				foreach (var RS2 in RegisterStrings.Lijst) {
+					if (RS2.Index != RS.Index && RS.Key.SelectedItem!=null && RS2.Key.SelectedItem!=null && RS.Key.SelectedItem.ToString() == RS2.Key.SelectedItem.ToString()) {
+						RS.Value1.IsEnabled = false;
+						RS.Value2.IsEnabled = false;
+					}
+				}
+
 			}
 		}
 
