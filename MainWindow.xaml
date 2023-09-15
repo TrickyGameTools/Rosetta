@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 Please note that some references to data like pictures or audio, do not automatically
 fall under this licenses. Mostly this is noted in the respective files.
 
-Version: 23.09.15
+Version: 23.09.14
 End License block -->
 
 <Window x:Class="Rosetta.MainWindow"
@@ -74,6 +74,7 @@ End License block -->
             <TabItem Header="Strings" x:Name="TabStrings">
                 <Grid>
                     <Image Source="/Aziella.png" Margin="0,0,880,0"/>
+                    <Button x:Name="SaveStr" Click="SaveButton" Content="Save" Width="100" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
                     <Grid Margin="223,0,0,0">
                         <ListBox Height="120" x:Name="String_Categories" Foreground="#00b4ff" Background="#000b0f" VerticalAlignment="Top" SelectionChanged="StringCatagoryChanged"/>
                         <TextBox Height="30" x:Name="String_NewCategory" Foreground="#ffff00" Background="#940000" Margin="0,120,120,0" VerticalAlignment="Top" TextChanged="AllowCheck" />
@@ -150,7 +151,9 @@ End License block -->
                 </Grid>
             </TabItem>
             <TabItem Header="Scenario" x:Name="TabScenario">
-                <Grid></Grid>
+                <Grid>
+                    <Image Source="/Seelah Gandra Groot.png" Margin="0,0,907,0" VerticalAlignment="Bottom"/>
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>
