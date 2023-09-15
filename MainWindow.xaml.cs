@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 23.09.14
+// Version: 23.09.15
 // EndLic
 using System;
 using System.Collections.Generic;
@@ -80,6 +80,14 @@ namespace Rosetta {
 			new RegisterStrings(2, StrKey2, StrLan1Val2, StrLan2Val2);
 			new RegisterStrings(3, StrKey3, StrLan1Val3, StrLan2Val3);
 			new RegisterStrings(4, StrKey4, StrLan1Val4, StrLan2Val4);
+			new RegisterStrings(5, StrKey5, StrLan1Val5, StrLan2Val5);
+			new RegisterStrings(6, StrKey6, StrLan1Val6, StrLan2Val6);
+			new RegisterStrings(7, StrKey7, StrLan1Val7, StrLan2Val7);
+			new RegisterStrings(8, StrKey8, StrLan1Val8, StrLan2Val8);
+			new RegisterStrings(9, StrKey9, StrLan1Val9, StrLan2Val9);
+			new RegisterStrings(10, StrKey10, StrLan1Val10, StrLan2Val10);
+			new RegisterStrings(11, StrKey11, StrLan1Val11, StrLan2Val11);
+			new RegisterStrings(12, StrKey12, StrLan1Val12, StrLan2Val12);
 		}
 
 		public Visibility Vis(bool K) { if (K) return Visibility.Visible; else return Visibility.Hidden; }
@@ -221,7 +229,7 @@ namespace Rosetta {
 				CurrentProject.UpdateStringsCats();
 				AllowCheck();
 			}
-        }
+		}
 
 		private void CreateNewString(object sender, RoutedEventArgs e) {
 			var NewKey = String_NewString.Text.ToUpper().Trim();

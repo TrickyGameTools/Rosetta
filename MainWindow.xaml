@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 Please note that some references to data like pictures or audio, do not automatically
 fall under this licenses. Mostly this is noted in the respective files.
 
-Version: 23.09.14
+Version: 23.09.15
 End License block -->
 
 <Window x:Class="Rosetta.MainWindow"
@@ -104,6 +104,46 @@ End License block -->
                                 <ComboBox x:Name="StrKey4" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
                                 <TextBox x:Name="StrLan1Val4" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
                                 <TextBox x:Name="StrLan2Val4" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+                            </Grid>
+                            <Grid x:Name="StrGrid5" Margin="0,180,0,0" VerticalAlignment="Top" Height="30">
+                                <ComboBox x:Name="StrKey5" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
+                                <TextBox x:Name="StrLan1Val5" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+                                <TextBox x:Name="StrLan2Val5" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+                            </Grid>
+                            <Grid x:Name="StrGrid6" Margin="0,210,0,0" VerticalAlignment="Top" Height="30">
+                                <ComboBox x:Name="StrKey6" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
+                                <TextBox x:Name="StrLan1Val6" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+                                <TextBox x:Name="StrLan2Val6" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+                            </Grid>
+                            <Grid x:Name="StrGrid7" Margin="0,210,0,0" VerticalAlignment="Top" Height="30">
+                                <ComboBox x:Name="StrKey7" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
+                                <TextBox x:Name="StrLan1Val7" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+                                <TextBox x:Name="StrLan2Val7" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+                            </Grid>
+                            <Grid x:Name="StrGrid8" Margin="0,240,0,0" VerticalAlignment="Top" Height="30">
+                                <ComboBox x:Name="StrKey8" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
+                                <TextBox x:Name="StrLan1Val8" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+                                <TextBox x:Name="StrLan2Val8" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+                            </Grid>
+                            <Grid x:Name="StrGrid9" Margin="0,270,0,0" VerticalAlignment="Top" Height="30">
+                                <ComboBox x:Name="StrKey9" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
+                                <TextBox x:Name="StrLan1Val9" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+                                <TextBox x:Name="StrLan2Val9" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+                            </Grid>
+                            <Grid x:Name="StrGrid10" Margin="0,300,0,0" VerticalAlignment="Top" Height="30">
+                                <ComboBox x:Name="StrKey10" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
+                                <TextBox x:Name="StrLan1Val10" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+                                <TextBox x:Name="StrLan2Val10" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+                            </Grid>
+                            <Grid x:Name="StrGrid11" Margin="0,330,0,0" VerticalAlignment="Top" Height="30">
+                                <ComboBox x:Name="StrKey11" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
+                                <TextBox x:Name="StrLan1Val11" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+                                <TextBox x:Name="StrLan2Val11" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+                            </Grid>
+                            <Grid x:Name="StrGrid12" Margin="0,360,0,0" VerticalAlignment="Top" Height="30">
+                                <ComboBox x:Name="StrKey12" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
+                                <TextBox x:Name="StrLan1Val12" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+                                <TextBox x:Name="StrLan2Val12" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
                             </Grid>
                         </Grid>
                     </Grid>
