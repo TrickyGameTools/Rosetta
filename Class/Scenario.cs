@@ -164,8 +164,8 @@ namespace Rosetta.Class {
 
 		public CScenario(ProjectData Parent) { this.Parent = Parent; }
 
-		public void SaveMe() {
-			foreach(CEntry entry in Entries.Values) { if (entry.Modified) entry.SaveMe(); }
+		public void SaveMe(bool force=false) {
+			foreach(CEntry entry in Entries.Values) { if (force || entry.Modified) entry.SaveMe(); }
 		}
 	}
 }
