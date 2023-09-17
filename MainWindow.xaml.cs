@@ -310,5 +310,10 @@ namespace Rosetta {
 			if (CurrentProject == null) return;
 			CurrentProject.SaveMe();
 		}
-	}
+
+        private void ScenCheck(object sender, RoutedEventArgs e) {
+			var s = (CheckBox)sender;
+			if (s.IsChecked == true) s.Content = "Yes"; else s.Content = "No";
+        }
+    }
 }
