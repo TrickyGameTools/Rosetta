@@ -32,6 +32,8 @@ End License block -->
 		xmlns:local="clr-namespace:Rosetta"
 		mc:Ignorable="d"
 		ResizeMode="NoResize"
+        VerticalAlignment="Top"
+        Margin="0,0,0,0"
 		Title="Rosetta - Coded by Jeroen P. Broks" Height="900" Width="1200">
 	<Window.Background>
 		<ImageBrush ImageSource="/Background.jpg"/>
@@ -156,14 +158,18 @@ End License block -->
 					<Grid x:Name="Scenario_Top" Margin="0,0,0,0" Height="300" VerticalAlignment="Top">
 						<Grid x:Name="Scenario_Grid_File" Width="350" HorizontalAlignment="Left">
 							<ListBox x:Name="LB_Scenario_File" Foreground="#00b4ff" Background="#00001f" VerticalAlignment="Top" Height="240" />
-							<TextBox x:Name="TB_Scenario_NewFile" Foreground="#ffff00" Background="#1f1f00" Height="30" Margin="0,240,0,0" VerticalAlignment="Top" />
+							<TextBox x:Name="TB_Scenario_NewFile" Foreground="#ffff00" Background="#1f1f00" Height="30" Margin="0,240,0,0" VerticalAlignment="Top" TextChanged="AllowCheck" />
 							<Button x:Name="BT_Scenario_File_New" Foreground="#b4ff00" Background="#001f00" Height="30" Width="100" Margin="0,270,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Create Entry"/>
 							<Button x:Name="BT_Scenario_File_Rename" Foreground="#ffb400" Background="#1f0f00" Height="30" Width="100" Margin="100,270,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Rename Entry"/>
-							<Button x:Name="BT_Scenario_File_File" Foreground="#ff0000" Background="#1f0000" Height="30" Width="100" Margin="200,270,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Delete Entry"/>
+							<Button x:Name="BT_Scenario_File_Remove" Foreground="#ff0000" Background="#1f0000" Height="30" Width="100" Margin="200,270,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Delete Entry"/>
 						</Grid>
 						<Grid x:Name="Scenario_Grid_Tag" Margin="350,0,0,0" Width="350" HorizontalAlignment="Left">
-
-						</Grid>
+                            <ListBox x:Name="LB_Scenario_Tag" Foreground="#00ff00" Background="#001f00" VerticalAlignment="Top" Height="240" />
+                            <TextBox x:Name="TB_Scenario_NewTag" Foreground="#ffff00" Background="#1f1f00" Height="30" Margin="0,240,0,0" VerticalAlignment="Top" TextChanged="AllowCheck" />
+                            <Button x:Name="BT_Scenario_Tag_New" Foreground="#b4ff00" Background="#001f00" Height="30" Width="100" Margin="0,270,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Create Tag"/>
+                            <Button x:Name="BT_Scenario_Tag_Rename" Foreground="#ffb400" Background="#1f0f00" Height="30" Width="100" Margin="100,270,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Rename Tag"/>
+                            <Button x:Name="BT_Scenario_Tag_Remove" Foreground="#ff0000" Background="#1f0000" Height="30" Width="100" Margin="200,270,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Delete Tag"/>
+                        </Grid>
 						<Grid x:Name="Scenario_Grid_SharedData" Margin="700,0,0,0" HorizontalAlignment="Left">
 
 						</Grid>

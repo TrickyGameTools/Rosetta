@@ -123,6 +123,10 @@ namespace Rosetta {
 					}
 				}
 			}
+
+			// Scenario
+			BT_Scenario_File_New.IsEnabled = TB_Scenario_NewFile.Text != "";
+			BT_Scenario_Tag_New.IsEnabled = TB_Scenario_NewTag.Text != "";
 		}
 
 		public void AllowCheck(object o, TextChangedEventArgs NotNeededCrap) => AllowCheck();
