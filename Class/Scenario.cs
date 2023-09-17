@@ -7,6 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Documents;
 using TrickyUnits;
 
 namespace Rosetta.Class {
@@ -17,19 +19,19 @@ namespace Rosetta.Class {
 			internal readonly CScenario Parent = null;
 			internal string EntryName = "";
 			internal ProjectData Project => Parent.Parent;
-			internal SortedDictionary<string,CTag> Tags = new SortedDictionary<string,CTag>();
+			internal SortedDictionary<string, CTag> Tags = new SortedDictionary<string, CTag>();
 
 			internal string EntryFile => Dirry.AD($"{Project.Settings["DIRECTORIES", "SCENARIO"]}/{EntryName}.ini");
 
 			internal bool Modified = false;
 
 			internal bool TagExists(string Tag) {
-				Tag=Tag.ToUpper();
+				Tag = Tag.ToUpper();
 				return LTags.Contains(Tag);
 			}
 			internal void SaveMe() {
 				Debug.WriteLine($"Saving: {EntryFile}");
-				QuickStream.SaveString(_Data.ToSource(), EntryFile);
+				QuickStream.SaveString(EntryFile,_Data.ToSource());
 				Modified = false;
 			}
 
@@ -38,14 +40,14 @@ namespace Rosetta.Class {
 					if (_Data == null) {
 						Debug.WriteLine($"Loading: {EntryFile}");
 						_Data = GINIE.FromFile(EntryFile);
-						_Data.NewValue("::SYS::","Created",DateTime.Now.ToString());
+						_Data.NewValue("::SYS::", "Created", DateTime.Now.ToString());
 						_Data.NewValue("::SYS::", "Tool", "Rosetta");
 						_Data.NewValue("::SYS::", "Entry", EntryName);
 					}
 					return _Data;
 				}
 			}
-			~CEntry() { 
+			~CEntry() {
 				if (_Data != null && Modified) {
 					SaveMe();
 				}
@@ -66,31 +68,79 @@ namespace Rosetta.Class {
 					return Tags[Tag];
 				}
 			}
-			internal CEntry(CScenario Parent,string EN) {
+			internal CEntry(CScenario Parent, string EN) {
 				this.Parent = Parent;
 				EntryName = EN;
 				Parent.Entries[EN] = this;
 			}
+
+			internal string CurrentTagName {
+				get {
+					if (MainWindow.ScenarioTags.SelectedItem == null) return "";
+					return MainWindow.ScenarioTags.SelectedItem.ToString();
+				}
+			}
+
+			internal CTag CurrentTag {
+				get {
+					var CTN = CurrentTagName;
+					if (CTN == "") return null;
+					CTN = CTN.ToUpper();
+					return this[CTN];
+				}
+			}
 		}
 
 		internal class CTag {
-			internal GINIE Data => Parent.Data;
 			readonly internal CEntry Parent = null;
+			internal GINIE Data => Parent.Data;
 			readonly internal string Tag = "";
 			internal CTag (CEntry _Parent,string _Tag) {
 				Parent = _Parent;
 				Tag = _Tag;
 				Parent.Tags[Tag] = this;
+				var PC = Math.Max(1,qstr.ToInt(Data["::PAGES::", Tag]));
+				for (int i = 0; i < PC; i++) Page.Add(new CPage(this));
 			}
 			internal List<CPage> Page = new List<CPage>();
 			internal CPage this[int idx] => Page[idx];
 
 			internal ProjectData Project => Parent.Parent.Parent;
 
+			private int __currentpagenumber = 0;
+			internal int CurrentPageNumber {
+				get => __currentpagenumber;
+				set {
+					var s = Math.Max(0, value);
+					if (s >= Page.Count) {
+						if (Page.Count == 0 || Confirm.Yes("Add a new page?")) {
+							Page.Add(new CPage(this));
+							Data["::PAGES::", Tag] = $"{Page.Count}";
+						}
+						s = Page.Count - 1;
+					}
+					__currentpagenumber = s;
+				}
+			}
+			public int PageCount => Page.Count;
+
+			internal CPage CurrentPage {
+				get {
+					if (Page.Count == 0) {
+						__currentpagenumber = 0;
+						Page.Add(new CPage(this));
+					}
+					return Page[CurrentPageNumber];
+				}
+			}
+
 		}
 
 		internal class CPage {
 
+			internal void LinkUpdate(TextBox From) {
+				throw new NotImplementedException();
+			}
 			internal readonly CTag Parent = null;
 			internal CPage(CTag _parent) => Parent = _parent;
 			internal GINIE Data => Parent.Parent.Data;
@@ -114,12 +164,24 @@ namespace Rosetta.Class {
 			}
 
 			internal string PicSpecific {
-				get => Data[CGCat, "PicSpecific"];
+				get {
+					Data.NewValue(CGCat, "PicSpecific", "GENERAL");
+					return Data[CGCat, "PicSpecific"];
+				}
 				set { Data[CGCat, "PicSpecific"] = value; Modified = true; }
 			}
 
+			internal string Audio {
+				get => Data[CGCat, "Audio"];
+				set => Data[CGCat, "Audio"] = value;
+			}
+			internal string AltFont {
+				get => Data[CGCat, "Alternate_Font"];
+				set => Data[CGCat, "Alternate_Font"] = value;
+			}
+
 			internal bool NameLinking {
-				get => Data[CGCat, "NameLinking"].ToLower() == "true";
+				get { Data.NewValue(CGCat, "NameLinking", "True"); return Data[CGCat, "NameLinking"].ToLower() == "true"; }
 				set => Data[CGCat, "NameLinking"] = value.ToString();
 			}
 
@@ -242,6 +304,22 @@ namespace Rosetta.Class {
 			foreach ( var _Tag in _Tags) { 
 				MainWindow.ScenarioTags.Items.Add(_Tag);
 			}
+			MainWindow.Me.AllowCheck();
+		}
+
+		public void UpdateGUITag() {
+			var old = MainWindow.scenario_allowmodify;
+			var CPage = ChosenEntry.CurrentTag.CurrentPage;
+			MainWindow.scenario_allowmodify = false;
+			MainWindow.Me.Scenario_ShD_LB_Entry.Content = ChosenEntryName;
+			MainWindow.Me.Scenario_ShD_LB_Tag.Content = ChosenEntry.CurrentTagName;
+			MainWindow.Me.Scenario_ShD_LB_Page.Content = $"{ChosenEntry.CurrentTag.CurrentPageNumber + 1} / {ChosenEntry.CurrentTag.PageCount}";
+			MainWindow.scenario_allowmodify = old;
+			MainWindow.Me.Scenario_ShD_TB_PicSpecific.Text = CPage.PicSpecific;
+			MainWindow.Me.Scenario_ShD_TB_PicDir.Text = CPage.PicDir;
+			MainWindow.Me.Scenario_ShD_TB_Audio.Text = CPage.Audio;
+			MainWindow.Me.Scenario_ShD_TB_AltFont.Text = CPage.AltFont;
+			MainWindow.Me.Scenario_ShD_TB_Namelinking.IsChecked = CPage.NameLinking;
 			MainWindow.Me.AllowCheck();
 		}
 	}

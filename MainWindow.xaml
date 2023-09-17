@@ -164,7 +164,7 @@ End License block -->
                             <Button x:Name="BT_Scenario_File_Remove" Foreground="#ff0000" Background="#1f0000" Height="30" Width="100" Margin="200,270,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Delete Entry"/>
                         </Grid>
                         <Grid x:Name="Scenario_Grid_Tag" Margin="350,0,0,0" Width="350" HorizontalAlignment="Left">
-                            <ListBox x:Name="LB_Scenario_Tag" Foreground="#00ff00" Background="#001f00" VerticalAlignment="Top" Height="240" />
+                            <ListBox x:Name="LB_Scenario_Tag" Foreground="#00ff00" Background="#001f00" VerticalAlignment="Top" Height="240" SelectionChanged="LB_Scenario_Tag_SelectionChanged" />
                             <TextBox x:Name="TB_Scenario_NewTag" Foreground="#ffff00" Background="#1f1f00" Height="30" Margin="0,240,0,0" VerticalAlignment="Top" TextChanged="AllowCheck" />
                             <Button x:Name="BT_Scenario_Tag_New" Foreground="#b4ff00" Background="#001f00" Width="100" Margin="0,270,0,0" HorizontalAlignment="Left" Content="Create Tag" Click="BT_Scenario_Tag_New_Click"/>
                             <Button x:Name="BT_Scenario_Tag_Rename" Foreground="#ffb400" Background="#1f0f00" Height="30" Width="100" Margin="100,270,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Rename Tag"/>
@@ -190,32 +190,34 @@ End License block -->
                             <Grid x:Name="Scenario_ShD_Page" VerticalAlignment="Top" Height="30" Margin="0,60,0,0">
                                 <Label Content="Page:" Foreground="#ffffff" Width="200" HorizontalAlignment="Left" />
                                 <Label x:Name="Scenario_ShD_LB_Page" Foreground="#b4ff00" Content="---" Margin="200,0,0,0" HorizontalAlignment="Left" />
-                                <Button Content="&lt;&lt;" x:Name="Scenario_Shd_Page_Home" Foreground="White" Background="Black" Width="40" Margin="0,0,120,0" HorizontalAlignment="Right" />
-                                <Button Content="&lt;" x:Name="Scenario_Shd_Page_Prev" Foreground="White" Background="Black" Width="40" Margin="0,0,80,0" HorizontalAlignment="Right" />
-                                <Button Content="&gt;" x:Name="Scenario_Shd_Page_Next" Foreground="White" Background="Black" Width="40" Margin="0,0,40,0" HorizontalAlignment="Right" />
-                                <Button Content="&gt;&gt;" x:Name="Scenario_Shd_Page_End" Foreground="White" Background="Black" Width="40" Margin="0,0,0,0" HorizontalAlignment="Right" />
+                                <Button Content="&lt;&lt;" x:Name="Scenario_Shd_Page_Home" Foreground="White" Background="Black" Width="40" Margin="0,0,120,0" HorizontalAlignment="Right" Click="Scenario_Shd_Page_Home_Click" />
+                                <Button Content="&lt;" x:Name="Scenario_Shd_Page_Prev" Foreground="White" Background="Black" Width="40" Margin="374,0,0,0" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Click="Scenario_Shd_Page_Prev_Click" />
+                                <Button Content="&gt;" x:Name="Scenario_Shd_Page_Next" Foreground="White" Background="Black" Width="40" Margin="0,0,40,0" HorizontalAlignment="Right" Click="Scenario_Shd_Page_Next_Click" />
+                                <Button Content="&gt;&gt;" x:Name="Scenario_Shd_Page_End" Foreground="White" Background="Black" Width="40" Margin="0,0,0,0" HorizontalAlignment="Right" Click="Scenario_Shd_Page_End_Click" />
                             </Grid>
                             <Line Height="30" Margin="0,90,0,0" VerticalAlignment="Top" />
                             <Grid x:Name="Scenario_ShD_PicDir" VerticalAlignment="Top" Height="30" Margin="0,120,0,0">
                                 <Label Content="Image Dir:" Foreground="#ffffff" Width="200" HorizontalAlignment="Left" />
-                                <TextBox x:Name="Scenario_ShD_TB_PicDir" Foreground="#b4ff00" Background="#0b0f00" Width="200" Margin="200,0,0,0" HorizontalAlignment="Left" />
+                                <TextBox x:Name="Scenario_ShD_TB_PicDir" Foreground="#b4ff00" Background="#0b0f00" Width="200" Margin="200,0,0,0" HorizontalAlignment="Left" TextChanged="Scenario_ShD_TB_PicDir_TextChanged" />
                             </Grid>
                             <Grid x:Name="Scenario_ShD_PicSpecific" VerticalAlignment="Top" Height="30" Margin="0,150,0,0">
                                 <Label Content="Image Specific:" Foreground="#ffffff" Width="200" HorizontalAlignment="Left" />
-                                <TextBox x:Name="Scenario_ShD_TB_PicSpecific" Foreground="#b4ff00" Background="#0b0f00" Width="200" Margin="200,0,0,0" HorizontalAlignment="Left" />
+                                <TextBox x:Name="Scenario_ShD_TB_PicSpecific" Foreground="#b4ff00" Background="#0b0f00" Width="200" Margin="200,0,0,0" HorizontalAlignment="Left" TextChanged="Scenario_ShD_TB_PicSpecific_TextChanged" />
                             </Grid>
                             <Grid x:Name="Scenario_ShD_Audio" VerticalAlignment="Top" Height="30" Margin="0,180,0,0">
                                 <Label Content="Audio:" Foreground="#ffffff" Width="200" HorizontalAlignment="Left" />
-                                <TextBox x:Name="Scenario_ShD_TB_Audio" Foreground="#b4ff00" Background="#0b0f00" Width="200" Margin="200,0,0,0" HorizontalAlignment="Left" />
+                                <TextBox x:Name="Scenario_ShD_TB_Audio" Foreground="#b4ff00" Background="#0b0f00" Width="200" Margin="200,0,0,0" HorizontalAlignment="Left" TextChanged="Scenario_ShD_TB_Audio_TextChanged" />
                             </Grid>
                             <Grid x:Name="Scenario_ShD_AltFont" VerticalAlignment="Top" Height="30" Margin="0,210,0,0">
                                 <Label Content="Alternate Font:" Foreground="#ffffff" Width="200" HorizontalAlignment="Left" />
-                                <TextBox x:Name="Scenario_ShD_TB_AltFont" Foreground="#b4ff00" Background="#0b0f00" Width="200" Margin="200,0,0,0" HorizontalAlignment="Left" />
+                                <TextBox x:Name="Scenario_ShD_TB_AltFont" Foreground="#b4ff00" Background="#0b0f00" Width="200" Margin="200,0,0,0" HorizontalAlignment="Left" TextChanged="Scenario_ShD_TB_AltFont_TextChanged" />
                             </Grid>
-                            <Grid x:Name="Scenario_ShD_AllowTrimming" VerticalAlignment="Top" Height="30" Margin="0,240,0,0">
-                                <Label Content="Allow Trimming:" Foreground="#ffffff" Width="200" HorizontalAlignment="Left" />
-                                <CheckBox x:Name="Scenario_ShD_TB_AllowTrimming" Foreground="#b4ff00" Background="#b4ff00" Width="200" Margin="200,0,0,0" HorizontalAlignment="Left" Content="Hit me" Checked="ScenCheck" Unchecked="ScenCheck" />
-                            </Grid>
+                            <!--
+							<Grid x:Name="Scenario_ShD_AllowTrimming" VerticalAlignment="Top" Height="30" Margin="0,240,0,0">
+								<Label Content="Allow Trimming:" Foreground="#ffffff" Width="200" HorizontalAlignment="Left" />
+								<CheckBox x:Name="Scenario_ShD_TB_AllowTrimming" Foreground="#b4ff00" Background="#b4ff00" Width="200" Margin="200,0,0,0" HorizontalAlignment="Left" Content="Hit me" Checked="ScenCheck" Unchecked="ScenCheck" />
+							</Grid>
+							-->
                             <Grid x:Name="Scenario_ShD_NameLinking" VerticalAlignment="Top" Height="30" Margin="0,270,0,0">
                                 <Label Content="Name Linking:" Foreground="#ffffff" Width="200" HorizontalAlignment="Left" />
                                 <CheckBox x:Name="Scenario_ShD_TB_Namelinking" Foreground="#b4ff00" Background="#bfff00" Width="200" Margin="200,0,0,0" HorizontalAlignment="Left" Content="Hit me" Checked="ScenCheck" Unchecked="ScenCheck"/>

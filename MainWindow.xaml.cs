@@ -330,6 +330,11 @@ namespace Rosetta {
 		private void ScenCheck(object sender, RoutedEventArgs e) {
 			var s = (CheckBox)sender;
 			if (s.IsChecked == true) s.Content = "Yes"; else s.Content = "No";
+			if (scenario_allowmodify) {
+				if (CurrentProject == null) return;
+				var CT = CurrentProject.Scenario.ChosenEntry.CurrentTag; if (CT == null) return;
+				CT.CurrentPage.NameLinking = (bool)s.IsChecked;
+			}
 		}
 
 		static public ListBox ScenarioEntries => Me.LB_Scenario_File;
@@ -372,7 +377,6 @@ namespace Rosetta {
 		private void LB_Scenario_File_SelectionChanged(object sender, SelectionChangedEventArgs e) {
 			if (CurrentProject==null) return;
 			CurrentProject.Scenario.UpdateGUIEntry();
-
 		}
 
 		private void BT_Scenario_Tag_New_Click(object sender, RoutedEventArgs e) {
@@ -384,10 +388,70 @@ namespace Rosetta {
 			if (!ValidName(NewTag)) { Confirm.Error($"\"{NewTag}\" is NOT a valid name for a scenario tag. Only letters numbers and underscores allowed!"); return; }
 			CE.LTags.Add(NewTag);
 			CE.LTags.Sort();
+			CE.Modified = true;
 			CurrentProject.Scenario.UpdateGUIEntry();
-
+			CurrentProject.Scenario.SaveMe(true);
 			TB_Scenario_NewTag.Text = "";
 			AllowCheck();
 		}
-	}
+
+		private void Scenario_ShD_TB_PicDir_TextChanged(object sender, TextChangedEventArgs e) {
+			if (scenario_allowmodify) {
+				if (CurrentProject == null) return;
+				var CT = CurrentProject.Scenario.ChosenEntry.CurrentTag; if (CT == null) return;
+				CT.CurrentPage.PicDir = Scenario_ShD_TB_PicDir.Text;
+				CT.CurrentPage.LinkUpdate((TextBox)sender);
+			}
+		}
+
+		private void Scenario_ShD_TB_PicSpecific_TextChanged(object sender, TextChangedEventArgs e) {
+			if (scenario_allowmodify) {
+				if (CurrentProject == null) return;
+				var CT = CurrentProject.Scenario.ChosenEntry.CurrentTag; if (CT == null) return;
+				CT.CurrentPage.PicSpecific = Scenario_ShD_TB_PicSpecific.Text;                
+			}
+		}
+
+		private void Scenario_ShD_TB_Audio_TextChanged(object sender, TextChangedEventArgs e) {
+			if (scenario_allowmodify) {
+				if (CurrentProject == null) return;
+				var CT = CurrentProject.Scenario.ChosenEntry.CurrentTag; if (CT == null) return;
+				CT.CurrentPage.Audio = Scenario_ShD_TB_Audio.Text;
+			}
+		}
+
+		private void Scenario_ShD_TB_AltFont_TextChanged(object sender, TextChangedEventArgs e) {
+			if (scenario_allowmodify) {
+				if (CurrentProject == null) return;
+				var CT = CurrentProject.Scenario.ChosenEntry.CurrentTag; if (CT == null) return;
+				CT.CurrentPage.AltFont = Scenario_ShD_TB_AltFont.Text;
+			}
+
+		}
+
+		private void LB_Scenario_Tag_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+			if (CurrentProject == null) return;
+			CurrentProject.Scenario.UpdateGUITag();
+		}
+
+        private void Scenario_Shd_Page_Home_Click(object sender, RoutedEventArgs e) {
+			CurrentProject.Scenario.ChosenEntry.CurrentTag.CurrentPageNumber = 0;
+			CurrentProject.Scenario.UpdateGUITag();
+        }
+
+        private void Scenario_Shd_Page_Prev_Click(object sender, RoutedEventArgs e) {
+			CurrentProject.Scenario.ChosenEntry.CurrentTag.CurrentPageNumber--;
+            CurrentProject.Scenario.UpdateGUITag();
+        }
+
+        private void Scenario_Shd_Page_Next_Click(object sender, RoutedEventArgs e) {
+			CurrentProject.Scenario.ChosenEntry.CurrentTag.CurrentPageNumber++;
+            CurrentProject.Scenario.UpdateGUITag();
+        }
+
+        private void Scenario_Shd_Page_End_Click(object sender, RoutedEventArgs e) {
+			CurrentProject.Scenario.ChosenEntry.CurrentTag.CurrentPageNumber = CurrentProject.Scenario.ChosenEntry.CurrentTag.PageCount - 1;
+            CurrentProject.Scenario.UpdateGUITag();
+        }
+    }
 }
