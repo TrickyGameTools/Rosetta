@@ -55,6 +55,7 @@ namespace Rosetta {
 
 		static public bool strings_allowmodify = true;
 		static public bool config_allowmodify = true;
+		static public bool scenario_allowmodify = true;
 
 
 		ProjectData CurrentProject => ProjectData.CurrentProject;
@@ -63,6 +64,9 @@ namespace Rosetta {
 			get => Me.TB_Project.Text;
 			set => Me.TB_Project.Text = value;
 		}
+
+		readonly List<Grid> NeedScenarioEntry = new List<Grid>();
+		readonly List<Grid> NeedScenarioTag = new List<Grid>();
 
 		public MainWindow() {
 			InitializeComponent();
@@ -91,6 +95,12 @@ namespace Rosetta {
 			new RegisterStrings(12, StrKey12, StrLan1Val12, StrLan2Val12);
 
 			Dirry.InitAltDrives();
+
+			// Scenario
+			NeedScenarioEntry.Add(Scenario_Grid_Tag);
+			NeedScenarioTag.Add(Scenario_Grid_SharedData);
+			NeedScenarioTag.Add(Scenario_Bottom);
+
 		}
 
 		public Visibility Vis(bool K) { if (K) return Visibility.Visible; else return Visibility.Hidden; }
@@ -127,6 +137,11 @@ namespace Rosetta {
 			// Scenario
 			BT_Scenario_File_New.IsEnabled = TB_Scenario_NewFile.Text != "";
 			BT_Scenario_Tag_New.IsEnabled = TB_Scenario_NewTag.Text != "";
+
+			var HasScenEntry=LB_Scenario_File.SelectedItem!= null;
+			var HasScenTag = HasScenEntry && LB_Scenario_Tag.SelectedItem != null;
+			foreach (var G in NeedScenarioEntry) G.Visibility = Vis(HasScenEntry);
+			foreach (var G in NeedScenarioTag) G.Visibility = Vis(HasScenTag);
 		}
 
 		public void AllowCheck(object o, TextChangedEventArgs NotNeededCrap) => AllowCheck();
@@ -311,9 +326,9 @@ namespace Rosetta {
 			CurrentProject.SaveMe();
 		}
 
-        private void ScenCheck(object sender, RoutedEventArgs e) {
+		private void ScenCheck(object sender, RoutedEventArgs e) {
 			var s = (CheckBox)sender;
 			if (s.IsChecked == true) s.Content = "Yes"; else s.Content = "No";
-        }
-    }
+		}
+	}
 }
