@@ -98,6 +98,8 @@
     <Compile Include="Class\ProjectList.cs" />
     <Compile Include="Class\RegisterSettings.cs" />
     <Compile Include="Class\RegisterStrings.cs" />
+    <Compile Include="Class\Scenario.cs" />
+    <Compile Include="Export\XBase.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

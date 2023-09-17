@@ -231,7 +231,7 @@ namespace Rosetta {
 			}
 			foreach (var RegS in RegisterStrings.Lijst) {
 				RegS.Key.Items.Clear();
-				foreach (var C in Me.CurrentProject.Settings.List("Strings", "^Catagories^")) {
+				foreach (var C in Me.CurrentProject.Settings.List("Strings", "^Categories^")) {
 					foreach (var K in Me.CurrentProject.Settings.List("Strings", $"CAT_{C}")) {
 						RegS.Key.Items.Add(K);
 					}

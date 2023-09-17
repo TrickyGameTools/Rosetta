@@ -40,6 +40,7 @@ namespace Rosetta.Class {
 
 		internal readonly GINIE Settings = null;
 		internal readonly Dictionary<string,GINIE> Strings = new Dictionary<string,GINIE>();
+		CScenario Scenario = null; 
 
 		internal string[] SupportedLanguages {
 			get {
@@ -49,12 +50,13 @@ namespace Rosetta.Class {
 			}
 		}
 
-		internal ProjectData(string FileName) { 
-			Settings=GINIE.FromFile(FileName);            
+		internal ProjectData(string FileName) {
+			Settings = GINIE.FromFile(FileName);
 			ProjectFile = FileName;
 			Settings.AutoSaveSource = FileName;
 			Settings.NewValue("Support", "Languages", "English, Dutch");
 			Settings.NewValue("Support", "Language_Def", "English"); // Used when no suitable translation is found.
+			Scenario = new CScenario(this);
 		}
 
 		internal GINIE GetStrings(string Language) {
