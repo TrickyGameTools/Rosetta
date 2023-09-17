@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -75,18 +77,24 @@ namespace Rosetta.Class {
 				Parent.Tags[Tag] = this;
 			}
 			internal List<CPage> Page = new List<CPage>();
+			internal CPage this[int idx] => Page[idx];
 
 			internal ProjectData Project => Parent.Parent.Parent;
 
 		}
 
 		internal class CPage {
+
 			internal readonly CTag Parent = null;
+			internal CPage(CTag _parent) => Parent = _parent;
 			internal GINIE Data => Parent.Parent.Data;
 
 			string CGCat => $"::CENTRAL::{Parent.Tag}::{PageIndex}::";
 
-			bool Modified { get => Parent.Parent.Modified; set => Parent.Parent.Modified = value; }
+			bool Modified {
+				//get => Parent.Parent.Modified;
+				set => Parent.Parent.Modified = value;
+			}
 
 			internal int PageIndex {
 				get {
@@ -109,18 +117,27 @@ namespace Rosetta.Class {
 				set => Data[CGCat, "NameLinking"] = value.ToString();
 			}
 
-			Dictionary<string, CSLang> _Lang = new Dictionary<string, CSLang>();
+			internal Dictionary<string, CSLang> _Lang = new Dictionary<string, CSLang>();
+			internal CSLang this[string lkey] {
+				get {
+					if (!_Lang.ContainsKey(lkey)) {
+						return new CSLang(this,lkey);
+					}
+					return _Lang[lkey];
+				}
+			}
 
 		}
 		
-		class CSLang {
+		internal class CSLang {
 			internal readonly CPage Parent = null;
 			internal readonly string Lang = "";
 			internal GINIE Data => Parent.Parent.Data;
-			internal CSLang(CPage _Parent,string _Lang) { Parent= _Parent; Lang = _Lang; }
+			internal CSLang(CPage _Parent,string _Lang) { Parent= _Parent; Lang = _Lang; Parent._Lang[Lang] = this; }
 			internal int PageIndex => Parent.PageIndex;
 
 			internal string CGLCat => $"::LANG::{Lang}::{Parent.Parent.Tag}::{PageIndex}::";
+
 
 			bool Modified { 
 				//get => Parent.Parent.Parent.Modified; 
@@ -166,6 +183,31 @@ namespace Rosetta.Class {
 
 		public void SaveMe(bool force=false) {
 			foreach(CEntry entry in Entries.Values) { if (force || entry.Modified) entry.SaveMe(); }
+		}
+
+		public ProjectData CurrentProject => ProjectData.CurrentProject;
+
+		internal CEntry this[string ekey] {
+			get {
+				ekey = ekey.ToUpper();
+				if (!Entries.ContainsKey(ekey)) return new CEntry(this, ekey);
+				return Entries[ekey];
+			}
+		}
+		internal CTag this[string ekey,string tkey] => this[ekey][tkey];
+		internal CPage this[string ekey,string tkey,int idx] => this[ekey][tkey][idx];
+		internal CSLang this[string ekey,string tkey,int idx,string lkey] => this[ekey][tkey][idx][lkey];
+
+		public void UpdateGUI() {
+			if (CurrentProject == null) return;
+			if (CurrentProject.Settings["DIRECTORIES", "SCENARIO"] == "") return;
+			// Entries
+			MainWindow.ScenarioEntries.Items.Clear();
+			var SDir = CurrentProject.Settings["DIRECTORIES", "SCENARIO"];
+			if (!Directory.Exists(SDir)) return;
+			var EList = FileList.GetTree(SDir);
+			foreach (var E in EList) if (qstr.ExtractExt(E).ToLower()=="ini") MainWindow.ScenarioEntries.Items.Add(qstr.StripExt(E));
+
 		}
 	}
 }

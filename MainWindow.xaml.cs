@@ -330,5 +330,19 @@ namespace Rosetta {
 			var s = (CheckBox)sender;
 			if (s.IsChecked == true) s.Content = "Yes"; else s.Content = "No";
 		}
+
+		static public ListBox ScenarioEntries => Me.LB_Scenario_File;
+		static public ListBox ScenarioTags => Me.LB_Scenario_Tag;
+		static public string ScenarioEntryLabel {
+			get => (string)Me.Scenario_ShD_LB_Entry.Content;
+			set => Me.Scenario_ShD_LB_Entry.Content = value;
+		}
+		static public string ScenarioTagLabel {
+			get => (string)Me.Scenario_ShD_LB_Tag.Content;
+			set => Me.Scenario_ShD_LB_Tag.Content = value;
+		}
+		static public void ScenarioPage(int P,int PM) {
+			Me.Scenario_ShD_LB_Page.Content = $"{P + 1}/{PM}";
+		}
 	}
 }
