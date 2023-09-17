@@ -19,6 +19,14 @@ namespace Rosetta.Class {
 
 			internal string EntryFile => Dirry.AD($"{Project.Settings["DIRECTORIES", "SCENARIO"]}/{EntryName}.ini");
 
+			internal bool Modified = false;
+
+			internal void SaveMe() {
+				Debug.WriteLine($"Saving: {EntryFile}");
+				QuickStream.SaveString(_Data.ToSource(), EntryFile);
+				Modified = false;
+			}
+
 			internal GINIE Data {
 				get {
 					if (_Data == null) {
@@ -31,6 +39,12 @@ namespace Rosetta.Class {
 					return _Data;
 				}
 			}
+			~CEntry() { 
+				if (_Data != null && Modified) {
+					SaveMe();
+				}
+			}
+
 			CTag AddTag(string Tag) {
 				Tag = Tag.ToUpper();
 				var ret = new CTag(this, Tag);
@@ -72,6 +86,8 @@ namespace Rosetta.Class {
 
 			string CGCat => $"::CENTRAL::{Parent.Tag}::{PageIndex}::";
 
+			bool Modified { get => Parent.Parent.Modified; set => Parent.Parent.Modified = value; }
+
 			internal int PageIndex {
 				get {
 					for (int i = 0; i < Parent.Page.Count; ++i) if (Parent.Page[i] == this) return i;
@@ -80,12 +96,12 @@ namespace Rosetta.Class {
 			}
 			internal string PicDir {
 				get => Data[CGCat, "PicDir"];
-				set => Data[CGCat, "PicDir"] = value;
+				set { Data[CGCat, "PicDir"] = value; Modified=true; }
 			}
 
 			internal string PicSpecific {
 				get => Data[CGCat, "PicSpecific"];
-				set => Data[CGCat, "PicSpecific"] = value;
+				set { Data[CGCat, "PicSpecific"] = value; Modified = true; }
 			}
 
 			internal bool NameLinking {
@@ -106,6 +122,11 @@ namespace Rosetta.Class {
 
 			internal string CGLCat => $"::LANG::{Lang}::{Parent.Parent.Tag}::{PageIndex}::";
 
+			bool Modified { 
+				//get => Parent.Parent.Parent.Modified; 
+				set => Parent.Parent.Parent.Modified = value; 
+			}
+
 			internal string Header {
 				get {
 					if (Parent.NameLinking) return Parent.PicDir;
@@ -114,6 +135,7 @@ namespace Rosetta.Class {
 				set {
 					if (Parent.NameLinking) Parent.PicDir = value;
 					else Data[CGLCat, "Header"] = value;
+					Modified = true;
 				}
 			}
 			internal string Content {
@@ -130,6 +152,7 @@ namespace Rosetta.Class {
 					var v = value.Replace("\r", "");
 					var lst = Data.List(CGLCat, "Content"); lst.Clear();
 					foreach(var l in v.Split('\n')) lst.Add(l);
+					Modified = true;
 				}
 			}
 		}
@@ -140,5 +163,9 @@ namespace Rosetta.Class {
 		readonly SortedDictionary<string,CEntry> Entries = new SortedDictionary<string,CEntry>();
 
 		public CScenario(ProjectData Parent) { this.Parent = Parent; }
+
+		public void SaveMe() {
+			foreach(CEntry entry in Entries.Values) { if (entry.Modified) entry.SaveMe(); }
+		}
 	}
 }
