@@ -40,7 +40,7 @@ namespace Rosetta.Class {
 
 		internal readonly GINIE Settings = null;
 		internal readonly Dictionary<string,GINIE> Strings = new Dictionary<string,GINIE>();
-		CScenario Scenario = null; 
+		internal CScenario Scenario = null; 
 
 		internal string[] SupportedLanguages {
 			get {

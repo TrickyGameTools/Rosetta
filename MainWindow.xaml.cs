@@ -43,6 +43,7 @@ using Rosetta.Class;
 //using System.Windows.Forms;
 using TrickyUnits;
 using System.Windows.Media.Animation;
+using System.IO;
 
 namespace Rosetta {
 
@@ -343,6 +344,50 @@ namespace Rosetta {
 		}
 		static public void ScenarioPage(int P,int PM) {
 			Me.Scenario_ShD_LB_Page.Content = $"{P + 1}/{PM}";
+		}
+
+		private void BT_Scenario_File_New_Click(object sender, RoutedEventArgs e) {
+			var N = TB_Scenario_NewFile.Text;
+			if (N == "") return;
+			var NewFile = $"{CurrentProject.Scenario.Workspace}/{N}.ini";
+			if (File.Exists(Dirry.AD(NewFile))) { Confirm.Error($"File {NewFile} already exists!"); return; }
+			try {
+				var NewFileDir = qstr.ExtractDir(Dirry.AD(NewFile));
+				if (!Directory.Exists(NewFileDir)) {
+					Debug.WriteLine($"Creating dir: {NewFileDir}");
+					Directory.CreateDirectory(NewFileDir);
+				}
+				Debug.WriteLine($"Saving: {NewFile}");
+				QuickStream.SaveString(Dirry.AD(NewFile), "# Alright, move along, there's nothing to see here!");
+				CurrentProject.Scenario[N].Modified = true;
+				TB_Scenario_NewFile.Text = "";
+				CurrentProject.Scenario.UpdateGUI();
+				AllowCheck();
+			} catch (Exception exc) {
+				Confirm.Error($"Creating '{NewFile}' failed!\n\n{exc.Message}\n");
+			}
+
+		}
+
+		private void LB_Scenario_File_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+			if (CurrentProject==null) return;
+			CurrentProject.Scenario.UpdateGUIEntry();
+
+		}
+
+		private void BT_Scenario_Tag_New_Click(object sender, RoutedEventArgs e) {
+			if (CurrentProject == null) return;
+			var CE = CurrentProject.Scenario.ChosenEntry;  if(CE == null) return;
+			var NewTag = TB_Scenario_NewTag.Text.ToUpper().Trim();
+			if (NewTag.Length == 0) { Confirm.Error("???", "Internal error"); return; }
+			if (CE.TagExists(NewTag)) { Confirm.Error($"Duplicate tag: {NewTag}"); return; }
+			if (!ValidName(NewTag)) { Confirm.Error($"\"{NewTag}\" is NOT a valid name for a scenario tag. Only letters numbers and underscores allowed!"); return; }
+			CE.LTags.Add(NewTag);
+			CE.LTags.Sort();
+			CurrentProject.Scenario.UpdateGUIEntry();
+
+			TB_Scenario_NewTag.Text = "";
+			AllowCheck();
 		}
 	}
 }

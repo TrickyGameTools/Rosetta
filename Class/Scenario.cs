@@ -23,6 +23,10 @@ namespace Rosetta.Class {
 
 			internal bool Modified = false;
 
+			internal bool TagExists(string Tag) {
+				Tag=Tag.ToUpper();
+				return LTags.Contains(Tag);
+			}
 			internal void SaveMe() {
 				Debug.WriteLine($"Saving: {EntryFile}");
 				QuickStream.SaveString(_Data.ToSource(), EntryFile);
@@ -46,6 +50,8 @@ namespace Rosetta.Class {
 					SaveMe();
 				}
 			}
+
+			internal List<string> LTags => Data.List("::GLOB::", "Tags");
 
 			CTag AddTag(string Tag) {
 				Tag = Tag.ToUpper();
@@ -198,16 +204,45 @@ namespace Rosetta.Class {
 		internal CPage this[string ekey,string tkey,int idx] => this[ekey][tkey][idx];
 		internal CSLang this[string ekey,string tkey,int idx,string lkey] => this[ekey][tkey][idx][lkey];
 
+		internal string Workspace => Parent.Settings["DIRECTORIES", "SCENARIO"];
+
+
 		public void UpdateGUI() {
 			if (CurrentProject == null) return;
 			if (CurrentProject.Settings["DIRECTORIES", "SCENARIO"] == "") return;
 			// Entries
 			MainWindow.ScenarioEntries.Items.Clear();
-			var SDir = CurrentProject.Settings["DIRECTORIES", "SCENARIO"];
+			var SDir = Dirry.AD(CurrentProject.Settings["DIRECTORIES", "SCENARIO"]);
 			if (!Directory.Exists(SDir)) return;
 			var EList = FileList.GetTree(SDir);
 			foreach (var E in EList) if (qstr.ExtractExt(E).ToLower()=="ini") MainWindow.ScenarioEntries.Items.Add(qstr.StripExt(E));
+			MainWindow.Me.AllowCheck();
+		}
 
+		internal string ChosenEntryName {
+			get {
+				var it = MainWindow.ScenarioEntries.SelectedItem; if (it == null) return "";
+				return it.ToString();
+			}
+		}
+		internal CEntry ChosenEntry {
+			get {
+				var CEN = ChosenEntryName;
+				if (CEN == "") return null;
+				return this[CEN];
+			}
+		}
+
+
+		public void UpdateGUIEntry() {
+			if (CurrentProject == null) return;
+			if (ChosenEntry == null) return;
+			MainWindow.ScenarioTags.Items.Clear();
+			var _Tags = ChosenEntry.LTags; _Tags.Sort();
+			foreach ( var _Tag in _Tags) { 
+				MainWindow.ScenarioTags.Items.Add(_Tag);
+			}
+			MainWindow.Me.AllowCheck();
 		}
 	}
 }
