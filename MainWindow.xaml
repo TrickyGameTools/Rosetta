@@ -155,7 +155,7 @@ End License block -->
 			<TabItem Header="Scenario" x:Name="TabScenario">
 				<Grid>
 					<Image Source="/Seelah Gandra Groot.png" Margin="0,0,1099,0" VerticalAlignment="Bottom"/>
-                    <Button x:Name="SaveScen" Click="SaveButton" Content="Save" Width="100" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
+					<Button x:Name="SaveScen" Click="SaveButton" Content="Save" Width="100" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
 					<Grid x:Name="Scenario_Top" Margin="0,0,0,0" Height="300" VerticalAlignment="Top">
 						<Grid x:Name="Scenario_Grid_File" Width="350" HorizontalAlignment="Left">
 							<ListBox x:Name="LB_Scenario_File" Foreground="#00b4ff" Background="#00001f" VerticalAlignment="Top" Height="240" SelectionChanged="LB_Scenario_File_SelectionChanged" />
@@ -229,14 +229,14 @@ End License block -->
 					</Grid>
 					<Grid x:Name="Scenario_Bottom" Margin="300,300,0,0" Width="1050" HorizontalAlignment="Left">
 						<Grid x:Name="Scenario_Grid_Lang1" Margin="0,0,0,0" Width="500" HorizontalAlignment="Left" >
-							<ComboBox x:Name="Scenario_CB_Lang1" Height="30" Margin="0,0,0,0" VerticalAlignment="Top" />
-							<TextBox x:Name="Scennario_Head_Lang1" Height="30" Margin="0,30,0,0" VerticalAlignment="Top" Foreground="#ffff00" Background="#0f0b00" />
-							<TextBox x:Name="Scenario_Content_Lang1" Margin="0,60,0,0" Foreground="#ffff00" Background="#0b000f" AcceptsReturn="True" FontSize="18" FontFamily="Arial" />
+							<ComboBox x:Name="Scenario_CB_Lang1" Height="30" Margin="0,0,0,0" VerticalAlignment="Top" SelectionChanged="ScenSelectLang1" />
+							<TextBox x:Name="Scenario_Head_Lang1" Height="30" Margin="0,30,0,0" VerticalAlignment="Top" Foreground="#ffff00" Background="#0f0b00" TextChanged="Scenario_Head_Lang1_TextChanged" />
+							<TextBox x:Name="Scenario_Content_Lang1" Margin="0,60,0,0" Foreground="#ffff00" Background="#0b000f" AcceptsReturn="True" FontSize="18" FontFamily="Arial" TextChanged="Scenario_Content_Lang1_TextChanged" />
 						</Grid>
 						<Grid x:Name="Scenario_Grid_Lang2" Margin="0,0,0,0" Width="500" HorizontalAlignment="Right" >
-							<ComboBox x:Name="Scenario_CB_Lang2" Height="30" Margin="0,0,0,0" VerticalAlignment="Top" />
-							<TextBox x:Name="Scennario_Head_Lang2" Height="30" Margin="0,30,0,0" VerticalAlignment="Top" Foreground="#ffff00" Background="#0f0b00" />
-							<TextBox x:Name="Scenario_Content_Lang2" Margin="0,60,0,0" Foreground="#ffff00" Background="#0b000f" AcceptsReturn="True" FontSize="18" FontFamily="Arial" />
+							<ComboBox x:Name="Scenario_CB_Lang2" Height="30" Margin="0,0,0,0" VerticalAlignment="Top" SelectionChanged="ScenSelectLang2" />
+							<TextBox x:Name="Scenario_Head_Lang2" Height="30" Margin="0,30,0,0" VerticalAlignment="Top" Foreground="#ffff00" Background="#0f0b00" TextChanged="Scenario_Head_Lang2_TextChanged" />
+							<TextBox x:Name="Scenario_Content_Lang2" Margin="0,60,0,0" Foreground="#ffff00" Background="#0b000f" AcceptsReturn="True" FontSize="18" FontFamily="Arial" TextChanged="Scenario_Content_Lang2_TextChanged" />
 						</Grid>
 					</Grid>
 				</Grid>

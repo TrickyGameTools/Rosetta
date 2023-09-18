@@ -163,8 +163,16 @@ namespace Rosetta.Class {
 
 		internal class CPage {
 
-			internal void LinkUpdate(TextBox From) {
-				throw new NotImplementedException();
+			internal enum ELU { None, PicDir,Lang1,Lang2 }
+
+			internal void LinkUpdate(ELU FromELU=ELU.None,TextBox From=null) {
+				//throw new NotImplementedException();
+				var old = MainWindow.scenario_allowmodify;
+				MainWindow.scenario_allowmodify = false;
+				if (FromELU != ELU.PicDir) MainWindow.ScenarioPicDir = PicDir;
+				if (FromELU != ELU.Lang1 && ChosenLang1 != null) MainWindow.LangHead[1] = ChosenLang1.Header;
+				if (FromELU != ELU.Lang2 && ChosenLang2 != null) MainWindow.LangHead[2] = ChosenLang2.Header;
+				MainWindow.scenario_allowmodify = old;
 			}
 			internal readonly CTag Parent = null;
 			internal CPage(CTag _parent) => Parent = _parent;
@@ -213,13 +221,24 @@ namespace Rosetta.Class {
 			internal Dictionary<string, CSLang> _Lang = new Dictionary<string, CSLang>();
 			internal CSLang this[string lkey] {
 				get {
+					if (lkey == "") return null;
 					if (!_Lang.ContainsKey(lkey)) {
 						return new CSLang(this,lkey);
 					}
 					return _Lang[lkey];
 				}
 			}
-
+			internal string ChosenLangName1 => Parent.Parent.Parent.Parent.Settings["::SCENARIO::", "LANG1"];
+			internal string ChosenLangName2 => Parent.Parent.Parent.Parent.Settings["::SCENARIO::", "LANG2"];
+			internal CSLang ChosenLang1 => this[ChosenLangName1];
+			internal CSLang ChosenLang2 => this[ChosenLangName2];
+			internal CSLang ChosenLang(int idx) {
+				switch(idx) {
+					case 1: return ChosenLang1;
+						case 2: return ChosenLang2;
+					default: throw new Exception($"ChosenLang({idx}): Invalid index");
+				}
+			}
 		}
 		
 		internal class CSLang {
@@ -334,19 +353,29 @@ namespace Rosetta.Class {
 
 		public void UpdateGUITag() {
 			var old = MainWindow.scenario_allowmodify;
-			var CPage = ChosenEntry.CurrentTag.CurrentPage;
-			MainWindow.scenario_allowmodify = false;
-			MainWindow.Me.Scenario_ShD_LB_Entry.Content = ChosenEntryName;
-			MainWindow.Me.Scenario_ShD_LB_Tag.Content = ChosenEntry.CurrentTagName;
-			MainWindow.Me.Scenario_ShD_LB_Page.Content = $"{ChosenEntry.CurrentTag.CurrentPageNumber + 1} / {ChosenEntry.CurrentTag.PageCount}";
+			if (ChosenEntry != null && ChosenEntry.CurrentTag != null) {
+				var CPage = ChosenEntry.CurrentTag.CurrentPage;
+				MainWindow.scenario_allowmodify = false;
+				MainWindow.Me.Scenario_ShD_LB_Entry.Content = ChosenEntryName;
+				MainWindow.Me.Scenario_ShD_LB_Tag.Content = ChosenEntry.CurrentTagName;
+				MainWindow.Me.Scenario_ShD_LB_Page.Content = $"{ChosenEntry.CurrentTag.CurrentPageNumber + 1} / {ChosenEntry.CurrentTag.PageCount}";
+				MainWindow.Me.Scenario_ShD_TB_PicSpecific.Text = CPage.PicSpecific;
+				MainWindow.Me.Scenario_ShD_TB_PicDir.Text = CPage.PicDir;
+				MainWindow.Me.Scenario_ShD_TB_Audio.Text = CPage.Audio;
+				MainWindow.Me.Scenario_ShD_TB_AltFont.Text = CPage.AltFont;
+				MainWindow.Me.Scenario_ShD_TB_Namelinking.IsChecked = CPage.NameLinking;
+				MainWindow.Me.AllowCheck();
+				MainWindow.Me.ScenarioSetLang();
+				ChosenEntry.CurrentTag.CurrentPage.LinkUpdate();
+				for(var i = 1; i <= 2; i++) {
+					var CLang = CPage.ChosenLang(i);
+					if (CLang != null) {
+						MainWindow.Me.LangField(i).Text = CLang.Content;
+					}
+				}
+			}
 			MainWindow.scenario_allowmodify = old;
-			MainWindow.Me.Scenario_ShD_TB_PicSpecific.Text = CPage.PicSpecific;
-			MainWindow.Me.Scenario_ShD_TB_PicDir.Text = CPage.PicDir;
-			MainWindow.Me.Scenario_ShD_TB_Audio.Text = CPage.Audio;
-			MainWindow.Me.Scenario_ShD_TB_AltFont.Text = CPage.AltFont;
-			MainWindow.Me.Scenario_ShD_TB_Namelinking.IsChecked = CPage.NameLinking;
-			MainWindow.Me.AllowCheck();
-			MainWindow.Me.ScenarioSetLang();
+
 		}
 	}
 }

@@ -108,8 +108,8 @@ namespace Rosetta {
 
 		internal void ScenarioSetLang() {
 			ScenarioSetLang(Scenario_CB_Lang1, CurrentProject.Settings["::SCENARIO::", "LANG1"]);
-            ScenarioSetLang(Scenario_CB_Lang2, CurrentProject.Settings["::SCENARIO::", "LANG2"]);
-        }
+			ScenarioSetLang(Scenario_CB_Lang2, CurrentProject.Settings["::SCENARIO::", "LANG2"]);
+		}
 
 		internal void ScenarioSetLang(ComboBox CLB,string Lang) {
 			if (CurrentProject == null) return;
@@ -354,6 +354,7 @@ namespace Rosetta {
 				if (CurrentProject == null) return;
 				var CT = CurrentProject.Scenario.ChosenEntry.CurrentTag; if (CT == null) return;
 				CT.CurrentPage.NameLinking = (bool)s.IsChecked;
+				CT.CurrentPage.LinkUpdate();
 			}
 		}
 
@@ -370,6 +371,33 @@ namespace Rosetta {
 		static public void ScenarioPage(int P,int PM) {
 			Me.Scenario_ShD_LB_Page.Content = $"{P + 1}/{PM}";
 		}
+
+		static public string ScenarioPicDir {
+			get => Me.Scenario_ShD_TB_PicDir.Text;
+			set => Me.Scenario_ShD_TB_PicDir.Text = value;
+		}
+
+
+		public class CLangHead {
+			public string this[int idx] {
+				get {
+					switch (idx) {
+						case 1: return Me.Scenario_Head_Lang1.Text;
+						case 2: return Me.Scenario_Head_Lang2.Text;
+						default: throw new Exception($"Index for LangHead must be either 1 or 2, but not {idx}");
+					}
+
+				}
+				set {
+					switch (idx) {
+						case 1: Me.Scenario_Head_Lang1.Text = value; return;
+						case 2: Me.Scenario_Head_Lang2.Text = value; return;
+						default: throw new Exception($"Index for LangHead must be either 1 or 2, but not {idx}");
+					}
+				}
+			}
+		}
+		static readonly public CLangHead LangHead = new CLangHead();
 
 		private void BT_Scenario_File_New_Click(object sender, RoutedEventArgs e) {
 			var N = TB_Scenario_NewFile.Text;
@@ -420,7 +448,7 @@ namespace Rosetta {
 				if (CurrentProject == null) return;
 				var CT = CurrentProject.Scenario.ChosenEntry.CurrentTag; if (CT == null) return;
 				CT.CurrentPage.PicDir = Scenario_ShD_TB_PicDir.Text;
-				CT.CurrentPage.LinkUpdate((TextBox)sender);
+				CT.CurrentPage.LinkUpdate(CScenario.CPage.ELU.PicDir);
 			}
 		}
 
@@ -484,7 +512,56 @@ namespace Rosetta {
 		}
 
 		private void AutoSave(object whatever, EventArgs crap) => ProjectList.SaveAll();
-		
+
 		#endregion
+
+		private void ScenSelectLang(ComboBox sender,byte idx) {
+			if (CurrentProject == null) return;
+			if (scenario_allowmodify) {
+				var SI = sender.SelectedItem;
+				if (SI != null) {
+					var L = sender.SelectedItem.ToString();
+					if (L != "") CurrentProject.Settings["::SCENARIO::", $"LANG{idx}"] = L;
+				}
+				CurrentProject.Scenario.UpdateGUITag();
+			}
+		}
+
+		private void ScenSelectLang1(object sender, SelectionChangedEventArgs e) => ScenSelectLang((ComboBox)sender, 1);
+		private void ScenSelectLang2(object sender, SelectionChangedEventArgs e) => ScenSelectLang((ComboBox)sender, 2);
+
+		private void Scenario_Head(TextBox sender,int index) {
+			if (CurrentProject == null) return;
+			if (scenario_allowmodify) {
+				var LNG = CurrentProject.Scenario.ChosenEntry.CurrentTag.CurrentPage.ChosenLang(index);
+				if (LNG==null) return;
+				LNG.Header = sender.Text;
+				CurrentProject.Scenario.ChosenEntry.CurrentTag.CurrentPage.LinkUpdate((CScenario.CPage.ELU)index+1);
+			}
+		}
+
+		private void Scenario_Head_Lang1_TextChanged(object sender, TextChangedEventArgs e) => Scenario_Head((TextBox)sender, 1);
+		private void Scenario_Head_Lang2_TextChanged(object sender, TextChangedEventArgs e) => Scenario_Head((TextBox)sender, 2);
+
+		private void Scenario_Content(TextBox sender,int index) {
+			if (scenario_allowmodify) {
+				if (CurrentProject == null) return;
+				var LNG = CurrentProject.Scenario.ChosenEntry.CurrentTag.CurrentPage.ChosenLang(index);
+				if (LNG == null) return;
+				LNG.Content = sender.Text;
+			}
+        }
+
+		private void Scenario_Content_Lang1_TextChanged(object sender, TextChangedEventArgs e) => Scenario_Content((TextBox)sender, 1);
+
+		private void Scenario_Content_Lang2_TextChanged(object sender, TextChangedEventArgs e) => Scenario_Content((TextBox)sender, 2);
+
+		public TextBox LangField(int i) {
+			switch (i) {
+				case 1:return Scenario_Content_Lang1;
+                case 2: return Scenario_Content_Lang2;
+				default: return null; 
+            }
+		}
 	}
 } 
