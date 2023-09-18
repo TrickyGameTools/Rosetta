@@ -44,7 +44,6 @@ using Rosetta.Class;
 using TrickyUnits;
 using System.Windows.Media.Animation;
 using System.IO;
-
 namespace Rosetta {
 
 	/// <summary>
@@ -455,27 +454,27 @@ namespace Rosetta {
 			CurrentProject.Scenario.UpdateGUITag();
 		}
 
-        private void Scenario_Shd_Page_Home_Click(object sender, RoutedEventArgs e) {
+		private void Scenario_Shd_Page_Home_Click(object sender, RoutedEventArgs e) {
 			CurrentProject.Scenario.ChosenEntry.CurrentTag.CurrentPageNumber = 0;
 			CurrentProject.Scenario.UpdateGUITag();
-        }
+		}
 
-        private void Scenario_Shd_Page_Prev_Click(object sender, RoutedEventArgs e) {
+		private void Scenario_Shd_Page_Prev_Click(object sender, RoutedEventArgs e) {
 			CurrentProject.Scenario.ChosenEntry.CurrentTag.CurrentPageNumber--;
-            CurrentProject.Scenario.UpdateGUITag();
-        }
+			CurrentProject.Scenario.UpdateGUITag();
+		}
 
-        private void Scenario_Shd_Page_Next_Click(object sender, RoutedEventArgs e) {
+		private void Scenario_Shd_Page_Next_Click(object sender, RoutedEventArgs e) {
 			CurrentProject.Scenario.ChosenEntry.CurrentTag.CurrentPageNumber++;
-            CurrentProject.Scenario.UpdateGUITag();
-        }
+			CurrentProject.Scenario.UpdateGUITag();
+		}
 
-        private void Scenario_Shd_Page_End_Click(object sender, RoutedEventArgs e) {
+		private void Scenario_Shd_Page_End_Click(object sender, RoutedEventArgs e) {
 			CurrentProject.Scenario.ChosenEntry.CurrentTag.CurrentPageNumber = CurrentProject.Scenario.ChosenEntry.CurrentTag.PageCount - 1;
-            CurrentProject.Scenario.UpdateGUITag();
-        }
-    }
-}		#region Save every 5 minutes
+			CurrentProject.Scenario.UpdateGUITag();
+		}
+
+		#region Save every 5 minutes
 		System.Windows.Threading.DispatcherTimer dispatcherTimer = null;
 		private void InitAutoSave() {
 			dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
