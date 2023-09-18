@@ -23,11 +23,13 @@
 // 
 // Version: 23.09.18
 // EndLic
+using Rosetta.Export;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using TrickyUnits;
@@ -117,14 +119,36 @@ namespace Rosetta.Class {
 		~ProjectData() { SaveMe(); }
 
 		internal string StringsDir => Dirry.AD(Settings["Directories", "Strings"]);
+		internal string ExportDir => Dirry.AD(Settings["Export", "Scenario"]);
 
-		internal void SaveMe() {
-			// Strings			
-			var StrDir = StringsDir;
-			Debug.WriteLine(StrDir);
-			if (!Directory.Exists(StrDir)) { Directory.CreateDirectory(StringsDir); }
-			foreach(var str in Strings) {
-				QuickStream.SaveString($"{StrDir}/{str.Key}.ini", str.Value.ToSource());
+		internal void SaveMe(bool dontexport=false) {
+			try {
+				// Strings			
+				var StrDir = StringsDir;
+				if (StrDir != "") {
+					Debug.WriteLine(StrDir);
+					if (!Directory.Exists(StrDir)) { Directory.CreateDirectory(StringsDir); }
+					foreach (var str in Strings) {
+						QuickStream.SaveString($"{StrDir}/{str.Key}.ini", str.Value.ToSource());
+					}
+				}
+				// Scenario
+				Scenario.SaveMe();
+
+				// Export
+				if (dontexport) return;
+				var Langs = SupportedLanguages;
+				if (Settings["Export", "Method"] != "") {
+					if (!XBase.Register.ContainsKey(Settings["Export", "Method"])) {
+						Confirm.Error($"Export method {Settings["Export", "Method"]} does not appear to exist!", "Internal error");
+						return;
+					}
+					foreach (var L in Langs) {
+						XBase.Register[Settings["Export", "Method"]].Export(this, L);
+					}
+				}
+			} catch(Exception ex) {
+				Confirm.Error($"An error occurred while saving a project!\n\n{ex.Message}");
 			}
 		}
 
@@ -134,6 +158,8 @@ namespace Rosetta.Class {
 			foreach(var item in RegisterSettings.Reg.Values) {
 				item.TarTextBox.Text = Settings[item.Category, item.Key];
 			}
+			Settings.NewValue("Export", "Method", "ScenLang");
+			MainWindow.Me.ExportMethod = Settings["Export", "Method"];
 			MainWindow.config_allowmodify = tallow;
 
 		}

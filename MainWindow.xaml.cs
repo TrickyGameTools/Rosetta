@@ -23,27 +23,17 @@
 // 
 // Version: 23.09.18
 // EndLic
+
+using Rosetta.Class;
+using Rosetta.Export;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Diagnostics;
-using Rosetta.Class;
-
-//using System.Windows.Forms;
 using TrickyUnits;
-using System.Windows.Media.Animation;
-using System.IO;
+
 namespace Rosetta {
 
 	/// <summary>
@@ -104,6 +94,11 @@ namespace Rosetta {
 
 			// AutoSave
 			InitAutoSave();
+
+			// Init Export
+			XBase.Init();
+			CB_ExportMethod.Items.Clear();
+			foreach(var X in XBase.Register.Keys) CB_ExportMethod.Items.Add(X);
 		}
 
 		internal void ScenarioSetLang() {
@@ -133,6 +128,7 @@ namespace Rosetta {
 			TabScenario.IsEnabled = CurrentProject != null && CurrentProject.Settings["Directories", "Scenario"] != "";
 			Pick_DirScenarioExport.IsEnabled = TabScenario.IsEnabled;
 			TB_DirScenarioExport.IsEnabled = TabScenario.IsEnabled;
+			CB_ExportMethod.IsEnabled = TabScenario.IsEnabled && TB_DirScenarioExport.Text.Trim() != "";
 			String_NewCategoryActivate.IsEnabled = String_NewCategory.Text != "";
 			Strings_Grid.Visibility = Vis(StringCat != "");
 			String_NewStringButton.IsEnabled = String_NewString.Text != "";
@@ -505,10 +501,12 @@ namespace Rosetta {
 		#region Save every 5 minutes
 		System.Windows.Threading.DispatcherTimer dispatcherTimer = null;
 		private void InitAutoSave() {
+			/*
 			dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
 			dispatcherTimer.Tick += new EventHandler(AutoSave);
 			dispatcherTimer.Interval = TimeSpan.FromMinutes(5);
 			dispatcherTimer.Start();
+			//*/
 		}
 
 		private void AutoSave(object whatever, EventArgs crap) => ProjectList.SaveAll();
@@ -550,7 +548,7 @@ namespace Rosetta {
 				if (LNG == null) return;
 				LNG.Content = sender.Text;
 			}
-        }
+		}
 
 		private void Scenario_Content_Lang1_TextChanged(object sender, TextChangedEventArgs e) => Scenario_Content((TextBox)sender, 1);
 
@@ -559,9 +557,39 @@ namespace Rosetta {
 		public TextBox LangField(int i) {
 			switch (i) {
 				case 1:return Scenario_Content_Lang1;
-                case 2: return Scenario_Content_Lang2;
+				case 2: return Scenario_Content_Lang2;
 				default: return null; 
-            }
+			}
+		}
+
+		private void SelectExportMethod(object sender, SelectionChangedEventArgs e) {
+			if (CurrentProject == null) return;
+			Debug.WriteLine($"Set export to {((ComboBox)sender).SelectedItem}. Allow = {config_allowmodify}");
+			if (config_allowmodify) {
+				CurrentProject.Settings["EXPORT", "METHOD"] = ((ComboBox)sender).SelectedItem.ToString();
+			}
+		}
+
+		public string ExportMethod {
+			get {
+				try {
+					var i = CB_ExportMethod.SelectedItem;
+					if (i == null) return "";
+					return i.ToString();
+				} catch {
+					Debug.WriteLine("An error occurred while trying to get the export method from GUI. Getting it from the Project in stead");
+					if (CurrentProject == null) return "";
+					return CurrentProject.Settings["EXPORT", "METHOD"];
+				}
+			}
+			set {
+				var si = -1;
+				for (int i = 0; i < CB_ExportMethod.Items.Count; ++i) {
+					var item = CB_ExportMethod.Items[i];
+					if (item.ToString() == value) { si = i; break; }
+				}
+				if (si >= 0) CB_ExportMethod.SelectedIndex = si;
+			}
 		}
 	}
-} 
+}

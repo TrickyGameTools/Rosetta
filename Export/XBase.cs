@@ -36,5 +36,13 @@ namespace Rosetta.Export {
 		abstract internal void Export(ProjectData D, string language);
 
 		readonly static internal SortedDictionary<string,XBase> Register = new SortedDictionary<string,XBase>();
+
+		internal static void Reg(string key, XBase value) { Register[key]= value; }
+
+		static public void Init() {
+			new XLua();
+			new XScenLang();
+			new XXML();
+		}
 	}
 }

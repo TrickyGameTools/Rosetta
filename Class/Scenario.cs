@@ -284,6 +284,8 @@ namespace Rosetta.Class {
 					Modified = true;
 				}
 			}
+
+			internal List<string> LContent => Data.List(CGLCat, "Content");
 		}
 
 		
@@ -323,6 +325,19 @@ namespace Rosetta.Class {
 			var EList = FileList.GetTree(SDir);
 			foreach (var E in EList) if (qstr.ExtractExt(E).ToLower()=="ini") MainWindow.ScenarioEntries.Items.Add(qstr.StripExt(E));
 			MainWindow.Me.AllowCheck();
+		}
+
+		internal string[] AllEntries {
+			get {
+				var SDir = Dirry.AD(CurrentProject.Settings["DIRECTORIES", "SCENARIO"]);
+				if (!Directory.Exists(SDir)) return null;
+				var got = FileList.GetTree(SDir);
+				var ret = new List<string>();
+				foreach (var E in got) {
+					if (qstr.ExtractExt(E).ToLower() == "ini") ret.Add(qstr.StripExt(E));
+				}
+				return ret.ToArray();
+			}
 		}
 
 		internal string ChosenEntryName {

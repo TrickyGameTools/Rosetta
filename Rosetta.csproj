@@ -100,6 +100,9 @@
     <Compile Include="Class\RegisterStrings.cs" />
     <Compile Include="Class\Scenario.cs" />
     <Compile Include="Export\XBase.cs" />
+    <Compile Include="Export\XLua.cs" />
+    <Compile Include="Export\XScenLang.cs" />
+    <Compile Include="Export\XXML.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

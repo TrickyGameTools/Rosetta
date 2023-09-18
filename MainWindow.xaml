@@ -70,6 +70,9 @@ End License block -->
 						<TextBox x:Name="TB_DirScenarioExport" Margin="300,150,30,0" Height="30" VerticalAlignment="Top" Background="#0000001f" Foreground="#b4ff00" TextChanged="TextBoxMainSettingsChanged" />
 						<Button x:Name="Pick_DirScenarioExport" Width="30" Margin="0,150,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Content="..." Background="#0b000f" Foreground="#b400ff" Click="DirButtonClick" />
 
+						<Label Content="Export Format" Width="300" Height="30" Margin="0,180,0,0" Foreground="#ffff00" VerticalAlignment="Top" HorizontalAlignment="Left" />
+						<ComboBox x:Name="CB_ExportMethod" Margin="300,180,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="200" SelectionChanged="SelectExportMethod" />
+
 					</Grid>
 				</Grid>
 			</TabItem>
