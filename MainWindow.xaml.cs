@@ -101,7 +101,11 @@ namespace Rosetta {
 			NeedScenarioEntry.Add(Scenario_Grid_Tag);
 			NeedScenarioTag.Add(Scenario_Grid_SharedData);
 			NeedScenarioTag.Add(Scenario_Bottom);
+			
 
+			// AutoSave
+			InitAutoSave();
+		}
 		}
 
 		public Visibility Vis(bool K) { if (K) return Visibility.Visible; else return Visibility.Hidden; }
@@ -454,4 +458,17 @@ namespace Rosetta {
             CurrentProject.Scenario.UpdateGUITag();
         }
     }
-}
+}		#region Save every 5 minutes
+		System.Windows.Threading.DispatcherTimer dispatcherTimer = null;
+		private void InitAutoSave() {
+			dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+			dispatcherTimer.Tick += new EventHandler(AutoSave);
+			dispatcherTimer.Interval = TimeSpan.FromMinutes(5);
+			dispatcherTimer.Start();
+		}
+
+		private void AutoSave(object whatever, EventArgs crap) => ProjectList.SaveAll();
+		
+		#endregion
+	}
+} 
