@@ -25,6 +25,7 @@
 // EndLic
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -57,11 +58,15 @@ namespace Rosetta.Class {
 
 		internal class GetProject {
 			private SortedDictionary<string, ProjectData> Reg = new SortedDictionary<string, ProjectData>();
+
+			internal SortedDictionary<string, ProjectData>.ValueCollection Loaded => Reg.Values;
+
 			internal ProjectData this[string key] {
 				get {
 					if (Reg.ContainsKey(key)) { return Reg[key]; }
 					Reg[key] = new ProjectData(PRJ[key].ProjectFile);
 					return Reg[key];
+					
 				}
 
 			}
@@ -125,6 +130,10 @@ namespace Rosetta.Class {
 					PRJ[P] = new PrjD(P);
 				}
 			}
+		}
+		static internal void SaveAll() {
+			Debug.WriteLine("Save all requested");
+			foreach (var p in Project.Loaded) p.SaveMe();
 		}
 	}
 }
