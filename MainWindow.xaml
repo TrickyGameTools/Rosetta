@@ -35,143 +35,143 @@ End License block -->
 		VerticalAlignment="Top"
 		Margin="0,0,0,0"
 		Title="Rosetta - Coded by Jeroen P. Broks" Height="950" Width="1400">
-    <Window.Background>
-        <ImageBrush ImageSource="/Background.jpg"/>
-    </Window.Background>
-    <Grid>
-        <Grid  Margin="24,10,532,625">
-            <Image Margin="4,6,616,10" Source="/Myrah.png" />
-            <ListBox x:Name="LB_Projects" Margin="247,0,0,69" Background="#7F000000" Foreground="#FFB4FF00" SelectionChanged="LB_Projects_SelectionChanged"/>
-            <Button x:Name="BT_NewProject" Content="New Project" Height="69" VerticalAlignment="Bottom" Margin="247,0,0,0" Cursor="Hand" FontFamily="Arial Black" FontSize="36" Background="DarkGreen" Foreground="#FFFFFF02" Click="BT_NewProject_Click"></Button>
-        </Grid>
-        <TabControl x:Name="MainTabber" Margin="0,264,0,0" Background="#99000000">
-            <TabItem Header="Configuration">
-                <Grid>
-                    <Image Source="/Francis.png" Margin="0,0,1176,0"/>
-                    <Grid Margin="223,0,0,0">
-                        <!-- Project (readonly) -->
-                        <Label Content="Project" Width="300" Height="30" Margin="0,0,0,0" Foreground="#ffff00" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                        <TextBox x:Name="TB_Project" Margin="300,0,0,0" Height="30" IsReadOnly="True" VerticalAlignment="Top" Background="#0000001f" Foreground="#b4ff00"/>
-                        <!-- Languages -->
-                        <Label Content="Languages" Width="300" Height="30" Margin="0,30,0,0" Foreground="#ffff00" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                        <TextBox x:Name="TB_Languages" Margin="300,30,0,0" Height="30" VerticalAlignment="Top" Background="#0000001f" Foreground="#b4ff00" TextChanged="TextBoxMainSettingsChanged" />
-                        <Label Content="Language Default" Width="300" Height="30" Margin="0,60,0,0" Foreground="#ffff00" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                        <TextBox x:Name="TB_LanguageDefault" Margin="300,60,0,0" Height="30" VerticalAlignment="Top" Background="#0000001f" Foreground="#b4ff00" TextChanged="TextBoxMainSettingsChanged" />
-                        <!-- Directories -->
-                        <Label Content="Strings Directory" Width="300" Height="30" Margin="0,90,0,0" Foreground="#ffff00" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                        <TextBox x:Name="TB_DirStrings" Margin="300,90,30,0" Height="30" VerticalAlignment="Top" Background="#0000001f" Foreground="#b4ff00" TextChanged="TextBoxMainSettingsChanged" />
-                        <Button x:Name="Pick_DirStrings" Width="30" Margin="0,90,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Content="..." Background="#0b000f" Foreground="#b400ff" Click="DirButtonClick" />
+	<Window.Background>
+		<ImageBrush ImageSource="/Background.jpg"/>
+	</Window.Background>
+	<Grid>
+		<Grid  Margin="24,10,532,625">
+			<Image Margin="4,6,616,10" Source="/Myrah.png" />
+			<ListBox x:Name="LB_Projects" Margin="247,0,0,69" Background="#7F000000" Foreground="#FFB4FF00" SelectionChanged="LB_Projects_SelectionChanged"/>
+			<Button x:Name="BT_NewProject" Content="New Project" Height="69" VerticalAlignment="Bottom" Margin="247,0,0,0" Cursor="Hand" FontFamily="Arial Black" FontSize="36" Background="DarkGreen" Foreground="#FFFFFF02" Click="BT_NewProject_Click"></Button>
+		</Grid>
+		<TabControl x:Name="MainTabber" Margin="0,264,0,0" Background="#99000000">
+			<TabItem Header="Configuration">
+				<Grid>
+					<Image Source="/Francis.png" Margin="0,0,1176,0"/>
+					<Grid Margin="223,0,0,0">
+						<!-- Project (readonly) -->
+						<Label Content="Project" Width="300" Height="30" Margin="0,0,0,0" Foreground="#ffff00" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+						<TextBox x:Name="TB_Project" Margin="300,0,0,0" Height="30" IsReadOnly="True" VerticalAlignment="Top" Background="#0000001f" Foreground="#b4ff00"/>
+						<!-- Languages -->
+						<Label Content="Languages" Width="300" Height="30" Margin="0,30,0,0" Foreground="#ffff00" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+						<TextBox x:Name="TB_Languages" Margin="300,30,0,0" Height="30" VerticalAlignment="Top" Background="#0000001f" Foreground="#b4ff00" TextChanged="TextBoxMainSettingsChanged" />
+						<Label Content="Language Default" Width="300" Height="30" Margin="0,60,0,0" Foreground="#ffff00" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+						<TextBox x:Name="TB_LanguageDefault" Margin="300,60,0,0" Height="30" VerticalAlignment="Top" Background="#0000001f" Foreground="#b4ff00" TextChanged="TextBoxMainSettingsChanged" />
+						<!-- Directories -->
+						<Label Content="Strings Directory" Width="300" Height="30" Margin="0,90,0,0" Foreground="#ffff00" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+						<TextBox x:Name="TB_DirStrings" Margin="300,90,30,0" Height="30" VerticalAlignment="Top" Background="#0000001f" Foreground="#b4ff00" TextChanged="TextBoxMainSettingsChanged" />
+						<Button x:Name="Pick_DirStrings" Width="30" Margin="0,90,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Content="..." Background="#0b000f" Foreground="#b400ff" Click="DirButtonClick" />
 
-                        <Label Content="Scenario Directory Workspace" Width="300" Height="30" Margin="0,120,0,0" Foreground="#ffff00" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                        <TextBox x:Name="TB_DirScenario" Margin="300,120,30,0" Height="30" VerticalAlignment="Top" Background="#0000001f" Foreground="#b4ff00" TextChanged="TextBoxMainSettingsChanged" />
-                        <Button x:Name="Pick_DirScenario" Width="30" Margin="0,120,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Content="..." Background="#0b000f" Foreground="#b400ff" Click="DirButtonClick" />
+						<Label Content="Scenario Directory Workspace" Width="300" Height="30" Margin="0,120,0,0" Foreground="#ffff00" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+						<TextBox x:Name="TB_DirScenario" Margin="300,120,30,0" Height="30" VerticalAlignment="Top" Background="#0000001f" Foreground="#b4ff00" TextChanged="TextBoxMainSettingsChanged" />
+						<Button x:Name="Pick_DirScenario" Width="30" Margin="0,120,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Content="..." Background="#0b000f" Foreground="#b400ff" Click="DirButtonClick" />
 
-                        <Label Content="Scenario Directory Export" Width="300" Height="30" Margin="0,150,0,0" Foreground="#ffff00" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                        <TextBox x:Name="TB_DirScenarioExport" Margin="300,150,30,0" Height="30" VerticalAlignment="Top" Background="#0000001f" Foreground="#b4ff00" TextChanged="TextBoxMainSettingsChanged" />
-                        <Button x:Name="Pick_DirScenarioExport" Width="30" Margin="0,150,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Content="..." Background="#0b000f" Foreground="#b400ff" Click="DirButtonClick" />
+						<Label Content="Scenario Directory Export" Width="300" Height="30" Margin="0,150,0,0" Foreground="#ffff00" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+						<TextBox x:Name="TB_DirScenarioExport" Margin="300,150,30,0" Height="30" VerticalAlignment="Top" Background="#0000001f" Foreground="#b4ff00" TextChanged="TextBoxMainSettingsChanged" />
+						<Button x:Name="Pick_DirScenarioExport" Width="30" Margin="0,150,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Content="..." Background="#0b000f" Foreground="#b400ff" Click="DirButtonClick" />
 
-                    </Grid>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Strings" x:Name="TabStrings">
-                <Grid>
-                    <Image Source="/Aziella.png" Margin="0,0,1137,0"/>
-                    <Button x:Name="SaveStr" Click="SaveButton" Content="Save" Width="100" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
-                    <Grid Margin="223,0,0,0">
-                        <ListBox Height="120" x:Name="String_Categories" Foreground="#00b4ff" Background="#000b0f" VerticalAlignment="Top" SelectionChanged="StringCatagoryChanged"/>
-                        <TextBox Height="30" x:Name="String_NewCategory" Foreground="#ffff00" Background="#940000" Margin="0,120,120,0" VerticalAlignment="Top" TextChanged="AllowCheck" />
-                        <Button Width="120" x:Name="String_NewCategoryActivate" Click="CreateNewStringCategory" Margin="0,120,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Content="Create Category"/>
-                        <Grid x:Name="Strings_Grid" Margin="0,150,0,0">
-                            <TextBox Height="30" x:Name="String_NewString" Foreground="#ffff00" Background="#940000" Margin="0,0,0,0" VerticalAlignment="Top" TextChanged="AllowCheck" />
-                            <Button Width="120" x:Name="String_NewStringButton" Click="CreateNewString" Margin="0,0,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Content="Create String"/>
-                            <Grid Margin="0,30,0,0" VerticalAlignment="Top" Height="30">
-                                <ComboBox x:Name="Strings_Lang1" Margin="250,0,0,0" Width="245" HorizontalAlignment="Left" SelectionChanged="Strings_Lang1_SelectionChanged"/>
-                                <ComboBox x:Name="Strings_Lang2" Margin="550,0,0,0" Width="245" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" SelectionChanged="Strings_Lang2_SelectionChanged"/>
-                            </Grid>
-                            <Grid x:Name="StrGrid1" Margin="0,60,0,0" VerticalAlignment="Top" Height="30">
-                                <ComboBox x:Name="StrKey1" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
-                                <TextBox x:Name="StrLan1Val1" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged" />
-                                <TextBox x:Name="StrLan2Val1" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged" />
-                            </Grid>
-                            <Grid x:Name="StrGrid2" Margin="0,90,0,0" VerticalAlignment="Top" Height="30">
-                                <ComboBox x:Name="StrKey2" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
-                                <TextBox x:Name="StrLan1Val2" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged" />
-                                <TextBox x:Name="StrLan2Val2" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged" />
-                            </Grid>
-                            <Grid x:Name="StrGrid3" Margin="0,120,0,0" VerticalAlignment="Top" Height="30">
-                                <ComboBox x:Name="StrKey3" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
-                                <TextBox x:Name="StrLan1Val3" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
-                                <TextBox x:Name="StrLan2Val3" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
-                            </Grid>
-                            <Grid x:Name="StrGrid4" Margin="0,150,0,0" VerticalAlignment="Top" Height="30">
-                                <ComboBox x:Name="StrKey4" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
-                                <TextBox x:Name="StrLan1Val4" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
-                                <TextBox x:Name="StrLan2Val4" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
-                            </Grid>
-                            <Grid x:Name="StrGrid5" Margin="0,180,0,0" VerticalAlignment="Top" Height="30">
-                                <ComboBox x:Name="StrKey5" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
-                                <TextBox x:Name="StrLan1Val5" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
-                                <TextBox x:Name="StrLan2Val5" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
-                            </Grid>
-                            <Grid x:Name="StrGrid6" Margin="0,210,0,0" VerticalAlignment="Top" Height="30">
-                                <ComboBox x:Name="StrKey6" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
-                                <TextBox x:Name="StrLan1Val6" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
-                                <TextBox x:Name="StrLan2Val6" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
-                            </Grid>
-                            <Grid x:Name="StrGrid7" Margin="0,210,0,0" VerticalAlignment="Top" Height="30">
-                                <ComboBox x:Name="StrKey7" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
-                                <TextBox x:Name="StrLan1Val7" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
-                                <TextBox x:Name="StrLan2Val7" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
-                            </Grid>
-                            <Grid x:Name="StrGrid8" Margin="0,240,0,0" VerticalAlignment="Top" Height="30">
-                                <ComboBox x:Name="StrKey8" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
-                                <TextBox x:Name="StrLan1Val8" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
-                                <TextBox x:Name="StrLan2Val8" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
-                            </Grid>
-                            <Grid x:Name="StrGrid9" Margin="0,270,0,0" VerticalAlignment="Top" Height="30">
-                                <ComboBox x:Name="StrKey9" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
-                                <TextBox x:Name="StrLan1Val9" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
-                                <TextBox x:Name="StrLan2Val9" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
-                            </Grid>
-                            <Grid x:Name="StrGrid10" Margin="0,300,0,0" VerticalAlignment="Top" Height="30">
-                                <ComboBox x:Name="StrKey10" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
-                                <TextBox x:Name="StrLan1Val10" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
-                                <TextBox x:Name="StrLan2Val10" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
-                            </Grid>
-                            <Grid x:Name="StrGrid11" Margin="0,330,0,0" VerticalAlignment="Top" Height="30">
-                                <ComboBox x:Name="StrKey11" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
-                                <TextBox x:Name="StrLan1Val11" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
-                                <TextBox x:Name="StrLan2Val11" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
-                            </Grid>
-                            <Grid x:Name="StrGrid12" Margin="0,360,0,0" VerticalAlignment="Top" Height="30">
-                                <ComboBox x:Name="StrKey12" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
-                                <TextBox x:Name="StrLan1Val12" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
-                                <TextBox x:Name="StrLan2Val12" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Scenario" x:Name="TabScenario">
-                <Grid>
-                    <Image Source="/Seelah Gandra Groot.png" Margin="0,0,1099,0" VerticalAlignment="Bottom"/>
-                    <Grid x:Name="Scenario_Top" Margin="0,0,0,0" Height="300" VerticalAlignment="Top">
-                        <Grid x:Name="Scenario_Grid_File" Width="350" HorizontalAlignment="Left">
-                            <ListBox x:Name="LB_Scenario_File" Foreground="#00b4ff" Background="#00001f" VerticalAlignment="Top" Height="240" SelectionChanged="LB_Scenario_File_SelectionChanged" />
-                            <TextBox x:Name="TB_Scenario_NewFile" Foreground="#ffff00" Background="#1f1f00" Height="30" Margin="0,240,0,0" VerticalAlignment="Top" TextChanged="AllowCheck" />
-                            <Button x:Name="BT_Scenario_File_New" Foreground="#b4ff00" Background="#001f00" Width="100" Margin="0,270,0,0" HorizontalAlignment="Left" Content="Create Entry" Click="BT_Scenario_File_New_Click"/>
-                            <Button x:Name="BT_Scenario_File_Rename" Foreground="#ffb400" Background="#1f0f00" Height="30" Width="100" Margin="100,270,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Rename Entry"/>
-                            <Button x:Name="BT_Scenario_File_Remove" Foreground="#ff0000" Background="#1f0000" Height="30" Width="100" Margin="200,270,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Delete Entry"/>
-                        </Grid>
-                        <Grid x:Name="Scenario_Grid_Tag" Margin="350,0,0,0" Width="350" HorizontalAlignment="Left">
-                            <ListBox x:Name="LB_Scenario_Tag" Foreground="#00ff00" Background="#001f00" VerticalAlignment="Top" Height="240" SelectionChanged="LB_Scenario_Tag_SelectionChanged" />
-                            <TextBox x:Name="TB_Scenario_NewTag" Foreground="#ffff00" Background="#1f1f00" Height="30" Margin="0,240,0,0" VerticalAlignment="Top" TextChanged="AllowCheck" />
-                            <Button x:Name="BT_Scenario_Tag_New" Foreground="#b4ff00" Background="#001f00" Width="100" Margin="0,270,0,0" HorizontalAlignment="Left" Content="Create Tag" Click="BT_Scenario_Tag_New_Click"/>
-                            <Button x:Name="BT_Scenario_Tag_Rename" Foreground="#ffb400" Background="#1f0f00" Height="30" Width="100" Margin="100,270,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Rename Tag"/>
-                            <Button x:Name="BT_Scenario_Tag_Remove" Foreground="#ff0000" Background="#1f0000" Height="30" Width="100" Margin="200,270,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Delete Tag"/>
-                        </Grid>
-                        <Grid x:Name="Scenario_Grid_SharedData" Margin="700,0,0,0" HorizontalAlignment="Left" Width="494">
-                            <!--
+					</Grid>
+				</Grid>
+			</TabItem>
+			<TabItem Header="Strings" x:Name="TabStrings">
+				<Grid>
+					<Image Source="/Aziella.png" Margin="0,0,1137,0"/>
+					<Button x:Name="SaveStr" Click="SaveButton" Content="Save" Width="100" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
+					<Grid Margin="223,0,0,0">
+						<ListBox Height="120" x:Name="String_Categories" Foreground="#00b4ff" Background="#000b0f" VerticalAlignment="Top" SelectionChanged="StringCatagoryChanged"/>
+						<TextBox Height="30" x:Name="String_NewCategory" Foreground="#ffff00" Background="#940000" Margin="0,120,120,0" VerticalAlignment="Top" TextChanged="AllowCheck" />
+						<Button Width="120" x:Name="String_NewCategoryActivate" Click="CreateNewStringCategory" Margin="0,120,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Content="Create Category"/>
+						<Grid x:Name="Strings_Grid" Margin="0,150,0,0">
+							<TextBox Height="30" x:Name="String_NewString" Foreground="#ffff00" Background="#940000" Margin="0,0,0,0" VerticalAlignment="Top" TextChanged="AllowCheck" />
+							<Button Width="120" x:Name="String_NewStringButton" Click="CreateNewString" Margin="0,0,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Content="Create String"/>
+							<Grid Margin="0,30,0,0" VerticalAlignment="Top" Height="30">
+								<ComboBox x:Name="Strings_Lang1" Margin="250,0,0,0" Width="245" HorizontalAlignment="Left" SelectionChanged="Strings_Lang1_SelectionChanged"/>
+								<ComboBox x:Name="Strings_Lang2" Margin="550,0,0,0" Width="245" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" SelectionChanged="Strings_Lang2_SelectionChanged"/>
+							</Grid>
+							<Grid x:Name="StrGrid1" Margin="0,60,0,0" VerticalAlignment="Top" Height="30">
+								<ComboBox x:Name="StrKey1" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
+								<TextBox x:Name="StrLan1Val1" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged" />
+								<TextBox x:Name="StrLan2Val1" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged" />
+							</Grid>
+							<Grid x:Name="StrGrid2" Margin="0,90,0,0" VerticalAlignment="Top" Height="30">
+								<ComboBox x:Name="StrKey2" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
+								<TextBox x:Name="StrLan1Val2" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged" />
+								<TextBox x:Name="StrLan2Val2" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged" />
+							</Grid>
+							<Grid x:Name="StrGrid3" Margin="0,120,0,0" VerticalAlignment="Top" Height="30">
+								<ComboBox x:Name="StrKey3" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
+								<TextBox x:Name="StrLan1Val3" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+								<TextBox x:Name="StrLan2Val3" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+							</Grid>
+							<Grid x:Name="StrGrid4" Margin="0,150,0,0" VerticalAlignment="Top" Height="30">
+								<ComboBox x:Name="StrKey4" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
+								<TextBox x:Name="StrLan1Val4" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+								<TextBox x:Name="StrLan2Val4" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+							</Grid>
+							<Grid x:Name="StrGrid5" Margin="0,180,0,0" VerticalAlignment="Top" Height="30">
+								<ComboBox x:Name="StrKey5" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
+								<TextBox x:Name="StrLan1Val5" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+								<TextBox x:Name="StrLan2Val5" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+							</Grid>
+							<Grid x:Name="StrGrid6" Margin="0,210,0,0" VerticalAlignment="Top" Height="30">
+								<ComboBox x:Name="StrKey6" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
+								<TextBox x:Name="StrLan1Val6" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+								<TextBox x:Name="StrLan2Val6" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+							</Grid>
+							<Grid x:Name="StrGrid7" Margin="0,210,0,0" VerticalAlignment="Top" Height="30">
+								<ComboBox x:Name="StrKey7" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
+								<TextBox x:Name="StrLan1Val7" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+								<TextBox x:Name="StrLan2Val7" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+							</Grid>
+							<Grid x:Name="StrGrid8" Margin="0,240,0,0" VerticalAlignment="Top" Height="30">
+								<ComboBox x:Name="StrKey8" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
+								<TextBox x:Name="StrLan1Val8" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+								<TextBox x:Name="StrLan2Val8" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+							</Grid>
+							<Grid x:Name="StrGrid9" Margin="0,270,0,0" VerticalAlignment="Top" Height="30">
+								<ComboBox x:Name="StrKey9" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
+								<TextBox x:Name="StrLan1Val9" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+								<TextBox x:Name="StrLan2Val9" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+							</Grid>
+							<Grid x:Name="StrGrid10" Margin="0,300,0,0" VerticalAlignment="Top" Height="30">
+								<ComboBox x:Name="StrKey10" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
+								<TextBox x:Name="StrLan1Val10" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+								<TextBox x:Name="StrLan2Val10" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+							</Grid>
+							<Grid x:Name="StrGrid11" Margin="0,330,0,0" VerticalAlignment="Top" Height="30">
+								<ComboBox x:Name="StrKey11" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
+								<TextBox x:Name="StrLan1Val11" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+								<TextBox x:Name="StrLan2Val11" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+							</Grid>
+							<Grid x:Name="StrGrid12" Margin="0,360,0,0" VerticalAlignment="Top" Height="30">
+								<ComboBox x:Name="StrKey12" HorizontalAlignment="Left" Width="200" SelectionChanged="StringKeyChanged" />
+								<TextBox x:Name="StrLan1Val12" HorizontalAlignment="Left" Width="250" Margin="250,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+								<TextBox x:Name="StrLan2Val12" HorizontalAlignment="Left" Width="250" Margin="550,0,0,0" Foreground="#ffff00" Background="#0b000f" TextChanged="StringsChanged"/>
+							</Grid>
+						</Grid>
+					</Grid>
+				</Grid>
+			</TabItem>
+			<TabItem Header="Scenario" x:Name="TabScenario">
+				<Grid>
+					<Image Source="/Seelah Gandra Groot.png" Margin="0,0,1099,0" VerticalAlignment="Bottom"/>
+					<Grid x:Name="Scenario_Top" Margin="0,0,0,0" Height="300" VerticalAlignment="Top">
+						<Grid x:Name="Scenario_Grid_File" Width="350" HorizontalAlignment="Left">
+							<ListBox x:Name="LB_Scenario_File" Foreground="#00b4ff" Background="#00001f" VerticalAlignment="Top" Height="240" SelectionChanged="LB_Scenario_File_SelectionChanged" />
+							<TextBox x:Name="TB_Scenario_NewFile" Foreground="#ffff00" Background="#1f1f00" Height="30" Margin="0,240,0,0" VerticalAlignment="Top" TextChanged="AllowCheck" />
+							<Button x:Name="BT_Scenario_File_New" Foreground="#b4ff00" Background="#001f00" Width="100" Margin="0,270,0,0" HorizontalAlignment="Left" Content="Create Entry" Click="BT_Scenario_File_New_Click"/>
+							<Button x:Name="BT_Scenario_File_Rename" Foreground="#ffb400" Background="#1f0f00" Height="30" Width="100" Margin="100,270,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Rename Entry"/>
+							<Button x:Name="BT_Scenario_File_Remove" Foreground="#ff0000" Background="#1f0000" Height="30" Width="100" Margin="200,270,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Delete Entry"/>
+						</Grid>
+						<Grid x:Name="Scenario_Grid_Tag" Margin="350,0,0,0" Width="350" HorizontalAlignment="Left">
+							<ListBox x:Name="LB_Scenario_Tag" Foreground="#00ff00" Background="#001f00" VerticalAlignment="Top" Height="240" SelectionChanged="LB_Scenario_Tag_SelectionChanged" />
+							<TextBox x:Name="TB_Scenario_NewTag" Foreground="#ffff00" Background="#1f1f00" Height="30" Margin="0,240,0,0" VerticalAlignment="Top" TextChanged="AllowCheck" />
+							<Button x:Name="BT_Scenario_Tag_New" Foreground="#b4ff00" Background="#001f00" Width="100" Margin="0,270,0,0" HorizontalAlignment="Left" Content="Create Tag" Click="BT_Scenario_Tag_New_Click"/>
+							<Button x:Name="BT_Scenario_Tag_Rename" Foreground="#ffb400" Background="#1f0f00" Height="30" Width="100" Margin="100,270,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Rename Tag"/>
+							<Button x:Name="BT_Scenario_Tag_Remove" Foreground="#ff0000" Background="#1f0000" Height="30" Width="100" Margin="200,270,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Delete Tag"/>
+						</Grid>
+						<Grid x:Name="Scenario_Grid_SharedData" Margin="700,0,0,0" HorizontalAlignment="Left" Width="494">
+							<!--
 								Picture Dir:  (can be linked to name character in head)
 								Specific Picture: (By default GENERAL)
 								Audio: (Voice. Likely to be removed)
@@ -179,67 +179,67 @@ End License block -->
 								Alternate Font:
 								Name Linking: (Yes or no. Default YES)
 							-->
-                            <Grid x:Name="Scenario_ShD_Entry" VerticalAlignment="Top" Height="30" Margin="0,0,0,0">
-                                <Label Content="Entry:" Foreground="#ffffff" Width="200" HorizontalAlignment="Left"/>
-                                <Label x:Name="Scenario_ShD_LB_Entry" Foreground="#b4ff00" Content="---" Margin="200,0,0,0" HorizontalAlignment="Left" />
-                            </Grid>
-                            <Grid x:Name="Scenario_ShD_Tag" VerticalAlignment="Top" Height="30" Margin="0,30,0,0">
-                                <Label Content="Tag:" Foreground="#ffffff" Width="200" HorizontalAlignment="Left"/>
-                                <Label x:Name="Scenario_ShD_LB_Tag" Foreground="#b4ff00" Content="---" Margin="200,0,0,0" HorizontalAlignment="Left" />
-                            </Grid>
-                            <Grid x:Name="Scenario_ShD_Page" VerticalAlignment="Top" Height="30" Margin="0,60,0,0">
-                                <Label Content="Page:" Foreground="#ffffff" Width="200" HorizontalAlignment="Left" />
-                                <Label x:Name="Scenario_ShD_LB_Page" Foreground="#b4ff00" Content="---" Margin="200,0,0,0" HorizontalAlignment="Left" />
-                                <Button Content="&lt;&lt;" x:Name="Scenario_Shd_Page_Home" Foreground="White" Background="Black" Width="40" Margin="0,0,120,0" HorizontalAlignment="Right" Click="Scenario_Shd_Page_Home_Click" />
-                                <Button Content="&lt;" x:Name="Scenario_Shd_Page_Prev" Foreground="White" Background="Black" Width="40" Margin="374,0,0,0" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Click="Scenario_Shd_Page_Prev_Click" />
-                                <Button Content="&gt;" x:Name="Scenario_Shd_Page_Next" Foreground="White" Background="Black" Width="40" Margin="0,0,40,0" HorizontalAlignment="Right" Click="Scenario_Shd_Page_Next_Click" />
-                                <Button Content="&gt;&gt;" x:Name="Scenario_Shd_Page_End" Foreground="White" Background="Black" Width="40" Margin="0,0,0,0" HorizontalAlignment="Right" Click="Scenario_Shd_Page_End_Click" />
-                            </Grid>
-                            <Line Height="30" Margin="0,90,0,0" VerticalAlignment="Top" />
-                            <Grid x:Name="Scenario_ShD_PicDir" VerticalAlignment="Top" Height="30" Margin="0,120,0,0">
-                                <Label Content="Image Dir:" Foreground="#ffffff" Width="200" HorizontalAlignment="Left" />
-                                <TextBox x:Name="Scenario_ShD_TB_PicDir" Foreground="#b4ff00" Background="#0b0f00" Width="200" Margin="200,0,0,0" HorizontalAlignment="Left" TextChanged="Scenario_ShD_TB_PicDir_TextChanged" />
-                            </Grid>
-                            <Grid x:Name="Scenario_ShD_PicSpecific" VerticalAlignment="Top" Height="30" Margin="0,150,0,0">
-                                <Label Content="Image Specific:" Foreground="#ffffff" Width="200" HorizontalAlignment="Left" />
-                                <TextBox x:Name="Scenario_ShD_TB_PicSpecific" Foreground="#b4ff00" Background="#0b0f00" Width="200" Margin="200,0,0,0" HorizontalAlignment="Left" TextChanged="Scenario_ShD_TB_PicSpecific_TextChanged" />
-                            </Grid>
-                            <Grid x:Name="Scenario_ShD_Audio" VerticalAlignment="Top" Height="30" Margin="0,180,0,0">
-                                <Label Content="Audio:" Foreground="#ffffff" Width="200" HorizontalAlignment="Left" />
-                                <TextBox x:Name="Scenario_ShD_TB_Audio" Foreground="#b4ff00" Background="#0b0f00" Width="200" Margin="200,0,0,0" HorizontalAlignment="Left" TextChanged="Scenario_ShD_TB_Audio_TextChanged" />
-                            </Grid>
-                            <Grid x:Name="Scenario_ShD_AltFont" VerticalAlignment="Top" Height="30" Margin="0,210,0,0">
-                                <Label Content="Alternate Font:" Foreground="#ffffff" Width="200" HorizontalAlignment="Left" />
-                                <TextBox x:Name="Scenario_ShD_TB_AltFont" Foreground="#b4ff00" Background="#0b0f00" Width="200" Margin="200,0,0,0" HorizontalAlignment="Left" TextChanged="Scenario_ShD_TB_AltFont_TextChanged" />
-                            </Grid>
-                            <!--
+							<Grid x:Name="Scenario_ShD_Entry" VerticalAlignment="Top" Height="30" Margin="0,0,0,0">
+								<Label Content="Entry:" Foreground="#ffffff" Width="200" HorizontalAlignment="Left"/>
+								<Label x:Name="Scenario_ShD_LB_Entry" Foreground="#b4ff00" Content="---" Margin="200,0,0,0" HorizontalAlignment="Left" />
+							</Grid>
+							<Grid x:Name="Scenario_ShD_Tag" VerticalAlignment="Top" Height="30" Margin="0,30,0,0">
+								<Label Content="Tag:" Foreground="#ffffff" Width="200" HorizontalAlignment="Left"/>
+								<Label x:Name="Scenario_ShD_LB_Tag" Foreground="#b4ff00" Content="---" Margin="200,0,0,0" HorizontalAlignment="Left" />
+							</Grid>
+							<Grid x:Name="Scenario_ShD_Page" VerticalAlignment="Top" Height="30" Margin="0,60,0,0">
+								<Label Content="Page:" Foreground="#ffffff" Width="200" HorizontalAlignment="Left" />
+								<Label x:Name="Scenario_ShD_LB_Page" Foreground="#b4ff00" Content="---" Margin="200,0,0,0" HorizontalAlignment="Left" />
+								<Button Content="&lt;&lt;" x:Name="Scenario_Shd_Page_Home" Foreground="White" Background="Black" Width="40" Margin="0,0,120,0" HorizontalAlignment="Right" Click="Scenario_Shd_Page_Home_Click" />
+								<Button Content="&lt;" x:Name="Scenario_Shd_Page_Prev" Foreground="White" Background="Black" Width="40" Margin="374,0,0,0" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Click="Scenario_Shd_Page_Prev_Click" />
+								<Button Content="&gt;" x:Name="Scenario_Shd_Page_Next" Foreground="White" Background="Black" Width="40" Margin="0,0,40,0" HorizontalAlignment="Right" Click="Scenario_Shd_Page_Next_Click" />
+								<Button Content="&gt;&gt;" x:Name="Scenario_Shd_Page_End" Foreground="White" Background="Black" Width="40" Margin="0,0,0,0" HorizontalAlignment="Right" Click="Scenario_Shd_Page_End_Click" />
+							</Grid>
+							<Line Height="30" Margin="0,90,0,0" VerticalAlignment="Top" />
+							<Grid x:Name="Scenario_ShD_PicDir" VerticalAlignment="Top" Height="30" Margin="0,120,0,0">
+								<Label Content="Image Dir:" Foreground="#ffffff" Width="200" HorizontalAlignment="Left" />
+								<TextBox x:Name="Scenario_ShD_TB_PicDir" Foreground="#b4ff00" Background="#0b0f00" Width="200" Margin="200,0,0,0" HorizontalAlignment="Left" TextChanged="Scenario_ShD_TB_PicDir_TextChanged" />
+							</Grid>
+							<Grid x:Name="Scenario_ShD_PicSpecific" VerticalAlignment="Top" Height="30" Margin="0,150,0,0">
+								<Label Content="Image Specific:" Foreground="#ffffff" Width="200" HorizontalAlignment="Left" />
+								<TextBox x:Name="Scenario_ShD_TB_PicSpecific" Foreground="#b4ff00" Background="#0b0f00" Width="200" Margin="200,0,0,0" HorizontalAlignment="Left" TextChanged="Scenario_ShD_TB_PicSpecific_TextChanged" />
+							</Grid>
+							<Grid x:Name="Scenario_ShD_Audio" VerticalAlignment="Top" Height="30" Margin="0,180,0,0">
+								<Label Content="Audio:" Foreground="#ffffff" Width="200" HorizontalAlignment="Left" />
+								<TextBox x:Name="Scenario_ShD_TB_Audio" Foreground="#b4ff00" Background="#0b0f00" Width="200" Margin="200,0,0,0" HorizontalAlignment="Left" TextChanged="Scenario_ShD_TB_Audio_TextChanged" />
+							</Grid>
+							<Grid x:Name="Scenario_ShD_AltFont" VerticalAlignment="Top" Height="30" Margin="0,210,0,0">
+								<Label Content="Alternate Font:" Foreground="#ffffff" Width="200" HorizontalAlignment="Left" />
+								<TextBox x:Name="Scenario_ShD_TB_AltFont" Foreground="#b4ff00" Background="#0b0f00" Width="200" Margin="200,0,0,0" HorizontalAlignment="Left" TextChanged="Scenario_ShD_TB_AltFont_TextChanged" />
+							</Grid>
+							<!--
 							<Grid x:Name="Scenario_ShD_AllowTrimming" VerticalAlignment="Top" Height="30" Margin="0,240,0,0">
 								<Label Content="Allow Trimming:" Foreground="#ffffff" Width="200" HorizontalAlignment="Left" />
 								<CheckBox x:Name="Scenario_ShD_TB_AllowTrimming" Foreground="#b4ff00" Background="#b4ff00" Width="200" Margin="200,0,0,0" HorizontalAlignment="Left" Content="Hit me" Checked="ScenCheck" Unchecked="ScenCheck" />
 							</Grid>
 							-->
-                            <Grid x:Name="Scenario_ShD_NameLinking" VerticalAlignment="Top" Height="30" Margin="0,270,0,0">
-                                <Label Content="Name Linking:" Foreground="#ffffff" Width="200" HorizontalAlignment="Left" />
-                                <CheckBox x:Name="Scenario_ShD_TB_Namelinking" Foreground="#b4ff00" Background="#bfff00" Width="200" Margin="200,0,0,0" HorizontalAlignment="Left" Content="Hit me" Checked="ScenCheck" Unchecked="ScenCheck"/>
-                            </Grid>
+							<Grid x:Name="Scenario_ShD_NameLinking" VerticalAlignment="Top" Height="30" Margin="0,270,0,0">
+								<Label Content="Name Linking:" Foreground="#ffffff" Width="200" HorizontalAlignment="Left" />
+								<CheckBox x:Name="Scenario_ShD_TB_Namelinking" Foreground="#b4ff00" Background="#bfff00" Width="200" Margin="200,0,0,0" HorizontalAlignment="Left" Content="Hit me" Checked="ScenCheck" Unchecked="ScenCheck"/>
+							</Grid>
 
-                        </Grid>
+						</Grid>
 
-                    </Grid>
-                    <Grid x:Name="Scenario_Bottom" Margin="300,300,0,0" Width="1050" HorizontalAlignment="Left">
-                        <Grid x:Name="Scenario_Grid_Lang1" Margin="0,0,0,0" Width="500" HorizontalAlignment="Left" >
-                            <ComboBox x:Name="Scenario_CB_Lang1" Height="30" Margin="0,0,0,0" VerticalAlignment="Top" />
-                            <TextBox x:Name="Scennario_Head_Lang1" Height="30" Margin="0,30,0,0" VerticalAlignment="Top" Foreground="#ffff00" Background="#0f0b00" />
-                            <TextBox x:Name="Scenario_Content_Lang1" Margin="0,60,0,0" Foreground="#ffff00" Background="#0b000f" AcceptsReturn="True" FontSize="18" FontFamily="Arial" />
-                        </Grid>
-                        <Grid x:Name="Scenario_Grid_Lang2" Margin="0,0,0,0" Width="500" HorizontalAlignment="Right" >
-                            <ComboBox x:Name="Scenario_CB_Lang2" Height="30" Margin="0,0,0,0" VerticalAlignment="Top" />
-                            <TextBox x:Name="Scennario_Head_Lang2" Height="30" Margin="0,30,0,0" VerticalAlignment="Top" Foreground="#ffff00" Background="#0f0b00" />
-                            <TextBox x:Name="Scenario_Content_Lang2" Margin="0,60,0,0" Foreground="#ffff00" Background="#0b000f" AcceptsReturn="True" FontSize="18" FontFamily="Arial" />
-                        </Grid>
-                    </Grid>
-                </Grid>
-            </TabItem>
-        </TabControl>
-    </Grid>
+					</Grid>
+					<Grid x:Name="Scenario_Bottom" Margin="300,300,0,0" Width="1050" HorizontalAlignment="Left">
+						<Grid x:Name="Scenario_Grid_Lang1" Margin="0,0,0,0" Width="500" HorizontalAlignment="Left" >
+							<ComboBox x:Name="Scenario_CB_Lang1" Height="30" Margin="0,0,0,0" VerticalAlignment="Top" />
+							<TextBox x:Name="Scennario_Head_Lang1" Height="30" Margin="0,30,0,0" VerticalAlignment="Top" Foreground="#ffff00" Background="#0f0b00" />
+							<TextBox x:Name="Scenario_Content_Lang1" Margin="0,60,0,0" Foreground="#ffff00" Background="#0b000f" AcceptsReturn="True" FontSize="18" FontFamily="Arial" />
+						</Grid>
+						<Grid x:Name="Scenario_Grid_Lang2" Margin="0,0,0,0" Width="500" HorizontalAlignment="Right" >
+							<ComboBox x:Name="Scenario_CB_Lang2" Height="30" Margin="0,0,0,0" VerticalAlignment="Top" />
+							<TextBox x:Name="Scennario_Head_Lang2" Height="30" Margin="0,30,0,0" VerticalAlignment="Top" Foreground="#ffff00" Background="#0f0b00" />
+							<TextBox x:Name="Scenario_Content_Lang2" Margin="0,60,0,0" Foreground="#ffff00" Background="#0b000f" AcceptsReturn="True" FontSize="18" FontFamily="Arial" />
+						</Grid>
+					</Grid>
+				</Grid>
+			</TabItem>
+		</TabControl>
+	</Grid>
 </Window>
