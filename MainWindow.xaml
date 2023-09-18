@@ -40,14 +40,14 @@ End License block -->
     </Window.Background>
     <Grid>
         <Grid  Margin="24,10,532,625">
-            <Image Margin="4,6,400,10" Source="/Myrah.png" />
+            <Image Margin="4,6,616,10" Source="/Myrah.png" />
             <ListBox x:Name="LB_Projects" Margin="247,0,0,69" Background="#7F000000" Foreground="#FFB4FF00" SelectionChanged="LB_Projects_SelectionChanged"/>
             <Button x:Name="BT_NewProject" Content="New Project" Height="69" VerticalAlignment="Bottom" Margin="247,0,0,0" Cursor="Hand" FontFamily="Arial Black" FontSize="36" Background="DarkGreen" Foreground="#FFFFFF02" Click="BT_NewProject_Click"></Button>
         </Grid>
         <TabControl x:Name="MainTabber" Margin="0,264,0,0" Background="#99000000">
             <TabItem Header="Configuration">
                 <Grid>
-                    <Image Source="/Francis.png" Margin="0,0,976,0"/>
+                    <Image Source="/Francis.png" Margin="0,0,1176,0"/>
                     <Grid Margin="223,0,0,0">
                         <!-- Project (readonly) -->
                         <Label Content="Project" Width="300" Height="30" Margin="0,0,0,0" Foreground="#ffff00" VerticalAlignment="Top" HorizontalAlignment="Left"/>
@@ -75,7 +75,7 @@ End License block -->
             </TabItem>
             <TabItem Header="Strings" x:Name="TabStrings">
                 <Grid>
-                    <Image Source="/Aziella.png" Margin="0,0,880,0"/>
+                    <Image Source="/Aziella.png" Margin="0,0,1137,0"/>
                     <Button x:Name="SaveStr" Click="SaveButton" Content="Save" Width="100" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
                     <Grid Margin="223,0,0,0">
                         <ListBox Height="120" x:Name="String_Categories" Foreground="#00b4ff" Background="#000b0f" VerticalAlignment="Top" SelectionChanged="StringCatagoryChanged"/>
@@ -154,7 +154,7 @@ End License block -->
             </TabItem>
             <TabItem Header="Scenario" x:Name="TabScenario">
                 <Grid>
-                    <Image Source="/Seelah Gandra Groot.png" Margin="0,0,907,0" VerticalAlignment="Bottom"/>
+                    <Image Source="/Seelah Gandra Groot.png" Margin="0,0,1099,0" VerticalAlignment="Bottom"/>
                     <Grid x:Name="Scenario_Top" Margin="0,0,0,0" Height="300" VerticalAlignment="Top">
                         <Grid x:Name="Scenario_Grid_File" Width="350" HorizontalAlignment="Left">
                             <ListBox x:Name="LB_Scenario_File" Foreground="#00b4ff" Background="#00001f" VerticalAlignment="Top" Height="240" SelectionChanged="LB_Scenario_File_SelectionChanged" />
