@@ -106,6 +106,23 @@ namespace Rosetta {
 			// AutoSave
 			InitAutoSave();
 		}
+
+		internal void ScenarioSetLang() {
+			ScenarioSetLang(Scenario_CB_Lang1, CurrentProject.Settings["::SCENARIO::", "LANG1"]);
+            ScenarioSetLang(Scenario_CB_Lang2, CurrentProject.Settings["::SCENARIO::", "LANG2"]);
+        }
+
+		internal void ScenarioSetLang(ComboBox CLB,string Lang) {
+			if (CurrentProject == null) return;
+			CLB.Items.Clear();
+			var L = CurrentProject.SupportedLanguages;
+			var S = -1;
+			for(var i=0; i<L.Length;++i) {
+				var CL = L[i];
+				CLB.Items.Add(CL);
+				if (CL == Lang) S = i;
+			}
+			if (S >= 0) CLB.SelectedIndex = S;
 		}
 
 		public Visibility Vis(bool K) { if (K) return Visibility.Visible; else return Visibility.Hidden; }
