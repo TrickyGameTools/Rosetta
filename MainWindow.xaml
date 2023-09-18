@@ -155,6 +155,7 @@ End License block -->
 			<TabItem Header="Scenario" x:Name="TabScenario">
 				<Grid>
 					<Image Source="/Seelah Gandra Groot.png" Margin="0,0,1099,0" VerticalAlignment="Bottom"/>
+                    <Button x:Name="SaveScen" Click="SaveButton" Content="Save" Width="100" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
 					<Grid x:Name="Scenario_Top" Margin="0,0,0,0" Height="300" VerticalAlignment="Top">
 						<Grid x:Name="Scenario_Grid_File" Width="350" HorizontalAlignment="Left">
 							<ListBox x:Name="LB_Scenario_File" Foreground="#00b4ff" Background="#00001f" VerticalAlignment="Top" Height="240" SelectionChanged="LB_Scenario_File_SelectionChanged" />
