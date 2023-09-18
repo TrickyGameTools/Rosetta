@@ -346,6 +346,7 @@ namespace Rosetta.Class {
 			MainWindow.Me.Scenario_ShD_TB_AltFont.Text = CPage.AltFont;
 			MainWindow.Me.Scenario_ShD_TB_Namelinking.IsChecked = CPage.NameLinking;
 			MainWindow.Me.AllowCheck();
+			MainWindow.Me.ScenarioSetLang();
 		}
 	}
 }
