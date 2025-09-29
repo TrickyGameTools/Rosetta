@@ -1,11 +1,11 @@
 // License:
 // 
 // Rosetta
-// Export Basis (header)
+// All classes (forward)
 // 
 // 
 // 
-// 	(c) Jeroen P. Broks, 2023, 2025
+// 	(c) Jeroen P. Broks, 2025
 // 
 // 		This program is free software: you can redistribute it and/or modify
 // 		it under the terms of the GNU General Public License as published by
@@ -22,37 +22,19 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.09.29 II
+// Version: 25.09.29
 // End License
 
 #pragma once
-#include <Slyvina.hpp>
+#define spnew(cl) std::shared_ptr<cl>(new cl())
+#define spnew1(cl,p) std::shared_ptr<cl>(new cl(p))
+
+#define spclass(real,sp) class real; typedef std::shared_ptr<real>sp;
 
 namespace Slyvina {
 	namespace Rosetta {
-		namespace Export {
-
-			typedef void(*ExportDelegate)(ProjectData,String);
-
-			// Just translated from C#
-			//abstract internal
-			class XBase {
-				public:
-				//abstract internal void Export(ProjectData D, string language);
-				ExportDelegate Export;
-
-				//readonly static internal SortedDictionary<string,XBase> Register = new SortedDictionary<string,XBase>();
-				static std::map<String,XBase> Register;
-
-				//static void Reg(String key, XBase value) { Register[key]= value; }
-				static void Reg(String Key,ExportDelgate D);
-
-				static void Init() {
-					// True code comes later
-					//new XLua();
-					//new XScenLang();
-					//new XXML();
-				}
+		namespace Class {
+			spclass( _ProjectData,ProjectData);
+			spclass(_CSenario,CScenario);
 		}
 	}
-}

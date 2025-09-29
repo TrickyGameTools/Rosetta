@@ -35,7 +35,10 @@
 		<Linker>
 			<Add option="`sdl2-config --libs`" />
 		</Linker>
-		<Unit filename="main.cpp" />
+		<Unit filename="src/Class/AllClasses.hpp" />
+		<Unit filename="src/Class/ProjectData" />
+		<Unit filename="src/Class/ProjectData.cpp" />
+		<Unit filename="src/Rosetta.hpp" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
