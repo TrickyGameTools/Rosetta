@@ -1,28 +1,28 @@
 // License:
-// 
+//
 // Rosetta
 // Project Data
-// 
-// 
-// 
+//
+//
+//
 // 	(c) Jeroen P. Broks, 2023, 2025
-// 
+//
 // 		This program is free software: you can redistribute it and/or modify
 // 		it under the terms of the GNU General Public License as published by
 // 		the Free Software Foundation, either version 3 of the License, or
 // 		(at your option) any later version.
-// 
+//
 // 		This program is distributed in the hope that it will be useful,
 // 		but WITHOUT ANY WARRANTY; without even the implied warranty of
 // 		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // 		GNU General Public License for more details.
 // 		You should have received a copy of the GNU General Public License
 // 		along with this program.  If not, see <http://www.gnu.org/licenses/>.
-// 
+//
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
-// 
-// Version: 25.09.29
+//
+// Version: 25.09.29 I
 // End License
 
 #pragma once
@@ -65,16 +65,9 @@ namespace Slyvina {
 
 		Units::GINIE GetStrings(String Language);
 
+		void UpdateStrings();
+
 		// MARKER!
-		internal void UpdateStrings() {
-			if (!MainWindow.strings_allowmodify) return;
-			var old = MainWindow.strings_allowmodify;
-			MainWindow.strings_allowmodify = false;
-			var sc = MainWindow.Me.StringCats;
-			sc.Items.Clear();
-			foreach (var cat in Settings.List("Strings", "^Categories^")) sc.Items.Add(cat);
-			MainWindow.strings_allowmodify = old;
-		}
 
 		internal void UpdateStringsCats() {
 			if (MainWindow.Me.StringCat == "") return;

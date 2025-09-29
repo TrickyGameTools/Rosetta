@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.09.29
+// Version: 25.09.29 I
 // End License
 
 #include "../Rosetta.hpp"
@@ -55,6 +55,20 @@ namespace Slyvina {
 				}
 				return Strings[Language];
 			}
+
+			void _ProjectData::UpdateStrings() {
+				/* Original C# code
+				if (!MainWindow.strings_allowmodify) return;
+				var old = MainWindow.strings_allowmodify;
+				MainWindow.strings_allowmodify = false;
+				var sc = MainWindow.Me.StringCats;
+				sc.Items.Clear();
+				foreach (var cat in Settings.List("Strings", "^Categories^")) sc.Items.Add(cat);
+				MainWindow.strings_allowmodify = old;
+				*/
+				Crash("Update Strings Not Yet Implemented");
+			}
+
 		}
 	}
 }
