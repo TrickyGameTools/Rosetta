@@ -22,6 +22,36 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.09.29
+// Version: 25.09.29 I
 // End License
+
 #pragma once
+#include <Slyvina.hpp>
+
+namespace Slyvina {
+	namespace Rosetta {
+		namespace Export {
+
+			typedef void(*ExportDelegate)(ProjectData,String);
+
+			// Just translated from C#
+			//abstract internal
+			class XBase {
+				public:
+				//abstract internal void Export(ProjectData D, string language);
+				ExportDelegate Export;
+
+				//readonly static internal SortedDictionary<string,XBase> Register = new SortedDictionary<string,XBase>();
+				static std::map<String,XBase> Register;
+
+				static void Reg(String key, XBase value) { Register[key]= value; }
+
+				static void Init() {
+					// True code comes later
+					//new XLua();
+					//new XScenLang();
+					//new XXML();
+				}
+		}
+	}
+}
