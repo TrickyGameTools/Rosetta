@@ -1,0 +1,4 @@
+# build script
+# set up to quickly build the rosetta.jcr file
+cd Assets
+jalondi create -y ../Exe/Rosetta.jcr -cm zlib -fc zlib
