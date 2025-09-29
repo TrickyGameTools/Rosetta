@@ -1,3 +1,5 @@
+// Auto generated. Great for testing!
+
 #include <exception>
 #include <string>
 #include <iostream>
