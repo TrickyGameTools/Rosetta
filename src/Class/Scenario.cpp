@@ -22,16 +22,48 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.09.30
+// Version: 25.09.30 I
 // End License
 
+
 #include "../Rosetta.hpp"
+
+#include <SlyvTime.hpp>
+#include <SlyvGINIE.hpp>
+#include <SlyvString.hpp>
+
+
+using namespace Slyvina::Units;
 
 namespace Slyvina {
 	namespace Rosetta {
 		namespace Class {
 
-			 CSenario CEntry::Project() { return Parent->Parent; }
+			 CSenario _CEntry::Project() { return Parent->Parent; }
+
+			 bool _CEntry::TagExists(string Tag) {
+			 	Trans2Upper(Tag);
+				//Tag = Tag.ToUpper();
+				return LTags.count(Tag);
+			}
+
+
+			void _CEntry::SaveMe() {
+				QCol->Doing("Saving",EntryFile);
+				QuickStream.SaveString(EntryFile,_Data->ToSource());
+				Modified = false;
+			}
+
+			GINIE _CEntry::Data() {
+				if (_Data == nullptr) {
+					QCol->Doing("Loading",EntryFile());
+					_Data = LoadOptGINIE(EntryFile());
+					_Data->NewValue("::SYS::", "Created", Now());
+					_Data->NewValue("::SYS::", "Tool", "Rosetta");
+					_Data->NewValue("::SYS::", "Entry", EntryName);
+				}
+				return _Data;
+			}
 
 		}
 	}

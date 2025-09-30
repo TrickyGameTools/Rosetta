@@ -22,8 +22,10 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.09.30
+// Version: 25.09.30 I
 // End License
+
+#pragma once
 #include "../Rosetta.hpp"
 
 
@@ -44,37 +46,21 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 
 			bool Modified = false;
 
-			// MARKER
 
-			internal bool TagExists(string Tag) {
-				Tag = Tag.ToUpper();
-				return LTags.Contains(Tag);
-			}
-			internal void SaveMe() {
-				Debug.WriteLine($"Saving: {EntryFile}");
-				QuickStream.SaveString(EntryFile,_Data.ToSource());
-				Modified = false;
-			}
+			bool TagExists(string Tag);
 
-			internal GINIE Data {
-				get {
-					if (_Data == null) {
-						Debug.WriteLine($"Loading: {EntryFile}");
-						_Data = GINIE.FromFile(EntryFile);
-						_Data.NewValue("::SYS::", "Created", DateTime.Now.ToString());
-						_Data.NewValue("::SYS::", "Tool", "Rosetta");
-						_Data.NewValue("::SYS::", "Entry", EntryName);
-					}
-					return _Data;
-				}
-			}
-			~CEntry() {
-				if (_Data != null && Modified) {
+			void SaveMe() ;
+
+			Units::GINIE Data();
+
+			inline ~CEntry() {
+				if (_Data != nullptr && Modified) {
 					SaveMe();
 				}
 			}
 
-			internal List<string> LTags => Data.List("::GLOB::", "Tags");
+			//internal List<string> LTags => Data.List("::GLOB::", "Tags");
+			inline VecString LTags() { return Data()->List("::GLOB::","Tags");}
 
 			CTag AddTag(string Tag) {
 				Tag = Tag.ToUpper();
@@ -82,6 +68,8 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 				Tags[Tag] = ret;
 				return ret;
 			}
+
+			// MARKER
 			internal CTag this[string Tag] {
 				get {
 					Tag = Tag.ToUpper();
