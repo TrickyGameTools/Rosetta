@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.09.30 III
+// Version: 25.09.30 IV
 // End License
 
 #pragma once
@@ -96,25 +96,26 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			CTag CurrentTag();
 		}
 
-		// MARKER
-		internal class CTag {
-			readonly internal CEntry Parent = null;
-			internal GINIE Data => Parent.Data;
-			readonly internal string Tag = "";
-			internal CTag (CEntry _Parent,string _Tag) {
-				Parent = _Parent;
-				Tag = _Tag;
-				Parent.Tags[Tag] = this;
-				var PC = Math.Max(1,qstr.ToInt(Data["::PAGES::", Tag]));
-				for (int i = 0; i < PC; i++) Page.Add(new CPage(this));
-			}
-			internal List<CPage> Page = new List<CPage>();
-			internal CPage this[int idx] => Page[idx];
 
-			internal ProjectData Project => Parent.Parent.Parent;
+		class _CTag {
+			private:
+				int __currentpagenumber { 0 };
+			public:
+				CEntry Parent { null };
+				Units::GINIE Data() => Parent->Data;
+				String Tag { "" };
 
-			private int __currentpagenumber = 0;
-			internal int CurrentPageNumber {
+				_CTag (CEntry _Parent,string _Tag);
+
+				std::vector<CPage> Page{}; //internal List<CPage> Page = new List<CPage>();
+				//internal CPage this[int idx] => Page[idx];
+				CPage operator[](int idx) { return Page[idx]; }
+
+				//internal ProjectData Project => Parent.Parent.Parent;
+				ProjectData Project() { return Parent->Parent->Parent; }
+
+
+			/*internal int CurrentPageNumber {
 				get => __currentpagenumber;
 				set {
 					var s = Math.Max(0, value);
@@ -128,19 +129,25 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 					__currentpagenumber = s;
 				}
 			}
+			*/
+			inline int CurrentPageNumber() { return _currentpagenumber; }
+			void CurrentPageNumber(int value);
 			public int PageCount => Page.Count;
 
-			internal CPage CurrentPage {
-				get {
-					if (Page.Count == 0) {
+			//internal CPage CurrentPage {
+			//	get {
+			inline CPage CurrentPage() {
+					if (Page.size() == 0) {
 						__currentpagenumber = 0;
-						Page.Add(new CPage(this));
+						//Page.Add(new CPage(this));
+						Page.push_back(std::shared_ptr<_CPage>(new _CPage(this)));
 					}
 					return Page[CurrentPageNumber];
 				}
 			}
-
 		}
+
+		// Marker
 
 		internal class CPage {
 
