@@ -1,27 +1,27 @@
 // License:
-// 
+//
 // Rosetta
 // Scenario Classes (header)
-// 
-// 
-// 
+//
+//
+//
 // 	(c) Jeroen P. Broks, 2023, 2025
-// 
+//
 // 		This program is free software: you can redistribute it and/or modify
 // 		it under the terms of the GNU General Public License as published by
 // 		the Free Software Foundation, either version 3 of the License, or
 // 		(at your option) any later version.
-// 
+//
 // 		This program is distributed in the hope that it will be useful,
 // 		but WITHOUT ANY WARRANTY; without even the implied warranty of
 // 		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // 		GNU General Public License for more details.
 // 		You should have received a copy of the GNU General Public License
 // 		along with this program.  If not, see <http://www.gnu.org/licenses/>.
-// 
+//
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
-// 
+//
 // Version: 25.09.30 I
 // End License
 
@@ -62,27 +62,36 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			//internal List<string> LTags => Data.List("::GLOB::", "Tags");
 			inline VecString LTags() { return Data()->List("::GLOB::","Tags");}
 
-			CTag AddTag(string Tag) {
-				Tag = Tag.ToUpper();
-				var ret = new CTag(this, Tag);
+			inline CTag AddTag(string Tag) {
+				Units::Trans2Upper(Tag); //Tag = Tag.ToUpper();
+				auto ret {std::shared_ptr<_CTag>(new CTag(this, Tag))};
 				Tags[Tag] = ret;
 				return ret;
 			}
 
-			// MARKER
-			internal CTag this[string Tag] {
-				get {
-					Tag = Tag.ToUpper();
-					if (!Tags.ContainsKey(Tag)) return AddTag(Tag);
-					return Tags[Tag];
-				}
+
+			//internal CTag this[string Tag] {
+			//	get {
+			//		Tag = Tag.ToUpper();
+			//		if (!Tags.ContainsKey(Tag)) return AddTag(Tag);
+			//		return Tags[Tag];
+			//	}
+			//}
+			inline CTag GT(String Tag) {
+				Units::Trans2Upper(Tag);
+				if (!Tags.count(Tag)) return AddTag(Tag);
+				return Tags[Tag];
 			}
-			internal CEntry(CScenario Parent, string EN) {
-				this.Parent = Parent;
+			inline CTag operator[](String Tag){return GT(Tag)};
+
+
+			inline CEntry(CScenario Parent, string EN) {
+				this->Parent = Parent;
 				EntryName = EN;
-				Parent.Entries[EN] = this;
+				Parent->Entries[EN] = this;
 			}
 
+			// MARKER
 			internal string CurrentTagName {
 				get {
 					if (MainWindow.ScenarioTags.SelectedItem == null) return "";
