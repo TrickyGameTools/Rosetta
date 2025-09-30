@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.09.30 I
+// Version: 25.09.30 II
 // End License
 
 
@@ -65,6 +65,20 @@ namespace Slyvina {
 				return _Data;
 			}
 
+			String _Centry::CurrentTagName() {
+				Crash("CurrentTagName() not yet implemented");
+				return "ERROR";
+				//		if (MainWindow.ScenarioTags.SelectedItem == null) return "";
+				//		return MainWindow.ScenarioTags.SelectedItem.ToString();
+			}
+
+			CTag CurrentTag() {
+				auto CTN = CurrentTagName();
+				if (CTN == "") return nullptr;
+				Trans2Upper(CTN);
+				return GT(CTN);
+
+			}
 		}
 	}
 }
