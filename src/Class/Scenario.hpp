@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.01
+// Version: 25.10.01 I
 // End License
 
 #pragma once
@@ -147,39 +147,47 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			}
 		};
 
-		// Marker
 
 		enum class ELU { None, PicDir,Lang1,Lang2 }
+
+		// Property in C++! It *is* possible!
+		class CPMC {
+			public:
+			_CPage* Ouwe{nullptr};
+			inline void operator=(bool value) {Ouwe->Parent->Parent=value;}
+			inline CPMC(_CPage* O) {Ouwe=O;}
+			inline CPMC() { Ouwe=nullptr; }
+		};
 
 		class _CPage {
 			public:
 
 
 			void LinkUpdate(ELU FromELU=ELU::None,June19::j19gadget* From=nullptr);
+			CPMC Modified{}; // Property itself
 
 			CTag Parent = nullptr;
-			// MARKER
-			internal CPage(CTag _parent) => Parent = _parent;
-			internal GINIE Data => Parent.Parent.Data;
 
-			string CGCat => $"::CENTRAL::{Parent.Tag}::{PageIndex}::";
+			inline CPage(CTag _parent) { Parent = _parent; Modifed=CPMC(this); } // Here the property is finally defined! I told ya it was possible.
+			inline GINIE Data { return Parent->Parent->Data; }
 
-			bool Modified {
-				//get => Parent.Parent.Modified;
-				set => Parent.Parent.Modified = value;
-			}
 
-			internal int PageIndex {
-				get {
-					for (int i = 0; i < Parent.Page.Count; ++i) if (Parent.Page[i] == this) return i;
+			//bool Modified {
+			//	//get => Parent.Parent.Modified;
+			//	set => Parent.Parent.Modified = value; }
+
+			inline int PageIndex() {
+					for (int i = 0; i < Parent->Page.size(); ++i) if (Parent->Page[i].get() == this) return i;
 					return -1;
-				}
-			}
-			internal string PicDir {
-				get => Data[CGCat, "PicDir"];
-				set { Data[CGCat, "PicDir"] = value; Modified=true; }
-			}
 
+			}
+			inline string CGCat() {return "::CENTRAL::" +Parent->Tag+TrSPrintF("::%d::",PageIndex());
+
+			//internal string PicDir {
+			inline String  PicDir() {return Data->Value(CGCat, "PicDir"); }
+			inline PicDir(String value) { Data->Value(CGCat, "PicDir",value); Modified=true; }
+
+			// MARKER
 			internal string PicSpecific {
 				get {
 					Data.NewValue(CGCat, "PicSpecific", "GENERAL");
