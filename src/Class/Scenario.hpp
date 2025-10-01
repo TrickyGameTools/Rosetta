@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.09.30 IV
+// Version: 25.10.01
 // End License
 
 #pragma once
@@ -145,24 +145,20 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 					return Page[CurrentPageNumber];
 				}
 			}
-		}
+		};
 
 		// Marker
 
-		internal class CPage {
+		enum class ELU { None, PicDir,Lang1,Lang2 }
 
-			internal enum ELU { None, PicDir,Lang1,Lang2 }
+		class _CPage {
+			public:
 
-			internal void LinkUpdate(ELU FromELU=ELU.None,TextBox From=null) {
-				//throw new NotImplementedException();
-				var old = MainWindow.scenario_allowmodify;
-				MainWindow.scenario_allowmodify = false;
-				if (FromELU != ELU.PicDir) MainWindow.ScenarioPicDir = PicDir;
-				if (FromELU != ELU.Lang1 && ChosenLang1 != null) MainWindow.LangHead[1] = ChosenLang1.Header;
-				if (FromELU != ELU.Lang2 && ChosenLang2 != null) MainWindow.LangHead[2] = ChosenLang2.Header;
-				MainWindow.scenario_allowmodify = old;
-			}
-			internal readonly CTag Parent = null;
+
+			void LinkUpdate(ELU FromELU=ELU::None,June19::j19gadget* From=nullptr);
+
+			CTag Parent = nullptr;
+			// MARKER
 			internal CPage(CTag _parent) => Parent = _parent;
 			internal GINIE Data => Parent.Parent.Data;
 

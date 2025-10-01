@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.09.30
+// Version: 25.10.01
 // End License
 
 #pragma once
@@ -38,5 +38,6 @@ namespace Slyvina {
 			spclass(_CSenario,CScenario);
 			spclass(_CEntry,CEntry);
 			spclass(_CTag,CTag);
+			spclass(_CPage,CPage);
 		}
 	}

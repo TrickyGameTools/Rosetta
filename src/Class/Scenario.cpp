@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.09.30 IV
+// Version: 25.10.01
 // End License
 
 #include <algorithm>
@@ -108,6 +108,18 @@ namespace Slyvina {
 						s = Page.size() - 1;
 					}
 					__currentpagenumber = s;
+			}
+			//}
+
+			//{ Page
+			void _CPage::LinkUpdate(ELU FromELU,j19gadget* From=nullptr) {
+				//var old = MainWindow.scenario_allowmodify;
+				//MainWindow.scenario_allowmodify = false;
+				//if (FromELU != ELU::PicDir) MainWindow.ScenarioPicDir = PicDir;
+				//if (FromELU != ELU::Lang1 && ChosenLang1 != null) MainWindow.LangHead[1] = ChosenLang1.Header;
+				//if (FromELU != ELU::Lang2 && ChosenLang2 != null) MainWindow.LangHead[2] = ChosenLang2.Header;
+				//MainWindow.scenario_allowmodify = old;
+				Crash("LinkUpdate not yet implemented");
 			}
 			//}
 		}
