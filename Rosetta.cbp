@@ -38,6 +38,9 @@
 		<Unit filename="src/Class/AllClasses.hpp" />
 		<Unit filename="src/Class/ProjectData" />
 		<Unit filename="src/Class/ProjectData.cpp" />
+		<Unit filename="src/Class/ProjectData.hpp" />
+		<Unit filename="src/Class/Scenario.cpp" />
+		<Unit filename="src/Class/Scenario.hpp" />
 		<Unit filename="src/Rosetta.hpp" />
 		<Extensions />
 	</Project>
