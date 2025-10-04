@@ -1,33 +1,36 @@
 // License:
-// 
+//
 // Rosetta
 // Scenario Classes (header)
-// 
-// 
-// 
+//
+//
+//
 // 	(c) Jeroen P. Broks, 2023, 2025
-// 
+//
 // 		This program is free software: you can redistribute it and/or modify
 // 		it under the terms of the GNU General Public License as published by
 // 		the Free Software Foundation, either version 3 of the License, or
 // 		(at your option) any later version.
-// 
+//
 // 		This program is distributed in the hope that it will be useful,
 // 		but WITHOUT ANY WARRANTY; without even the implied warranty of
 // 		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // 		GNU General Public License for more details.
 // 		You should have received a copy of the GNU General Public License
 // 		along with this program.  If not, see <http://www.gnu.org/licenses/>.
-// 
+//
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
-// 
+//
 // Version: 25.10.01 I
 // End License
 
 #pragma once
+#include <SlyvGINIE.hpp>
+#include "AllClasses.hpp"
 #include "../Rosetta.hpp"
 
+using namespace Slyvina::Units;
 
 namespace Slyvina { namespace Rosetta { namespace Class {
 	//internal class CScenario { // That doesn't work in C++
@@ -39,7 +42,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			CScenario Parent { nullptr };
 			String EntryName { "" };
 			ProjectData Project();
-			std:map<string, CTag> Tags {};
+			std::map<string, CTag> Tags {};
 
 			//internal string EntryFile => Dirry.AD($"{Project.Settings["DIRECTORIES", "SCENARIO"]}/{EntryName}.ini");
 			inline String EntryFile() { return Dirry(Project->Settings->Value("DIRECTORIES","SCENARIO")+"/"+EntryNamee+".ini"); }
@@ -187,54 +190,49 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			inline String  PicDir() {return Data->Value(CGCat, "PicDir"); }
 			inline PicDir(String value) { Data->Value(CGCat, "PicDir",value); Modified=true; }
 
-			// MARKER
-			internal string PicSpecific {
-				get {
-					Data.NewValue(CGCat, "PicSpecific", "GENERAL");
-					return Data[CGCat, "PicSpecific"];
-				}
-				set { Data[CGCat, "PicSpecific"] = value; Modified = true; }
-			}
 
-			internal string Audio {
-				get => Data[CGCat, "Audio"];
-				set => Data[CGCat, "Audio"] = value;
+			inline String PicSpecific() {
+				Data->NewValue(CGCat, "PicSpecific", "GENERAL");
+				return Data->Value(CGCat, "PicSpecific");
 			}
-			internal string AltFont {
-				get => Data[CGCat, "Alternate_Font"];
-				set => Data[CGCat, "Alternate_Font"] = value;
-			}
+			inline void PicSpecific(String value) {	Data->Value(CGCat, "PicSpecific",value); Modified = true; }
 
-			internal bool NameLinking {
-				get { Data.NewValue(CGCat, "NameLinking", "True"); return Data[CGCat, "NameLinking"].ToLower() == "true"; }
-				set => Data[CGCat, "NameLinking"] = value.ToString();
-			}
 
-			internal Dictionary<string, CSLang> _Lang = new Dictionary<string, CSLang>();
-			internal CSLang this[string lkey] {
-				get {
-					if (lkey == "") return null;
-					if (!_Lang.ContainsKey(lkey)) {
-						return new CSLang(this,lkey);
-					}
-					return _Lang[lkey];
-				}
-			}
-			internal string ChosenLangName1 => Parent.Parent.Parent.Parent.Settings["::SCENARIO::", "LANG1"];
-			internal string ChosenLangName2 => Parent.Parent.Parent.Parent.Settings["::SCENARIO::", "LANG2"];
-			internal CSLang ChosenLang1 => this[ChosenLangName1];
-			internal CSLang ChosenLang2 => this[ChosenLangName2];
-			internal CSLang ChosenLang(int idx) {
+			inline String Audio() { return Data->Value(CGCat, "Audio"); }
+			inline void Audio(String value) { Data->Value(CGCat, "Audio") = value; }
+
+			inline String AltFont() {return Data->Value(CGCat, "Alternate_Font"); }
+			inline void AltFont(String value) Data->Value(CGCat, "Alternate_Font",value); }
+
+			inline bool NameLinking() {Data->NewValue(CGCat, "NameLinking", "True"); return Lower(Data->Value(CGCat, "NameLinking")) == "true"; }
+			inline void NameLinking(bool value) {Data->Value(CGCat, "NameLinking",boolstring(value));}
+
+
+			//internal Dictionary<string, CSLang> _Lang = new Dictionary<string, CSLang>();
+			std::map<String,CSLang> _Lang{};
+
+
+			//internal CSLang this[string lkey] {
+			//	get {
+			CSLang* GLang(string lkey);
+			inline CSLang* operator[](string lkey) { return GLang(lkey); }
+
+			string ChosenLangName1() { return Parent->Parent->Parent->Parent->Settings->Value("::SCENARIO::", "LANG1"); }
+			string ChosenLangName2() { return  Parent->Parent->Parent->Parent->Settings->Value("::SCENARIO::", "LANG2"); }
+			CSLang* ChosenLang1() { return  (*this)[ChosenLangName1]; }
+			CSLang* ChosenLang2() { return  (*this)[ChosenLangName2]; }
+			CSLang* ChosenLang(int idx) {
 				switch(idx) {
-					case 1: return ChosenLang1;
-						case 2: return ChosenLang2;
-					default: throw new Exception($"ChosenLang({idx}): Invalid index");
+					case 1: return ChosenLang1();
+					case 2: return ChosenLang2();
+					default: throw std::runtime_error(TrSPrintF("ChosenLang(%d): Invalid index",idx);
 				}
 			}
 		}
 
-		internal class CSLang {
-			internal readonly CPage Parent = null;
+		// MARKER
+		class CSLang {
+			internal readonly _CPage* Parent = null;
 			internal readonly string Lang = "";
 			internal GINIE Data => Parent.Parent.Data;
 			internal CSLang(CPage _Parent,string _Lang) { Parent= _Parent; Lang = _Lang; Parent._Lang[Lang] = this; }
@@ -285,7 +283,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 		readonly ProjectData Parent = null;
 		readonly SortedDictionary<string,CEntry> Entries = new SortedDictionary<string,CEntry>();
 
-		public CScenario(ProjectData Parent) { this.Parent = Parent; }
+		public _CScenario(ProjectData Parent) { this.Parent = Parent; }
 
 		public void SaveMe(bool force=false) {
 			foreach(CEntry entry in Entries.Values) { if (force || entry.Modified) entry.SaveMe(); }
