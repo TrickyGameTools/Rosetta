@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06
+// Version: 25.10.06 I
 // End License
 
 #pragma once
@@ -290,45 +290,37 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			VecString  LContent() { return Data->List(CGLCat,"Content"); }
 		};
 
-		// MARKER
 
+		class _CScenario {
+			public:
+			_ProjectData* Parent { nullptr };
+			//readonly SortedDictionary<string,CEntry> Entries = new SortedDictionary<string,CEntry>();
+			std::map<String,CEntry> Entries{};
+			_CScenario(_ProjectData* _Parent) { Parent = _Parent; }
 
-		readonly ProjectData Parent = null;
-		readonly SortedDictionary<string,CEntry> Entries = new SortedDictionary<string,CEntry>();
-
-		public _CScenario(ProjectData Parent) { this.Parent = Parent; }
-
-		public void SaveMe(bool force=false) {
-			foreach(CEntry entry in Entries.Values) { if (force || entry.Modified) entry.SaveMe(); }
-		}
+			inline void SaveMe(bool force=false);
 
 		public ProjectData CurrentProject => ProjectData.CurrentProject;
 
-		internal CEntry this[string ekey] {
-			get {
-				ekey = ekey.ToUpper();
-				if (!Entries.ContainsKey(ekey)) return new CEntry(this, ekey);
-				return Entries[ekey];
-			}
-		}
-		internal CTag this[string ekey,string tkey] => this[ekey][tkey];
-		internal CPage this[string ekey,string tkey,int idx] => this[ekey][tkey][idx];
-		internal CSLang this[string ekey,string tkey,int idx,string lkey] => this[ekey][tkey][idx][lkey];
+		//internal CEntry this[string ekey] {
+		//	get {
+		//		ekey = ekey.ToUpper();
+		//		if (!Entries.ContainsKey(ekey)) return new CEntry(this, ekey);
+		//		return Entries[ekey];
+		//	}
+		//}
+		CEntry GetByIdx(String key);
+		inline GEntry operator[](String key) { return GetByIdx(key);}
 
-		internal string Workspace => Parent.Settings["DIRECTORIES", "SCENARIO"];
+		inline CTag GetTag(String ekey,String tkey) { return GetByIdx(ekey)->GLang(tkey); } // internal CTag this[string ekey,string tkey] => this[ekey][tkey];
+		inline CPage GetPage(String ekey,String tkey, int idx) { return GetTag(ekey,tkey)->Page[idx]; } //internal CPage this[string ekey,string tkey,int idx] => this[ekey][tkey][idx];
+		inline CSLang* GetLang(String ekey,String tkey, int idx, String lkey) { return GetPage(ekey,tkey,idx)->GLang(lkey); } //this[string ekey,string tkey,int idx,string lkey] => this[ekey][tkey][idx][lkey];
+
+		inline String Workspace(){ return Parent->Settings->Value("DIRECTORIES", "SCENARIO"); }
 
 
-		public void UpdateGUI() {
-			if (CurrentProject == null) return;
-			if (CurrentProject.Settings["DIRECTORIES", "SCENARIO"] == "") return;
-			// Entries
-			MainWindow.ScenarioEntries.Items.Clear();
-			var SDir = Dirry.AD(CurrentProject.Settings["DIRECTORIES", "SCENARIO"]);
-			if (!Directory.Exists(SDir)) return;
-			var EList = FileList.GetTree(SDir);
-			foreach (var E in EList) if (qstr.ExtractExt(E).ToLower()=="ini") MainWindow.ScenarioEntries.Items.Add(qstr.StripExt(E));
-			MainWindow.Me.AllowCheck();
-		}
+		void UpdateGUI();
+		// MARKER
 
 		internal string[] AllEntries {
 			get {

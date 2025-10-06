@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06
+// Version: 25.10.06 I
 // End License
 
 #include <algorithm>
@@ -129,6 +129,31 @@ namespace Slyvina {
 					CSLang[lkey].Lang=lkey;
 				}
 				return &_Lang[lkey];
+			}
+			//}
+
+			//{ Scenario
+			void _CScenario::SaveMe(bool force) {
+				for(CEntry entry : Entries) { if (force || entry.second->Modified) entry.second->SaveMe(); }
+			}
+
+			CEntry _Scenario::GetByIdx(String ekey){
+				Trans2Upper(ekey);
+				if (!Entries.count(ekey)) return std::shared_ptr<_CEntry>(new _CEntry(this,ekey); //new CEntry(this, ekey);
+				return Entries[ekey];
+			}
+
+			void _Scenario::UpdateGUI() {
+				//if (CurrentProject == nullptr) return;
+				//if (CurrentProject.Settings["DIRECTORIES", "SCENARIO"] == "") return;
+				// Entries
+				//MainWindow.ScenarioEntries.Items.Clear();
+				//var SDir = Dirry.AD(CurrentProject.Settings["DIRECTORIES", "SCENARIO"]);
+				//if (!Directory.Exists(SDir)) return;
+				//var EList = FileList.GetTree(SDir);
+				//foreach (var E in EList) if (qstr.ExtractExt(E).ToLower()=="ini") MainWindow.ScenarioEntries.Items.Add(qstr.StripExt(E));
+				//MainWindow.Me.AllowCheck();
+				Crash("UpdateGUI not yet implemented");
 			}
 			//}
 		}
