@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XXVII
+// Version: 25.10.06 XXVIII
 // End License
 
 #pragma once
@@ -294,7 +294,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 		CEntry GetByIdx(String key);
 		inline CEntry operator[](String key) { return GetByIdx(key);}
 
-		inline CTag GetTag(String ekey,String tkey) { return GetByIdx(ekey)->GLang(tkey); } // internal CTag this[string ekey,string tkey] => this[ekey][tkey];
+		inline CTag GetTag(String ekey,String tkey) { return GetByIdx(ekey)->GT(tkey); } // internal CTag this[string ekey,string tkey] => this[ekey][tkey];
 		inline CPage GetPage(String ekey,String tkey, int idx) { return GetTag(ekey,tkey)->Page[idx]; } //internal CPage this[string ekey,string tkey,int idx] => this[ekey][tkey][idx];
 		inline CSLang* GetLang(String ekey,String tkey, int idx, String lkey) { return GetPage(ekey,tkey,idx)->GLang(lkey); } //this[string ekey,string tkey,int idx,string lkey] => this[ekey][tkey][idx][lkey];
 
