@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XIX
+// Version: 25.10.06 XX
 // End License
 
 #include <algorithm>
@@ -113,16 +113,19 @@ namespace Slyvina {
 			_CTag::_CTag (_CEntry* _Parent,String _Tag) {
 				Parent = _Parent;
 				Tag = _Tag;
-				Parent->Tags[Tag] = std::shared_ptr<_CTag>(this);
+				auto NT{ std::shared_ptr<_CTag>(this)};
+				Parent->Tags[Tag] = NT;
 				auto PC {std::max(1,ToInt(Data()->Value("::PAGES::", Tag))) };
-				for (int i = 0; i < PC; i++) Page.push_back(Parent->Tags[Tag]); //Page.Add(new CPage(this));
+				for (int i = 0; i < PC; i++)
+					//Page.push_back(NT); //Page.Add(new CPage(this));
+					Page.push_back(std::shared_ptr<_CPage>(new _CPage(this)));
 			}
 
 			void _CTag::CurrentPageNumber(int value) {
 					auto s {std::max(0, value)};
 					if (s >= Page.size()) {
 						if (Page.size() == 0 || TQSE::Yes("Add a new page?")) {
-							Page->push_back(std::shared_ptr<_CPage>(new _CPage(this)));
+							Page.push_back(std::shared_ptr<_CPage>(new _CPage(this)));
 							Data->Value("::PAGES::", Tag,(int)Page.size());
 						}
 						s = Page.size() - 1;
