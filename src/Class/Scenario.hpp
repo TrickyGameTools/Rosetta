@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XXIII
+// Version: 25.10.06 XXIV
 // End License
 
 #pragma once
@@ -269,7 +269,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			}
 
 			//internal List<string> LContent => Data.List(CGLCat, "Content");
-			VecString  LContent() { return Data->List(CGLCat,"Content"); }
+			std::vector<String>* LContent() { return Data()->List(CGLCat(),"Content"); }
 		};
 
 
