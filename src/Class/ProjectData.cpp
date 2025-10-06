@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 II
+// Version: 25.10.06 III
 // End License
 
 #include "../Rosetta.hpp"
@@ -136,12 +136,12 @@ namespace Slyvina {
 							QCol->Error("\7Export method "+Settings->Value("Export", "Method")+" does not appear to exist!\tInternal error");
 							return;
 						}
-						for (auto& L : Langs) {
-							XBase::Register[Settings->Value("Export", "Method")].Export(this, L);
+						for (auto& L : *Langs) {
+							Export::XBase::Register[Settings->Value("Export", "Method")].Export(this, L);
 						}
 					}
 				} catch(std::runtime_error ex) {
-					QCol->Error("\7An error occurred while saving a project! -> "+ex.what());
+					QCol->Error((String)"\7An error occurred while saving a project! -> "+(String)ex.what());
 				}
 			}
 
