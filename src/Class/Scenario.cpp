@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 IX
+// Version: 25.10.06 X
 // End License
 
 #include <algorithm>
@@ -138,6 +138,10 @@ namespace Slyvina {
 				}
 				return Page[__currentpagenumber];
 			}
+			//}
+
+			//{ CSLang
+			void CSLangModified::operator=(bool value) {Ouwe->Parent->Parent->Parent->Modified = value;}
 			//}
 
 			//{ Page

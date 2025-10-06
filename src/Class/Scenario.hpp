@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XIV
+// Version: 25.10.06 XV
 // End License
 
 #pragma once
@@ -217,8 +217,8 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			CSLang* Ouwe{nullptr};
 		public:
 			inline CSLangModified(){}; // Never use this.
-			inline CSLangModified(CSLang*m){Ouwe=m};
-			bool operator=(bool value) {Parent->Parent->Parent->Modified = value;}
+			inline CSLangModified(CSLang*m){Ouwe=m;}
+			void operator=(bool value);
 		};
 
 		class CSLang {
@@ -227,7 +227,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			String Lang { "" };
 			GINIE Data => Parent->Parent->Data;
 			CSLangModified Modified{this};
-			inline CSLang(_CPage* _Parent,string _Lang) { Parent= _Parent; Lang = _Lang; Parent._Lang[Lang] = this;  }
+			inline CSLang(_CPage* _Parent,String _Lang) { Parent= _Parent; Lang = _Lang; Parent._Lang[Lang] = this;  }
 			int PageIndex() {return  Parent->PageIndex};
 
 			String CGLCat { reteurn "::LANG::"+Lang+"::"+Parent->Parent->Tag+TrSPrintF("::%d::",PageIndex()); }
