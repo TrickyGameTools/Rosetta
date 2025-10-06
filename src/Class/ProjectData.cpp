@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.09.30
+// Version: 25.10.06
 // End License
 
 #include "../Rosetta.hpp"
@@ -39,13 +39,13 @@ namespace Slyvina {
 			ProjectData _ProjectData::CurrentProject = nullptr;
 
 
-			_ProjectData::_ProjectData(String FileName);  {
+			_ProjectData::_ProjectData(String FileName)  {
 				Settings = LoadGINIE(FileName,FileName,"Rosetta project");
 				ProjectFile = FileName;
 				//Settings.AutoSaveSource = FileName;
 				Settings->NewValue("Support", "Languages", "English, Dutch");
 				Settings->NewValue("Support", "Language_Def", "English"); // Used when no suitable translation is found.
-				Scenario = cpnew(CScenario,this);
+				Scenario = std::shared_ptr<_CScenario>(new _CScenario(this)); //cpnew(CScenario,this);
 			}
 
 			GINIE _ProjectData::GetStrings(String Language) {
@@ -71,7 +71,7 @@ namespace Slyvina {
 				Crash("Update Strings Not Yet Implemented");
 			}
 
-			void _ProjectData::UpdateCats() {
+			void _ProjectData::UpdateStringsCats() {
 				/*
 				if (MainWindow.Me.StringCat == "") return;
 				var old = MainWindow.strings_allowmodify;
@@ -109,16 +109,16 @@ namespace Slyvina {
 				Crash("UpdateCats not yet implemented");
 			}
 
-			_ProjectData::~_ProjectData  { SaveMe(); }
+			_ProjectData::~_ProjectData()  { SaveMe(); }
 
 
-			void _ProjectData::SaveMe(bool dontexport=false) {
+			void _ProjectData::SaveMe(bool dontexport) {
 				try {
 					// Strings
 					auto StrDir = StringsDir();
 					if (StrDir != "") {
 						//Debug.WriteLine(StrDir);
-						if (!DirectoryExists(StrDir)) { MakeDir(StringsDir); }
+					    if (!DirectoryExists(StrDir())) { MakeDir(StringsDir()); }
 						for (auto& str : Strings) {
 							SaveString(StrDir+"/"+str.first+".ini", str.second->ToSource());
 						}

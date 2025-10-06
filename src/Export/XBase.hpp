@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06
+// Version: 25.10.06 I
 // End License
 
 #pragma once
@@ -32,7 +32,7 @@ namespace Slyvina {
 	namespace Rosetta {
 		namespace Export {
 
-			typedef void(*ExportDelegate)(ProjectData,String);
+			typedef void(*ExportDelegate)(Class::ProjectData,String);
 
 			// Just translated from C#
 			//abstract internal
@@ -45,7 +45,7 @@ namespace Slyvina {
 				static std::map<String,XBase> Register;
 
 				//static void Reg(String key, XBase value) { Register[key]= value; }
-				static void Reg(String Key,ExportDelgate D);
+				static void Reg(String Key,ExportDelegate D);
 
 				static void Init() {
 					// True code comes later

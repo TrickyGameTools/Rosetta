@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 III
+// Version: 25.10.06 IV
 // End License
 
 #pragma once
@@ -67,9 +67,6 @@ namespace Slyvina {
 		Units::GINIE GetStrings(String Language);
 
 		void UpdateStrings();
-
-		// MARKER!
-
 		void UpdateStringsCats();
 
 
