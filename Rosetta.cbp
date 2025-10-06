@@ -35,12 +35,24 @@
 		<Linker>
 			<Add option="`sdl2-config --libs`" />
 		</Linker>
+		<Unit filename="../../Libs/TQSL/Source/TQSA.cpp" />
+		<Unit filename="../../Libs/TQSL/Source/TQSE.cpp" />
+		<Unit filename="../../Libs/TQSL/Source/TQSG.cpp" />
+		<Unit filename="../../Libs/Units/Source/DieParse.cpp" />
+		<Unit filename="../../Libs/Units/Source/SlyvDir.cpp" />
+		<Unit filename="../../Libs/Units/Source/SlyvDirry.cpp" />
+		<Unit filename="../../Libs/Units/Source/SlyvQCol.cpp" />
+		<Unit filename="../../Libs/Units/Source/SlyvSTOI.cpp" />
+		<Unit filename="../../Libs/Units/Source/SlyvStream.cpp" />
+		<Unit filename="../../Libs/Units/Source/SlyvString.cpp" />
+		<Unit filename="../../Libs/Units/Source/SlyvTime.cpp" />
 		<Unit filename="src/Class/AllClasses.hpp" />
 		<Unit filename="src/Class/ProjectData" />
 		<Unit filename="src/Class/ProjectData.cpp" />
 		<Unit filename="src/Class/ProjectData.hpp" />
 		<Unit filename="src/Class/Scenario.cpp" />
 		<Unit filename="src/Class/Scenario.hpp" />
+		<Unit filename="src/Export/XBase.cpp" />
 		<Unit filename="src/Export/XBase.hpp" />
 		<Unit filename="src/Export/XLua.hpp" />
 		<Unit filename="src/Export/XScenLang.hpp" />
