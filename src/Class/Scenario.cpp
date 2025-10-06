@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 III
+// Version: 25.10.06 IV
 // End License
 
 #include <algorithm>
@@ -64,6 +64,8 @@ namespace Slyvina {
 				Modified = false;
 			}
 
+			String _CEntry::EntryFile(){ return Dirry(Project()->Settings->Value("DIRECTORIES","SCENARIO")+"/"+EntryName+".ini"); }
+
 			GINIE _CEntry::Data() {
 				if (_Data == nullptr) {
 					QCol->Doing("Loading",EntryFile());
@@ -75,28 +77,42 @@ namespace Slyvina {
 				return _Data;
 			}
 
-			String _Centry::CurrentTagName() {
+			String _CEntry::CurrentTagName() {
 				Crash("CurrentTagName() not yet implemented");
 				return "ERROR";
 				//		if (MainWindow.ScenarioTags.SelectedItem == null) return "";
 				//		return MainWindow.ScenarioTags.SelectedItem.ToString();
 			}
 
-			CTag CurrentTag() {
+			CTag _CEntry::CurrentTag() {
 				auto CTN = CurrentTagName();
 				if (CTN == "") return nullptr;
 				Trans2Upper(CTN);
 				return GT(CTN);
 
 			}
+
+			CTag _CEntry::Adtag(String Tag) {
+				Units::Trans2Upper(Tag); //Tag = Tag.ToUpper();
+				auto ret {std::shared_ptr<_CTag>(new _CTag(this, Tag))};
+				Tags[Tag] = ret;
+				return ret;
+			}
+
+			_CEntry::_CEntry(_CScenario* _Parent, String EN){
+				this->Parent = _Parent;
+				EntryName = EN;
+				Parent->Entries[EN] = std::shared_ptr<_CEntry>(this);
+
+			}
 			//}
 
 			//{ Tag
-			_CTag::_CTag (CEntry _Parent,string _Tag) {
+			_CTag::_CTag (_CEntry* _Parent,string _Tag) {
 				Parent = _Parent;
 				Tag = _Tag;
 				Parent->Tags[Tag] = std::shared_ptr<_CTag>(this);
-				auto PC {std::max(1,ToInt(Data()->Value("::PAGES::", Tag));
+				auto PC {std::max(1,ToInt(Data()->Value("::PAGES::", Tag))};
 				for (int i = 0; i < PC; i++) Page.push_back(Parent->Tags[Tag]); //Page.Add(new CPage(this));
 			}
 

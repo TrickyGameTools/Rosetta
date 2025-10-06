@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 IV
+// Version: 25.10.06 V
 // End License
 
 #pragma once
@@ -45,7 +45,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			std::map<String, CTag> Tags {};
 
 			//internal string EntryFile => Dirry.AD($"{Project.Settings["DIRECTORIES", "SCENARIO"]}/{EntryName}.ini");
-			inline String EntryFile() { return Dirry(Project()->Settings->Value("DIRECTORIES","SCENARIO")+"/"+EntryName+".ini"); }
+			inline String EntryFile();
 
 			bool Modified = false;
 
@@ -63,14 +63,9 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			}
 
 			//internal List<string> LTags => Data.List("::GLOB::", "Tags");
-			inline VecString LTags() { return Data()->List("::GLOB::","Tags");}
+			inline std::vector<String>* LTags() { return Data()->List("::GLOB::","Tags");}
 
-			inline CTag AddTag(String Tag) {
-				Units::Trans2Upper(Tag); //Tag = Tag.ToUpper();
-				auto ret {std::shared_ptr<_CTag>(new CTag(this, Tag))};
-				Tags[Tag] = ret;
-				return ret;
-			}
+			inline CTag AddTag(String Tag);
 
 
 			//internal CTag this[string Tag] {
@@ -85,14 +80,9 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 				if (!Tags.count(Tag)) return AddTag(Tag);
 				return Tags[Tag];
 			}
-			inline CTag operator[](String Tag){return GT(Tag)};
+			inline CTag operator[](String Tag){return GT(Tag);}
 
-
-			inline _CEntry(_CScenario* _Parent, String EN) {
-				this->Parent = Parent;
-				EntryName = EN;
-				Parent->Entries[EN] = this;
-			}
+			inline _CEntry(_CScenario* _Parent, String EN);
 
 			String CurrentTagName();
 
@@ -104,11 +94,11 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			private:
 				int __currentpagenumber { 0 };
 			public:
-				CEntry Parent { null };
-				Units::GINIE Data() => Parent->Data;
+				_CEntry* Parent { nullptr };
+				Units::GINIE Data() { return Parent->Data(); }
 				String Tag { "" };
 
-				_CTag (CEntry _Parent,string _Tag);
+				_CTag (_CEntry* _Parent,String _Tag);
 
 				std::vector<CPage> Page{}; //internal List<CPage> Page = new List<CPage>();
 				//internal CPage this[int idx] => Page[idx];
@@ -135,7 +125,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			*/
 			inline int CurrentPageNumber() { return _currentpagenumber; }
 			void CurrentPageNumber(int value);
-			public int PageCount => Page.Count;
+			int PageCount() { return Page.size(); }
 
 			//internal CPage CurrentPage {
 			//	get {
@@ -341,4 +331,4 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 
 		public void UpdateGUITag();
 	};
-}}
+}}}

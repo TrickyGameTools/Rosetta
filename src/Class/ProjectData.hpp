@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.09.30
+// Version: 25.10.06
 // End License
 
 #pragma once
@@ -31,7 +31,7 @@
 #include <SlyvGINIE.hpp>
 
 namespace Slyvina {
-	namespace Rosetta
+	namespace Rosetta {
 	namespace Class {
 
 
@@ -52,7 +52,7 @@ namespace Slyvina {
 		//		return ret;
 		//	}
 		//}
-		inline VecString SupportedLanguages() { return Split(Settings->Value("Support","Languages"),',');}
+		inline VecString SupportedLanguages() { return Split(Settings->Value("Support","Languages"),','); }
 
 		_ProjectData(String FileName); /* {
 			Settings = GINIE.FromFile(FileName);
@@ -74,11 +74,13 @@ namespace Slyvina {
 
 		~ProjectData();
 
-		inline String StringsDir() { return Dirry(Settings->Value("Directories", "Strings") );
-		inline String ExportDir() { return Dirry(Settings->Value("Export", "Scenario"));
+		inline String StringsDir() { return Dirry(Settings->Value("Directories", "Strings") ); }
+		inline String ExportDir() { return Dirry(Settings->Value("Export", "Scenario")); }
 
 		void SaveMe(bool dontexport=false);
 
 		void RenewSettings();
-	}
+	};
+}
+}
 }

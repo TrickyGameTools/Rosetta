@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 I
+// Version: 25.10.06 II
 // End License
 
 #pragma once
@@ -30,14 +30,14 @@
 #define spnew(cl) std::shared_ptr<cl>(new cl())
 #define spnew1(cl,p) std::shared_ptr<cl>(new cl(p))
 
-#define spclass(real,sp) class real; typedef std::shared_ptr<real> sp;
+#define spclass(real,sp) class real; typedef std::shared_ptr<real> sp
 
 namespace Slyvina {
 	namespace Rosetta {
 		namespace Class {
 			spclass(_ProjectData,ProjectData);
-			//spclass(_CScenario,CScenario);
-			class _CScenario; typedef std::shared_ptr<_CScenario> CScenario;
+			spclass(_CScenario,CScenario);
+			//class _CScenario; typedef std::shared_ptr<_CScenario> CScenario;
 			spclass(_CEntry,CEntry);
 			spclass(_CTag,CTag);
 			spclass(_CPage,CPage);
