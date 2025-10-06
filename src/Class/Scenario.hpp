@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 I
+// Version: 25.10.06 II
 // End License
 
 #pragma once
@@ -320,20 +320,9 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 
 
 		void UpdateGUI();
-		// MARKER
 
-		internal string[] AllEntries {
-			get {
-				var SDir = Dirry.AD(CurrentProject.Settings["DIRECTORIES", "SCENARIO"]);
-				if (!Directory.Exists(SDir)) return null;
-				var got = FileList.GetTree(SDir);
-				var ret = new List<string>();
-				foreach (var E in got) {
-					if (qstr.ExtractExt(E).ToLower() == "ini") ret.Add(qstr.StripExt(E));
-				}
-				return ret.ToArray();
-			}
-		}
+		//internal string[] AllEntries {
+		VecString AllEntries();
 
 		internal string ChosenEntryName {
 			get {

@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 I
+// Version: 25.10.06 II
 // End License
 
 #include <algorithm>
@@ -33,6 +33,8 @@
 #include <SlyvGINIE.hpp>
 #include <SlyvString.hpp>
 #include <SlyvSTOI.hpp>
+#include <SlyvDir.hpp>
+#include <SlyvDirry.hpp>
 
 #include <TQSE.hpp>
 
@@ -154,6 +156,18 @@ namespace Slyvina {
 				//foreach (var E in EList) if (qstr.ExtractExt(E).ToLower()=="ini") MainWindow.ScenarioEntries.Items.Add(qstr.StripExt(E));
 				//MainWindow.Me.AllowCheck();
 				Crash("UpdateGUI not yet implemented");
+			}
+
+			VecString _Scenario::AllEntries {
+				auto SDir { Dirry(CurrentProject->Settings->Valuue("DIRECTORIES", "SCENARIO"))};
+				if (!DirectoryExists(SDir)) return nullptr;
+				auto got {GetTree(SDir)};
+				auto ret {NewVecString()};
+				for (autoE :* got) {
+					//if (qstr.ExtractExt(E).ToLower() == "ini") ret.Add(qstr.StripExt(E));
+					if (Lower(Extractxt(E))=="ini") ret->push_back(E);
+				}
+				return ret; //.ToArray();
 			}
 			//}
 		}
