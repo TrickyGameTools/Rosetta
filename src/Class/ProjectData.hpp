@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06
+// Version: 25.10.06 I
 // End License
 
 #pragma once
@@ -42,7 +42,7 @@ namespace Slyvina {
 		static ProjectData CurrentProject;
 
 		GINIE Settings { nullptr };
-		map<String,GINIE> Strings{};
+		std::map<String,GINIE> Strings{};
 		CScenario Scenario = nullptr;
 
 		//internal string[] SupportedLanguages {

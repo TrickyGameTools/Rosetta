@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XXIX
+// Version: 25.10.06 XXX
 // End License
 
 #pragma once
@@ -315,7 +315,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 		String ChosenEntryName();
 
 		inline CEntry ChosenEntry() {
-			auto CEN = ChosenEntryName;
+			auto CEN { ChosenEntryName()};
 			if (CEN == "") return nullptr;
 			return GetByIdx(CEN);
 		}
