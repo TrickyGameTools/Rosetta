@@ -22,12 +22,13 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 II
+// Version: 25.10.06 III
 // End License
 
 #pragma once
 #include "../Rosetta.hpp"
 
+#include <SlyvDirry.hpp>
 #include <SlyvGINIE.hpp>
 
 namespace Slyvina {
@@ -74,8 +75,8 @@ namespace Slyvina {
 
 		~_ProjectData();
 
-		inline String StringsDir() { return Dirry(Settings->Value("Directories", "Strings") ); }
-		inline String ExportDir() { return Dirry(Settings->Value("Export", "Scenario")); }
+		inline String StringsDir() { return Units::Dirry(Settings->Value("Directories", "Strings") ); }
+		inline String ExportDir() { return Units::Dirry(Settings->Value("Export", "Scenario")); }
 
 		void SaveMe(bool dontexport=false);
 
