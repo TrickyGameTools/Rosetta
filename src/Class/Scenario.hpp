@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 V
+// Version: 25.10.06 VI
 // End License
 
 #pragma once
@@ -105,7 +105,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 				CPage operator[](int idx) { return Page[idx]; }
 
 				//internal ProjectData Project => Parent.Parent.Parent;
-				ProjectData Project() { return Parent->Parent->Parent; }
+				_ProjectData* Project();
 
 
 			/*internal int CurrentPageNumber {
@@ -123,7 +123,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 				}
 			}
 			*/
-			inline int CurrentPageNumber() { return _currentpagenumber; }
+			inline int CurrentPageNumber() { return __currentpagenumber; }
 			void CurrentPageNumber(int value);
 			int PageCount() { return Page.size(); }
 
