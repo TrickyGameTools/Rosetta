@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XXI
+// Version: 25.10.06 XXII
 // End License
 
 #pragma once
@@ -252,16 +252,16 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			//internal string Content {
 			inline String Content() { //	get {
 				String ret{""}; //= new StringBuilder();
-				auto lst = Data->List(CGLCat, "Content");
-				for(int i = 0; i < lst.size(); ++i) {
+				auto lst = Data()->List(CGLCat(), "Content");
+				for(int i = 0; i < lst->size(); ++i) {
 					if (i > 0) ret+="\n"; //ret.Append("\n");
-					ret+=lst[i];//ret.Append(lst[i]);
+					ret+=(*lst)[i];//ret.Append(lst[i]);
 				}
 				return ret; //.ToString();
 			}
 			inline void Content(String value) {//	set {
 				auto v { StReplace( value,"\r", "") };
-				auto lst { Data->List(CGLCat, "Content"); } lst->clear();
+				auto lst { Data()->List(CGLCat(), "Content") }; lst->clear();
 				//foreach(var l in v.Split('\n')) lst.Add(l);
 				auto vsplit{Split(v,'\n');}
 				for(auto l:vsplit) lst+=l;
