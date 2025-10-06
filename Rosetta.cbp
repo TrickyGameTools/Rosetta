@@ -59,6 +59,10 @@
 		<Unit filename="src/Export/XXML.hpp" />
 		<Unit filename="src/Rosetta.cpp" />
 		<Unit filename="src/Rosetta.hpp" />
-		<Extensions />
+		<Extensions>
+			<lib_finder>
+				<lib name="SDL2_mixer" />
+			</lib_finder>
+		</Extensions>
 	</Project>
 </CodeBlocks_project_file>
