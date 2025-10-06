@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 VI
+// Version: 25.10.06 VII
 // End License
 
 #pragma once
@@ -129,14 +129,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 
 			//internal CPage CurrentPage {
 			//	get {
-			inline CPage CurrentPage() {
-				if (Page.size() == 0) {
-					__currentpagenumber = 0;
-					//Page.Add(new CPage(this));
-					Page.push_back(std::shared_ptr<_CPage>(new _CPage(this)));
-				}
-				return Page[CurrentPageNumber];
-			}
+			inline CPage CurrentPage() ;
 		};
 
 

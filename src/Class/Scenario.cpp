@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 V
+// Version: 25.10.06 VI
 // End License
 
 #include <algorithm>
@@ -129,6 +129,15 @@ namespace Slyvina {
 			}
 
 			_ProjectData* _CTag::Project() { return Parent->Parent->Parent; }
+
+			CPage _CTag::CurrentPage() {
+				if (Page.size() == 0) {
+					__currentpagenumber = 0;
+					//Page.Add(new CPage(this));
+					Page.push_back(std::shared_ptr<_CPage>(new _CPage(this)));
+				}
+				return Page[__currentpagenumber];
+			}
 			//}
 
 			//{ Page
