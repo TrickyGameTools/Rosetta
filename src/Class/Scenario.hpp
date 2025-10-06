@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XXX
+// Version: 25.10.06 XXXI
 // End License
 
 #pragma once
@@ -227,6 +227,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			String Lang { "" };
 			GINIE Data() {return Parent->Parent->Data();}
 			CSLangModified Modified{this};
+			inline CSLang() {} // Must exist for no reason at all!
 			inline CSLang(_CPage* _Parent,String _Lang) { Parent= _Parent; Lang = _Lang; Parent->_Lang[Lang] = *this;  }
 			int PageIndex() {return  Parent->PageIndex();}
 

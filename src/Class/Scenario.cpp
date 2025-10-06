@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XII
+// Version: 25.10.06 XIII
 // End License
 
 #include <algorithm>
@@ -46,7 +46,7 @@ namespace Slyvina {
 		namespace Class {
 			//{ Basic
 
-			 CSenario _CEntry::Project() { return Parent->Parent; }
+			 CScenario _CEntry::Project() { return Parent->Parent; }
 
 			 //}
 
