@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XVI
+// Version: 25.10.06 XVII
 // End License
 
 #pragma once
@@ -230,7 +230,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			inline CSLang(_CPage* _Parent,String _Lang) { Parent= _Parent; Lang = _Lang; Parent._Lang[Lang] = this;  }
 			int PageIndex() {return  Parent->PageIndex;}
 
-			String CGLCat { reteurn "::LANG::"+Lang+"::"+Parent->Parent->Tag+TrSPrintF("::%d::",PageIndex()); }
+			String CGLCat() { reteurn "::LANG::"+Lang+"::"+Parent->Parent->Tag+TrSPrintF("::%d::",PageIndex()); }
 
 
 			//bool Modified {
