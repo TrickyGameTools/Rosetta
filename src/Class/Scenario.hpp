@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XII
+// Version: 25.10.06 XIII
 // End License
 
 #pragma once
@@ -199,8 +199,8 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			CSLang* GLang(String lkey);
 			inline CSLang* operator[](String lkey) { return GLang(lkey); }
 
-			String ChosenLangName1() { return Parent->Parent->Parent->Parent->Settings->Value("::SCENARIO::", "LANG1"); }
-			String ChosenLangName2() { return  Parent->Parent->Parent->Parent->Settings->Value("::SCENARIO::", "LANG2"); }
+			String ChosenLangName1();// { return Parent->Parent->Parent->Parent->Settings->Value("::SCENARIO::", "LANG1"); }
+			String ChosenLangName2();// { return  Parent->Parent->Parent->Parent->Settings->Value("::SCENARIO::", "LANG2"); }
 			CSLang* ChosenLang1() { return  (*this)[ChosenLangName1]; }
 			CSLang* ChosenLang2() { return  (*this)[ChosenLangName2]; }
 			CSLang* ChosenLang(int idx) {
