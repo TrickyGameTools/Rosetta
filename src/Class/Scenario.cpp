@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XXVI
+// Version: 25.10.06 XXVII
 // End License
 
 #include <algorithm>
@@ -177,12 +177,14 @@ namespace Slyvina {
 
 			//{ Scenario
 			void _CScenario::SaveMe(bool force) {
-				for(CEntry entry : Entries) { if (force || entry.second->Modified) entry.second->SaveMe(); }
+				for(auto entry : Entries)
+					{ if (force || entry.second->Modified) entry.second->SaveMe(); }
 			}
 
 			CEntry _CScenario::GetByIdx(String ekey){
 				Trans2Upper(ekey);
-				if (!Entries.count(ekey)) return std::shared_ptr<_CEntry>(new _CEntry(this,ekey); //new CEntry(this, ekey);
+				if (!Entries.count(ekey))
+					return std::shared_ptr<_CEntry>(new _CEntry(this,ekey)); //new CEntry(this, ekey);
 				return Entries[ekey];
 			}
 
@@ -199,7 +201,7 @@ namespace Slyvina {
 				Crash("UpdateGUI not yet implemented");
 			}
 
-			VecString _CScenario::AllEntries {
+			VecString _CScenario::AllEntries() {
 				auto SDir { Dirry(CurrentProject->Settings->Valuue("DIRECTORIES", "SCENARIO"))};
 				if (!DirectoryExists(SDir)) return nullptr;
 				auto got {GetTree(SDir)};
