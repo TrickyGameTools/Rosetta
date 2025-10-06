@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 VII
+// Version: 25.10.06 VIII
 // End License
 
 #pragma once
@@ -139,7 +139,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 		class CPMC {
 			public:
 			_CPage* Ouwe{nullptr};
-			inline void operator=(bool value) {Ouwe->Parent->Parent=value;}
+			void operator=(bool value);
 			inline CPMC(_CPage* O) {Ouwe=O;}
 			inline CPMC() { Ouwe=nullptr; }
 		};

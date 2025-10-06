@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 VI
+// Version: 25.10.06 VII
 // End License
 
 #include <algorithm>
@@ -141,6 +141,8 @@ namespace Slyvina {
 			//}
 
 			//{ Page
+
+			void CPMC::operator=(bool value) {Ouwe->Parent->Parent=value;}
 			void _CPage::LinkUpdate(ELU FromELU,j19gadget* From=nullptr) {
 				//var old = MainWindow.scenario_allowmodify;
 				//MainWindow.scenario_allowmodify = false;
