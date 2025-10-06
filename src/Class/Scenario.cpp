@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XVI
+// Version: 25.10.06 XVII
 // End License
 
 #include <algorithm>
@@ -61,8 +61,8 @@ namespace Slyvina {
 
 
 			void _CEntry::SaveMe() {
-				QCol->Doing("Saving",EntryFile)();
-				QuickStream.SaveString(EntryFile(),_Data->ToSource());
+				QCol->Doing("Saving",EntryFile());
+				SaveString(EntryFile(),_Data->UnParse("Saved by Rosetta"));
 				Modified = false;
 			}
 
@@ -94,7 +94,7 @@ namespace Slyvina {
 
 			}
 
-			CTag _CEntry::Adtag(String Tag) {
+			CTag _CEntry::Addtag(String Tag) {
 				Units::Trans2Upper(Tag); //Tag = Tag.ToUpper();
 				auto ret {std::shared_ptr<_CTag>(new _CTag(this, Tag))};
 				Tags[Tag] = ret;
