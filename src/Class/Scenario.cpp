@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XIII
+// Version: 25.10.06 XIV
 // End License
 
 #include <algorithm>
@@ -46,12 +46,12 @@ namespace Slyvina {
 		namespace Class {
 			//{ Basic
 
-			 CScenario _CEntry::Project() { return Parent->Parent; }
+			 _ProjectData* _CEntry::Project() { return Parent->Parent; }
 
 			 //}
 
 			 //{ Entry
-			 bool _CEntry::TagExists(string Tag) {
+			 bool _CEntry::TagExists(String Tag) {
 			 	Trans2Upper(Tag);
 				//Tag = Tag.ToUpper();
 				return LTags.count(Tag);

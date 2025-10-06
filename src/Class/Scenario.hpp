@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XXXI
+// Version: 25.10.06 XXXII
 // End License
 
 #pragma once
@@ -42,7 +42,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 		public:
 			_CScenario* Parent { nullptr };
 			String EntryName { "" };
-			ProjectData Project();
+			_ProjectData* Project();
 			std::map<String, CTag> Tags {};
 
 			//internal string EntryFile => Dirry.AD($"{Project.Settings["DIRECTORIES", "SCENARIO"]}/{EntryName}.ini");
