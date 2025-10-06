@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 II
+// Version: 25.10.06 III
 // End License
 
 #pragma once
@@ -324,57 +324,23 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 		//internal string[] AllEntries {
 		VecString AllEntries();
 
-		internal string ChosenEntryName {
-			get {
-				var it = MainWindow.ScenarioEntries.SelectedItem; if (it == null) return "";
-				return it.ToString();
-			}
-		}
-		internal CEntry ChosenEntry {
-			get {
-				var CEN = ChosenEntryName;
-				if (CEN == "") return null;
-				return this[CEN];
-			}
-		}
+		//internal string ChosenEntryName {
+		//	get {
+		//		var it = MainWindow.ScenarioEntries.SelectedItem; if (it == null) return "";
+		//		return it.ToString();
+		//	}
+		//}
+		String ChosenEntryName();
 
-
-		public void UpdateGUIEntry() {
-			if (CurrentProject == null) return;
-			if (ChosenEntry == null) return;
-			MainWindow.ScenarioTags.Items.Clear();
-			var _Tags = ChosenEntry.LTags; _Tags.Sort();
-			foreach ( var _Tag in _Tags) {
-				MainWindow.ScenarioTags.Items.Add(_Tag);
-			}
-			MainWindow.Me.AllowCheck();
+		inline CEntry ChosenEntry() {
+			auto CEN = ChosenEntryName;
+			if (CEN == "") return nullptr;
+			return GetByIdx(CEN);
 		}
 
-		public void UpdateGUITag() {
-			var old = MainWindow.scenario_allowmodify;
-			if (ChosenEntry != null && ChosenEntry.CurrentTag != null) {
-				var CPage = ChosenEntry.CurrentTag.CurrentPage;
-				MainWindow.scenario_allowmodify = false;
-				MainWindow.Me.Scenario_ShD_LB_Entry.Content = ChosenEntryName;
-				MainWindow.Me.Scenario_ShD_LB_Tag.Content = ChosenEntry.CurrentTagName;
-				MainWindow.Me.Scenario_ShD_LB_Page.Content = $"{ChosenEntry.CurrentTag.CurrentPageNumber + 1} / {ChosenEntry.CurrentTag.PageCount}";
-				MainWindow.Me.Scenario_ShD_TB_PicSpecific.Text = CPage.PicSpecific;
-				MainWindow.Me.Scenario_ShD_TB_PicDir.Text = CPage.PicDir;
-				MainWindow.Me.Scenario_ShD_TB_Audio.Text = CPage.Audio;
-				MainWindow.Me.Scenario_ShD_TB_AltFont.Text = CPage.AltFont;
-				MainWindow.Me.Scenario_ShD_TB_Namelinking.IsChecked = CPage.NameLinking;
-				MainWindow.Me.AllowCheck();
-				MainWindow.Me.ScenarioSetLang();
-				ChosenEntry.CurrentTag.CurrentPage.LinkUpdate();
-				for(var i = 1; i <= 2; i++) {
-					var CLang = CPage.ChosenLang(i);
-					if (CLang != null) {
-						MainWindow.Me.LangField(i).Text = CLang.Content;
-					}
-				}
-			}
-			MainWindow.scenario_allowmodify = old;
 
-		}
+		void UpdateGUIEntry();
+
+		public void UpdateGUITag();
 	}
 }}

@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 II
+// Version: 25.10.06 III
 // End License
 
 #include <algorithm>
@@ -139,13 +139,13 @@ namespace Slyvina {
 				for(CEntry entry : Entries) { if (force || entry.second->Modified) entry.second->SaveMe(); }
 			}
 
-			CEntry _Scenario::GetByIdx(String ekey){
+			CEntry _CScenario::GetByIdx(String ekey){
 				Trans2Upper(ekey);
 				if (!Entries.count(ekey)) return std::shared_ptr<_CEntry>(new _CEntry(this,ekey); //new CEntry(this, ekey);
 				return Entries[ekey];
 			}
 
-			void _Scenario::UpdateGUI() {
+			void _CScenario::UpdateGUI() {
 				//if (CurrentProject == nullptr) return;
 				//if (CurrentProject.Settings["DIRECTORIES", "SCENARIO"] == "") return;
 				// Entries
@@ -158,7 +158,7 @@ namespace Slyvina {
 				Crash("UpdateGUI not yet implemented");
 			}
 
-			VecString _Scenario::AllEntries {
+			VecString _CScenario::AllEntries {
 				auto SDir { Dirry(CurrentProject->Settings->Valuue("DIRECTORIES", "SCENARIO"))};
 				if (!DirectoryExists(SDir)) return nullptr;
 				auto got {GetTree(SDir)};
@@ -169,6 +169,53 @@ namespace Slyvina {
 				}
 				return ret; //.ToArray();
 			}
+
+			String ChosenEntryName() { Crash("ChosenEnntryName not yet implemented!"); }
+
+
+			void _CSenario::UpdateGUIEntry() {
+				/*
+				if (CurrentProject == null) return;
+				if (ChosenEntry == null) return;
+				MainWindow.ScenarioTags.Items.Clear();
+				var _Tags = ChosenEntry.LTags; _Tags.Sort();
+				foreach ( var _Tag in _Tags) {
+					MainWindow.ScenarioTags.Items.Add(_Tag);
+				}
+				MainWindow.Me.AllowCheck();
+				*/
+				Crash("UpdateGUIEntry not yet implemented");
+			}
+
+			void _CSenario::UpdateGUITag() {
+				/*
+				var old = MainWindow.scenario_allowmodify;
+				if (ChosenEntry != null && ChosenEntry.CurrentTag != null) {
+					var CPage = ChosenEntry.CurrentTag.CurrentPage;
+					MainWindow.scenario_allowmodify = false;
+					MainWindow.Me.Scenario_ShD_LB_Entry.Content = ChosenEntryName;
+					MainWindow.Me.Scenario_ShD_LB_Tag.Content = ChosenEntry.CurrentTagName;
+					MainWindow.Me.Scenario_ShD_LB_Page.Content = $"{ChosenEntry.CurrentTag.CurrentPageNumber + 1} / {ChosenEntry.CurrentTag.PageCount}";
+					MainWindow.Me.Scenario_ShD_TB_PicSpecific.Text = CPage.PicSpecific;
+					MainWindow.Me.Scenario_ShD_TB_PicDir.Text = CPage.PicDir;
+					MainWindow.Me.Scenario_ShD_TB_Audio.Text = CPage.Audio;
+					MainWindow.Me.Scenario_ShD_TB_AltFont.Text = CPage.AltFont;
+					MainWindow.Me.Scenario_ShD_TB_Namelinking.IsChecked = CPage.NameLinking;
+					MainWindow.Me.AllowCheck();
+					MainWindow.Me.ScenarioSetLang();
+					ChosenEntry.CurrentTag.CurrentPage.LinkUpdate();
+					for(var i = 1; i <= 2; i++) {
+						var CLang = CPage.ChosenLang(i);
+						if (CLang != null) {
+							MainWindow.Me.LangField(i).Text = CLang.Content;
+						}
+					}
+				}
+				MainWindow.scenario_allowmodify = old;
+				*/
+				Crash("UpdateGUITag not yet implemented");
+			}
+
 			//}
 		}
 	}
