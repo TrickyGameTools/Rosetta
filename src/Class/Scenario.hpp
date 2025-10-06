@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XXV
+// Version: 25.10.06 XXVI
 // End License
 
 #pragma once
@@ -282,7 +282,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 
 			inline void SaveMe(bool force=false);
 
-		public ProjectData CurrentProject() {return ProjectData->CurrentProject; }
+		ProjectData CurrentProject() {return ProjectData->CurrentProject; }
 
 		//internal CEntry this[string ekey] {
 		//	get {
@@ -292,7 +292,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 		//	}
 		//}
 		CEntry GetByIdx(String key);
-		inline GEntry operator[](String key) { return GetByIdx(key);}
+		inline CEntry operator[](String key) { return GetByIdx(key);}
 
 		inline CTag GetTag(String ekey,String tkey) { return GetByIdx(ekey)->GLang(tkey); } // internal CTag this[string ekey,string tkey] => this[ekey][tkey];
 		inline CPage GetPage(String ekey,String tkey, int idx) { return GetTag(ekey,tkey)->Page[idx]; } //internal CPage this[string ekey,string tkey,int idx] => this[ekey][tkey][idx];
@@ -323,6 +323,6 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 
 		void UpdateGUIEntry();
 
-		public void UpdateGUITag();
+		void UpdateGUITag();
 	};
 }}}
