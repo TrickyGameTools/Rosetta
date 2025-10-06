@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XX
+// Version: 25.10.06 XXI
 // End License
 
 #pragma once
@@ -240,12 +240,12 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 
 			//internal string Header {
 			inline String Header() {	//get {
-				if (Parent->NameLinking) return Parent->PicDir();
-				return Data->Value(CGLCat, "Header");
+				if (Parent->NameLinking()) return Parent->PicDir();
+				return Data()->Value(CGLCat(), "Header");
 			}
 			inline void Header(String value) { //	set {
-					if (Parent->NameLinking) Parent.PicDir = value;
-					else Data->Value(CGLCat, "Header", value);
+					if (Parent->NameLinking()) Parent->PicDir(value);
+					else Data()->Value(CGLCat(), "Header", value);
 					Modified = true;
 			}
 
