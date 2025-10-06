@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 I
+// Version: 25.10.06 II
 // End License
 
 #pragma once
@@ -72,7 +72,7 @@ namespace Slyvina {
 		void UpdateStringsCats();
 
 
-		~ProjectData();
+		~_ProjectData();
 
 		inline String StringsDir() { return Dirry(Settings->Value("Directories", "Strings") ); }
 		inline String ExportDir() { return Dirry(Settings->Value("Export", "Scenario")); }
