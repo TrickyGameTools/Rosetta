@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XX
+// Version: 25.10.06 XXI
 // End License
 
 #include <algorithm>
@@ -126,7 +126,7 @@ namespace Slyvina {
 					if (s >= Page.size()) {
 						if (Page.size() == 0 || TQSE::Yes("Add a new page?")) {
 							Page.push_back(std::shared_ptr<_CPage>(new _CPage(this)));
-							Data->Value("::PAGES::", Tag,(int)Page.size());
+							Data()->Value("::PAGES::", Tag,(int)Page.size());
 						}
 						s = Page.size() - 1;
 					}
