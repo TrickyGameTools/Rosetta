@@ -22,14 +22,14 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.09.30
+// Version: 25.10.06
 // End License
 #pragma once
 #include "Crash.hpp"
 #include "Class/Scenario.hpp"
-#include "Class/AllClasses.hpp"
 #include "Class/ProjectData.hpp"
+#include "Class/AllClasses.hpp"
 #include "Export/XLua.hpp"
-#include "Export/XBase.hpp"
 #include "Export/XScenLang.hpp"
 #include "Export/XXML.hpp"
+#include "Export/XBase.hpp"

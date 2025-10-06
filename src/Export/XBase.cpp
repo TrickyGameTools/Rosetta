@@ -1,11 +1,11 @@
 // License:
 // 
 // Rosetta
-// Export Basis (header)
+// XBase
 // 
 // 
 // 
-// 	(c) Jeroen P. Broks, 2023, 2025
+// 	(c) Jeroen P. Broks, 2025
 // 
 // 		This program is free software: you can redistribute it and/or modify
 // 		it under the terms of the GNU General Public License as published by
@@ -22,39 +22,13 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 III
+// Version: 25.10.06
 // End License
-
-#pragma once
-#include <Slyvina.hpp>
-#include "../Class/AllClasses.hpp"
-
+#include "XBase.hpp"
 namespace Slyvina {
 	namespace Rosetta {
 		namespace Export {
-
-			typedef void(*ExportDelegate)(Class::_ProjectData*,String);
-
-			// Just translated from C#
-			//abstract internal
-			class XBase {
-				public:
-				//abstract internal void Export(ProjectData D, string language);
-				ExportDelegate Export;
-
-				//readonly static internal SortedDictionary<string,XBase> Register = new SortedDictionary<string,XBase>();
-				static std::map<String,XBase> Register;
-
-				//static void Reg(String key, XBase value) { Register[key]= value; }
-				static void Reg(String Key,ExportDelegate D);
-
-				static void Init() {
-					// True code comes later
-					//new XLua();
-					//new XScenLang();
-					//new XXML();
-				}
-			};
+			std::map<String,XBase> XBase::Register{};
 		}
 	}
 }
