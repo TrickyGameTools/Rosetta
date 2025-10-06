@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XIV
+// Version: 25.10.06 XV
 // End License
 
 #include <algorithm>
@@ -54,13 +54,15 @@ namespace Slyvina {
 			 bool _CEntry::TagExists(String Tag) {
 			 	Trans2Upper(Tag);
 				//Tag = Tag.ToUpper();
-				return LTags.count(Tag);
+				//return LTags.count(Tag);
+				auto LT{LTags()};
+				return VecHasString(LT,Tag);
 			}
 
 
 			void _CEntry::SaveMe() {
-				QCol->Doing("Saving",EntryFile);
-				QuickStream.SaveString(EntryFile,_Data->ToSource());
+				QCol->Doing("Saving",EntryFile)();
+				QuickStream.SaveString(EntryFile,()_Data->ToSource());
 				Modified = false;
 			}
 
