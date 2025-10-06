@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06
+// Version: 25.10.06 I
 // End License
 
 #include "../Rosetta.hpp"
@@ -118,20 +118,22 @@ namespace Slyvina {
 					auto StrDir = StringsDir();
 					if (StrDir != "") {
 						//Debug.WriteLine(StrDir);
-					    if (!DirectoryExists(StrDir())) { MakeDir(StringsDir()); }
+					    if (!DirectoryExists(StringsDir())) {
+								MakeDir(StringsDir());
+						}
 						for (auto& str : Strings) {
-							SaveString(StrDir+"/"+str.first+".ini", str.second->ToSource());
+							SaveString(StringsDir()+"/"+str.first+".ini", str.second->UnParse("Saved by Rosetta"));
 						}
 					}
 					// Scenario
-					Scenario.SaveMe();
+					Scenario->SaveMe();
 
 					// Export
 					if (dontexport) return;
-					auto Langs { SupportedLanguages };
+					auto Langs { SupportedLanguages() };
 					if (Settings->Value("Export", "Method") != "") {
-						if (!XBase.Register.count(Settings->Value("Export", "Method"))) {
-							QCol->Error("\7Export method "+Settings->("Export", "Method")+" does not appear to exist!\tInternal error");
+						if (!Export::XBase::Register.count(Settings->Value("Export", "Method"))) {
+							QCol->Error("\7Export method "+Settings->Value("Export", "Method")+" does not appear to exist!\tInternal error");
 							return;
 						}
 						for (auto& L in Langs) {
