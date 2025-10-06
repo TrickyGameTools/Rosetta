@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06
+// Version: 25.10.06 I
 // End License
 #pragma once
 #include "Crash.hpp"
@@ -33,3 +33,4 @@
 #include "Export/XScenLang.hpp"
 #include "Export/XXML.hpp"
 #include "Export/XBase.hpp"
+#include "GUI/GUI.hpp"

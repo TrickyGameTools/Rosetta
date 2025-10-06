@@ -22,11 +22,14 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.09.29
+// Version: 25.10.06
 // End License
 #include "Rosetta.hpp"
 
 
 int main(int cargs,char** args) {
+	Slyvina::Rosetta::GUI::Init(cargs,args);
+	Slyvina::Rosetta::GUI::Run();
+	Slyvina::Rosetta::GUI::Done();
 	return 0;
 }
