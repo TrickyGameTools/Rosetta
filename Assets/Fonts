@@ -1,0 +1,14 @@
+
+
+JQL
+
+Platform:Linux
+Let:PRJ=/media/tricky/Scyndi/Projects
+platform:Windows
+Let:PRJ=/Projects
+platform:All
+
+rawdir:$PRJ$/Fonts/JFBF/Ryanna>Ryanna.jfbf
+Rawdir:$PRJ$/Fonts/JFBF/Mini>Mini.jfbf
+
+Patch:$PRJ$/Fonts/DOSFont/DOSFont.jfbf>DOSFont.jfbf
