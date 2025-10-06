@@ -1,6 +1,8 @@
-
-
 JQL
+
+# JCR6 Quick Link
+# Will easily fool JCR6, and for Jalondi it makes it easier to include these
+# fonts as "dependencies" during builds.
 
 Platform:Linux
 Let:PRJ=/media/tricky/Scyndi/Projects
