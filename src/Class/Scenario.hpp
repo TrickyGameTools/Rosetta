@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XXVIII
+// Version: 25.10.06 XXIX
 // End License
 
 #pragma once
@@ -298,7 +298,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 		inline CPage GetPage(String ekey,String tkey, int idx) { return GetTag(ekey,tkey)->Page[idx]; } //internal CPage this[string ekey,string tkey,int idx] => this[ekey][tkey][idx];
 		inline CSLang* GetLang(String ekey,String tkey, int idx, String lkey) { return GetPage(ekey,tkey,idx)->GLang(lkey); } //this[string ekey,string tkey,int idx,string lkey] => this[ekey][tkey][idx][lkey];
 
-		inline String Workspace(){ return Parent->Settings->Value("DIRECTORIES", "SCENARIO"); }
+		String Workspace();
 
 
 		void UpdateGUI();

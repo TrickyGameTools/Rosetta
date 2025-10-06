@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XI
+// Version: 25.10.06 XII
 // End License
 
 #include <algorithm>
@@ -253,6 +253,7 @@ namespace Slyvina {
 			}
 
 			ProjectData _CScenario::CurrentProject() {return _ProjectData::CurrentProject; }
+			String _CScenario::Workspace() { return Parent->Settings->Value("DIRECTORIES", "SCENARIO"); }
 
 			//}
 		}
