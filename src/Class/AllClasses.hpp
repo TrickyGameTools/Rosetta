@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06
+// Version: 25.10.06 I
 // End License
 
 #pragma once
@@ -36,7 +36,8 @@ namespace Slyvina {
 	namespace Rosetta {
 		namespace Class {
 			spclass(_ProjectData,ProjectData);
-			spclass(_CScenario,CScenario);
+			//spclass(_CScenario,CScenario);
+			class _CScenario; typedef std::shared_ptr<_CScenario> CScenario;
 			spclass(_CEntry,CEntry);
 			spclass(_CTag,CTag);
 			spclass(_CPage,CPage);
@@ -44,3 +45,4 @@ namespace Slyvina {
 			class CSLang;
 		}
 	}
+}

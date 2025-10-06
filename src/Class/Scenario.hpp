@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 III
+// Version: 25.10.06 IV
 // End License
 
 #pragma once
@@ -39,24 +39,24 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 		private:
 			GINIE _Data { nullptr };
 		public:
-			CScenario Parent { nullptr };
+			_CScenario* Parent { nullptr };
 			String EntryName { "" };
 			ProjectData Project();
-			std::map<string, CTag> Tags {};
+			std::map<String, CTag> Tags {};
 
 			//internal string EntryFile => Dirry.AD($"{Project.Settings["DIRECTORIES", "SCENARIO"]}/{EntryName}.ini");
-			inline String EntryFile() { return Dirry(Project->Settings->Value("DIRECTORIES","SCENARIO")+"/"+EntryNamee+".ini"); }
+			inline String EntryFile() { return Dirry(Project()->Settings->Value("DIRECTORIES","SCENARIO")+"/"+EntryName+".ini"); }
 
 			bool Modified = false;
 
 
-			bool TagExists(string Tag);
+			bool TagExists(String Tag);
 
 			void SaveMe() ;
 
 			Units::GINIE Data();
 
-			inline ~CEntry() {
+			inline ~_CEntry() {
 				if (_Data != nullptr && Modified) {
 					SaveMe();
 				}
@@ -65,7 +65,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			//internal List<string> LTags => Data.List("::GLOB::", "Tags");
 			inline VecString LTags() { return Data()->List("::GLOB::","Tags");}
 
-			inline CTag AddTag(string Tag) {
+			inline CTag AddTag(String Tag) {
 				Units::Trans2Upper(Tag); //Tag = Tag.ToUpper();
 				auto ret {std::shared_ptr<_CTag>(new CTag(this, Tag))};
 				Tags[Tag] = ret;
@@ -88,7 +88,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			inline CTag operator[](String Tag){return GT(Tag)};
 
 
-			inline CEntry(CScenario Parent, string EN) {
+			inline _CEntry(_CScenario* _Parent, String EN) {
 				this->Parent = Parent;
 				EntryName = EN;
 				Parent->Entries[EN] = this;
@@ -97,7 +97,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			String CurrentTagName();
 
 			CTag CurrentTag();
-		}
+		};
 
 
 		class _CTag {
@@ -140,18 +140,17 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			//internal CPage CurrentPage {
 			//	get {
 			inline CPage CurrentPage() {
-					if (Page.size() == 0) {
-						__currentpagenumber = 0;
-						//Page.Add(new CPage(this));
-						Page.push_back(std::shared_ptr<_CPage>(new _CPage(this)));
-					}
-					return Page[CurrentPageNumber];
+				if (Page.size() == 0) {
+					__currentpagenumber = 0;
+					//Page.Add(new CPage(this));
+					Page.push_back(std::shared_ptr<_CPage>(new _CPage(this)));
 				}
+				return Page[CurrentPageNumber];
 			}
 		};
 
 
-		enum class ELU { None, PicDir,Lang1,Lang2 }
+		enum class ELU { None, PicDir,Lang1,Lang2 };
 
 		// Property in C++! It *is* possible!
 		class CPMC {
@@ -171,7 +170,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 
 			CTag Parent = nullptr;
 
-			inline CPage(CTag _parent) { Parent = _parent; Modifed=CPMC(this); } // Here the property is finally defined! I told ya it was possible.
+			inline CPage(CTag _parent) { Parent = _parent; Modifed.Ouwe=this; } // Here the property is finally defined! I told ya it was possible.
 			inline GINIE Data { return Parent->Parent->Data; }
 
 
@@ -180,9 +179,8 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			//	set => Parent.Parent.Modified = value; }
 
 			inline int PageIndex() {
-					for (int i = 0; i < Parent->Page.size(); ++i) if (Parent->Page[i].get() == this) return i;
-					return -1;
-
+				for (int i = 0; i < Parent->Page.size(); ++i) if (Parent->Page[i].get() == this) return i;
+				return -1;
 			}
 			inline string CGCat() {return "::CENTRAL::" +Parent->Tag+TrSPrintF("::%d::",PageIndex());
 
@@ -228,7 +226,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 					default: throw std::runtime_error(TrSPrintF("ChosenLang(%d): Invalid index",idx);
 				}
 			}
-		}
+		};
 
 		class CSLangModified{
 		private:
@@ -342,5 +340,5 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 		void UpdateGUIEntry();
 
 		public void UpdateGUITag();
-	}
+	};
 }}
