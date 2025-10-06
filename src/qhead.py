@@ -22,7 +22,7 @@
 # 	Please note that some references to data like pictures or audio, do not automatically
 # 	fall under this licenses. Mostly this is noted in the respective files.
 # 
-# Version: 25.09.29
+# Version: 25.10.06
 # End License
 from glob import glob
 
