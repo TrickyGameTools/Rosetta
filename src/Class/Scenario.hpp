@@ -1,28 +1,28 @@
 // License:
-//
+// 
 // Rosetta
 // Scenario Classes (header)
-//
-//
-//
+// 
+// 
+// 
 // 	(c) Jeroen P. Broks, 2023, 2025
-//
+// 
 // 		This program is free software: you can redistribute it and/or modify
 // 		it under the terms of the GNU General Public License as published by
 // 		the Free Software Foundation, either version 3 of the License, or
 // 		(at your option) any later version.
-//
+// 
 // 		This program is distributed in the hope that it will be useful,
 // 		but WITHOUT ANY WARRANTY; without even the implied warranty of
 // 		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // 		GNU General Public License for more details.
 // 		You should have received a copy of the GNU General Public License
 // 		along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
+// 
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
-//
-// Version: 25.10.01 I
+// 
+// Version: 25.10.06
 // End License
 
 #pragma once
@@ -230,54 +230,67 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			}
 		}
 
-		// MARKER
+		class CSLangModified{
+		private:
+			CSLang* Ouwe{nullptr};
+		public:
+			inline CSLangModified(){}; // Never use this.
+			inline CSLangModified(CSLang*m){Ouwe=m};
+			bool operator=(bool value) {Parent->Parent->Parent->Modified = value;}
+		};
+
 		class CSLang {
-			internal readonly _CPage* Parent = null;
-			internal readonly string Lang = "";
-			internal GINIE Data => Parent.Parent.Data;
-			internal CSLang(CPage _Parent,string _Lang) { Parent= _Parent; Lang = _Lang; Parent._Lang[Lang] = this; }
-			internal int PageIndex => Parent.PageIndex;
+			public:
+			_CPage* Parent { nullptr };
+			String Lang { "" };
+			GINIE Data => Parent->Parent->Data;
+			CSLangModified Modified{this};
+			inline CSLang(_CPage* _Parent,string _Lang) { Parent= _Parent; Lang = _Lang; Parent._Lang[Lang] = this;  }
+			int PageIndex() {return  Parent->PageIndex};
 
-			internal string CGLCat => $"::LANG::{Lang}::{Parent.Parent.Tag}::{PageIndex}::";
+			String CGLCat { reteurn "::LANG::"+Lang+"::"+Parent->Parent->Tag+TrSPrintF("::%d::",PageIndex()); }
 
 
-			bool Modified {
-				//get => Parent.Parent.Parent.Modified;
-				set => Parent.Parent.Parent.Modified = value;
+			//bool Modified {
+			//	//get => Parent.Parent.Parent.Modified;
+			//	set => Parent.Parent.Parent.Modified = value;
+			//}
+
+			//internal string Header {
+			inline String Header() {	//get {
+				if (Parent->NameLinking) return Parent->PicDir;
+				return Data->Value(CGLCat, "Header");
 			}
-
-			internal string Header {
-				get {
-					if (Parent.NameLinking) return Parent.PicDir;
-					return Data[CGLCat, "Header"];
-				}
-				set {
-					if (Parent.NameLinking) Parent.PicDir = value;
-					else Data[CGLCat, "Header"] = value;
+			inline void Header(String value) { //	set {
+					if (Parent->NameLinking) Parent.PicDir = value;
+					else Data->Value(CGLCat, "Header", value);
 					Modified = true;
-				}
-			}
-			internal string Content {
-				get {
-					var ret = new StringBuilder();
-					var lst = Data.List(CGLCat, "Content");
-					for(int i = 0; i < lst.Count; ++i) {
-						if (i > 0) ret.Append("\n");
-						ret.Append(lst[i]);
-					}
-					return ret.ToString();
-				}
-				set {
-					var v = value.Replace("\r", "");
-					var lst = Data.List(CGLCat, "Content"); lst.Clear();
-					foreach(var l in v.Split('\n')) lst.Add(l);
-					Modified = true;
-				}
 			}
 
-			internal List<string> LContent => Data.List(CGLCat, "Content");
-		}
+			//internal string Content {
+			inline String Content() { //	get {
+				String ret{""}; //= new StringBuilder();
+				auto lst = Data->List(CGLCat, "Content");
+				for(int i = 0; i < lst.size(); ++i) {
+					if (i > 0) ret+="\n"; //ret.Append("\n");
+					ret+=lst[i];//ret.Append(lst[i]);
+				}
+				return ret; //.ToString();
+			}
+			inline void Content(String value) {//	set {
+				auto v { StReplace( value,"\r", "") };
+				auto lst { Data->List(CGLCat, "Content"); } lst->clear();
+				//foreach(var l in v.Split('\n')) lst.Add(l);
+				auto vsplit{Split(v,'\n');}
+				for(auto l:vsplit) lst+=l;
+				Modified = true;
+			}
 
+			//internal List<string> LContent => Data.List(CGLCat, "Content");
+			VecString  LContent() { return Data->List(CGLCat,"Content"); }
+		};
+
+		// MARKER
 
 
 		readonly ProjectData Parent = null;
