@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XVII
+// Version: 25.10.06 XVIII
 // End License
 
 #include <algorithm>
@@ -94,7 +94,7 @@ namespace Slyvina {
 
 			}
 
-			CTag _CEntry::Addtag(String Tag) {
+			CTag _CEntry::AddTag(String Tag) {
 				Units::Trans2Upper(Tag); //Tag = Tag.ToUpper();
 				auto ret {std::shared_ptr<_CTag>(new _CTag(this, Tag))};
 				Tags[Tag] = ret;
@@ -110,7 +110,7 @@ namespace Slyvina {
 			//}
 
 			//{ Tag
-			_CTag::_CTag (_CEntry* _Parent,string _Tag) {
+			_CTag::_CTag (_CEntry* _Parent,String _Tag) {
 				Parent = _Parent;
 				Tag = _Tag;
 				Parent->Tags[Tag] = std::shared_ptr<_CTag>(this);

@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XXXII
+// Version: 25.10.06 XXXIII
 // End License
 
 #pragma once
@@ -66,7 +66,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			//internal List<string> LTags => Data.List("::GLOB::", "Tags");
 			inline std::vector<String>* LTags() { return Data()->List("::GLOB::","Tags");}
 
-			inline CTag AddTag(String Tag);
+			CTag AddTag(String Tag);
 
 
 			//internal CTag this[string Tag] {
