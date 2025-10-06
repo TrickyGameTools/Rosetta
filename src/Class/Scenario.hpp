@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XXII
+// Version: 25.10.06 XXIII
 // End License
 
 #pragma once
@@ -263,8 +263,8 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 				auto v { StReplace( value,"\r", "") };
 				auto lst { Data()->List(CGLCat(), "Content") }; lst->clear();
 				//foreach(var l in v.Split('\n')) lst.Add(l);
-				auto vsplit{Split(v,'\n');}
-				for(auto l:vsplit) lst+=l;
+				auto vsplit{Split(v,'\n')};
+				for(auto l:*vsplit) lst->push_back(l);
 				Modified = true;
 			}
 
