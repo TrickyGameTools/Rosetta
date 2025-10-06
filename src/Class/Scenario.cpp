@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XVIII
+// Version: 25.10.06 XIX
 // End License
 
 #include <algorithm>
@@ -114,7 +114,7 @@ namespace Slyvina {
 				Parent = _Parent;
 				Tag = _Tag;
 				Parent->Tags[Tag] = std::shared_ptr<_CTag>(this);
-				auto PC {std::max(1,ToInt(Data()->Value("::PAGES::", Tag))};
+				auto PC {std::max(1,ToInt(Data()->Value("::PAGES::", Tag))) };
 				for (int i = 0; i < PC; i++) Page.push_back(Parent->Tags[Tag]); //Page.Add(new CPage(this));
 			}
 
