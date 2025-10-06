@@ -1,7 +1,7 @@
 // License:
 // 
 // Rosetta
-// Graphic User Interface (header)
+// Graphics User Interface
 // 
 // 
 // 
@@ -22,18 +22,26 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 I
+// Version: 25.10.06
 // End License
 
-#pragma once
+#include <SlyvQCol.hpp>
+
+using namespace Slyvina::Units;
 
 namespace Slyvina {
 	namespace Rosetta {
 		namespace GUI {
 
-			void Init(int argc,char** args);
-			void Run();
-			void Done();
+			void Init(int argc,char** args) {
+				QCol->White("Rosetta\n\n");
+				QCol->Doing("Coded by","Jeroen P. Broks");
+				QCol->Doing("Platform",Platform());
+				QCol->Doing("Run file",args[0]);
+			}
+
+			void Run() {}
+			void Done() {}
 		}
 	}
 }
