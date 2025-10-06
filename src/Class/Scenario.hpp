@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 X
+// Version: 25.10.06 XI
 // End License
 
 #pragma once
@@ -169,25 +169,25 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			inline String CGCat() {return "::CENTRAL::" +Parent->Tag+TrSPrintF("::%d::",PageIndex());};
 
 			//internal string PicDir {
-			inline String  PicDir() {return Data()->Value(CGCat, "PicDir"); }
-			inline void PicDir(String value) { Data()->Value(CGCat, "PicDir",value); Modified=true; }
+			inline String  PicDir() {return Data()->Value(CGCat(), "PicDir"); }
+			inline void PicDir(String value) { Data()->Value(CGCat(), "PicDir",value); Modified=true; }
 
 
 			inline String PicSpecific() {
-				Data->NewValue(CGCat, "PicSpecific", "GENERAL");
-				return Data->Value(CGCat, "PicSpecific");
+				Data()->NewValue(CGCat(), "PicSpecific", "GENERAL");
+				return Data()->Value(CGCat(), "PicSpecific");
 			}
-			inline void PicSpecific(String value) {	Data()->Value(CGCat, "PicSpecific",value); Modified = true; }
+			inline void PicSpecific(String value) {	Data()->Value(CGCat(), "PicSpecific",value); Modified = true; }
 
 
-			inline String Audio() { return Data()->Value(CGCat, "Audio"); }
-			inline void Audio(String value) { Data()->Value(CGCat, "Audio") = value; }
+			inline String Audio() { return Data()->Value(CGCat(), "Audio"); }
+			inline void Audio(String value) { Data()->Value(CGCat(), "Audio") = value; }
 
-			inline String AltFont() {return Data()->Value(CGCat, "Alternate_Font"); }
-			inline void AltFont(String value) { Data()->Value(CGCat, "Alternate_Font",value); }
+			inline String AltFont() {return Data()->Value(CGCat(), "Alternate_Font"); }
+			inline void AltFont(String value) { Data()->Value(CGCat(), "Alternate_Font",value); }
 
-			inline bool NameLinking() {Data()->NewValue(CGCat, "NameLinking", "True"); return Lower(Data->Value(CGCat, "NameLinking")) == "true"; }
-			inline void NameLinking(bool value) {Data()->Value(CGCat, "NameLinking",boolstring(value));}
+			inline bool NameLinking() {Data()->NewValue(CGCat(), "NameLinking", "True"); return Lower(Data->Value(CGCat(), "NameLinking")) == "true"; }
+			inline void NameLinking(bool value) {Data()->Value(CGCat(), "NameLinking",boolstring(value));}
 
 
 			//internal Dictionary<string, CSLang> _Lang = new Dictionary<string, CSLang>();
