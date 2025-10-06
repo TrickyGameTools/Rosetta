@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XXIV
+// Version: 25.10.06 XXV
 // End License
 
 #include <algorithm>
@@ -165,7 +165,7 @@ namespace Slyvina {
 			CSLang* _CPage::GLang(String lkey) {
 				if (lkey == "") return nullptr;
 				if (!_Lang.count(lkey)) {
-					_Lang[lkey].Parent=this
+					_Lang[lkey].Parent=this;
 					_Lang[lkey].Lang=lkey;
 				}
 				return &_Lang[lkey];
