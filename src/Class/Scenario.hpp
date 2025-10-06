@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XXVI
+// Version: 25.10.06 XXVII
 // End License
 
 #pragma once
@@ -282,7 +282,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 
 			inline void SaveMe(bool force=false);
 
-		ProjectData CurrentProject() {return ProjectData->CurrentProject; }
+			ProjectData CurrentProject();
 
 		//internal CEntry this[string ekey] {
 		//	get {

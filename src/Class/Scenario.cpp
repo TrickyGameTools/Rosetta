@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 X
+// Version: 25.10.06 XI
 // End License
 
 #include <algorithm>
@@ -251,6 +251,8 @@ namespace Slyvina {
 				*/
 				Crash("UpdateGUITag not yet implemented");
 			}
+
+			ProjectData _CScenario::CurrentProject() {return _ProjectData::CurrentProject; }
 
 			//}
 		}
