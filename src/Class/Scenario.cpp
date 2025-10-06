@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 VII
+// Version: 25.10.06 VIII
 // End License
 
 #include <algorithm>
@@ -161,6 +161,9 @@ namespace Slyvina {
 				}
 				return &_Lang[lkey];
 			}
+
+			String _Page::ChosenLangName1() { return Parent->Parent->Parent->Parent->Settings->Value("::SCENARIO::", "LANG1"); }
+			String _Page::ChosenLangName2() { return  Parent->Parent->Parent->Parent->Settings->Value("::SCENARIO::
 			//}
 
 			//{ Scenario

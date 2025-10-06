@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XI
+// Version: 25.10.06 XII
 // End License
 
 #pragma once
@@ -186,7 +186,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			inline String AltFont() {return Data()->Value(CGCat(), "Alternate_Font"); }
 			inline void AltFont(String value) { Data()->Value(CGCat(), "Alternate_Font",value); }
 
-			inline bool NameLinking() {Data()->NewValue(CGCat(), "NameLinking", "True"); return Lower(Data->Value(CGCat(), "NameLinking")) == "true"; }
+			inline bool NameLinking() {Data()->NewValue(CGCat(), "NameLinking", "True"); return Lower(Data()->Value(CGCat(), "NameLinking")) == "true"; }
 			inline void NameLinking(bool value) {Data()->Value(CGCat(), "NameLinking",boolstring(value));}
 
 
