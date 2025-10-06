@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XIX
+// Version: 25.10.06 XX
 // End License
 
 #pragma once
@@ -227,10 +227,10 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			String Lang { "" };
 			GINIE Data() {return Parent->Parent->Data();}
 			CSLangModified Modified{this};
-			inline CSLang(_CPage* _Parent,String _Lang) { Parent= _Parent; Lang = _Lang; Parent._Lang[Lang] = this;  }
-			int PageIndex() {return  Parent->PageIndex;}
+			inline CSLang(_CPage* _Parent,String _Lang) { Parent= _Parent; Lang = _Lang; Parent->_Lang[Lang] = *this;  }
+			int PageIndex() {return  Parent->PageIndex();}
 
-			String CGLCat() { reteurn "::LANG::"+Lang+"::"+Parent->Parent->Tag+TrSPrintF("::%d::",PageIndex()); }
+			String CGLCat() { return "::LANG::"+Lang+"::"+Parent->Parent->Tag+TrSPrintF("::%d::",PageIndex()); }
 
 
 			//bool Modified {
@@ -240,7 +240,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 
 			//internal string Header {
 			inline String Header() {	//get {
-				if (Parent->NameLinking) return Parent->PicDir;
+				if (Parent->NameLinking) return Parent->PicDir();
 				return Data->Value(CGLCat, "Header");
 			}
 			inline void Header(String value) { //	set {
