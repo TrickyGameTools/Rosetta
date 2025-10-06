@@ -22,10 +22,11 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 VIII
+// Version: 25.10.06 IX
 // End License
 
 #pragma once
+#include <june19.hpp>
 #include <SlyvGINIE.hpp>
 #include "AllClasses.hpp"
 #include "../Rosetta.hpp"
@@ -151,10 +152,10 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			void LinkUpdate(ELU FromELU=ELU::None,June19::j19gadget* From=nullptr);
 			CPMC Modified{}; // Property itself
 
-			CTag Parent = nullptr;
+			_CTag* Parent = nullptr;
 
-			inline CPage(CTag _parent) { Parent = _parent; Modifed.Ouwe=this; } // Here the property is finally defined! I told ya it was possible.
-			inline GINIE Data { return Parent->Parent->Data; }
+			inline _CPage(_CTag* _parent) { Parent = _parent; Modified.Ouwe=this; } // Here the property is finally defined! I told ya it was possible.
+			inline GINIE Data() { return Parent->Parent->Data; }
 
 
 			//bool Modified {
@@ -165,7 +166,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 				for (int i = 0; i < Parent->Page.size(); ++i) if (Parent->Page[i].get() == this) return i;
 				return -1;
 			}
-			inline string CGCat() {return "::CENTRAL::" +Parent->Tag+TrSPrintF("::%d::",PageIndex());
+			inline String CGCat() {return "::CENTRAL::" +Parent->Tag+TrSPrintF("::%d::",PageIndex());
 
 			//internal string PicDir {
 			inline String  PicDir() {return Data->Value(CGCat, "PicDir"); }
@@ -195,11 +196,11 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 
 			//internal CSLang this[string lkey] {
 			//	get {
-			CSLang* GLang(string lkey);
-			inline CSLang* operator[](string lkey) { return GLang(lkey); }
+			CSLang* GLang(String lkey);
+			inline CSLang* operator[](String lkey) { return GLang(lkey); }
 
-			string ChosenLangName1() { return Parent->Parent->Parent->Parent->Settings->Value("::SCENARIO::", "LANG1"); }
-			string ChosenLangName2() { return  Parent->Parent->Parent->Parent->Settings->Value("::SCENARIO::", "LANG2"); }
+			String ChosenLangName1() { return Parent->Parent->Parent->Parent->Settings->Value("::SCENARIO::", "LANG1"); }
+			String ChosenLangName2() { return  Parent->Parent->Parent->Parent->Settings->Value("::SCENARIO::", "LANG2"); }
 			CSLang* ChosenLang1() { return  (*this)[ChosenLangName1]; }
 			CSLang* ChosenLang2() { return  (*this)[ChosenLangName2]; }
 			CSLang* ChosenLang(int idx) {
