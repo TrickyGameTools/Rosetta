@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XV
+// Version: 25.10.06 XVI
 // End License
 
 #include <algorithm>
@@ -62,7 +62,7 @@ namespace Slyvina {
 
 			void _CEntry::SaveMe() {
 				QCol->Doing("Saving",EntryFile)();
-				QuickStream.SaveString(EntryFile,()_Data->ToSource());
+				QuickStream.SaveString(EntryFile(),_Data->ToSource());
 				Modified = false;
 			}
 
