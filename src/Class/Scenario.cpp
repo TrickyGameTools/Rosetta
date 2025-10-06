@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XXVII
+// Version: 25.10.06 XXVIII
 // End License
 
 #include <algorithm>
@@ -202,13 +202,13 @@ namespace Slyvina {
 			}
 
 			VecString _CScenario::AllEntries() {
-				auto SDir { Dirry(CurrentProject->Settings->Valuue("DIRECTORIES", "SCENARIO"))};
+				auto SDir { Dirry(CurrentProject()->Settings->Value("DIRECTORIES", "SCENARIO"))};
 				if (!DirectoryExists(SDir)) return nullptr;
 				auto got {GetTree(SDir)};
 				auto ret {NewVecString()};
-				for (autoE :* got) {
+				for (auto E :* got) {
 					//if (qstr.ExtractExt(E).ToLower() == "ini") ret.Add(qstr.StripExt(E));
-					if (Lower(Extractxt(E))=="ini") ret->push_back(E);
+					if (Lower(ExtractExt(E))=="ini") ret->push_back(E);
 				}
 				return ret; //.ToArray();
 			}
@@ -216,7 +216,7 @@ namespace Slyvina {
 			String ChosenEntryName() { Crash("ChosenEnntryName not yet implemented!"); }
 
 
-			void _CSenario::UpdateGUIEntry() {
+			void _CScenario::UpdateGUIEntry() {
 				/*
 				if (CurrentProject == null) return;
 				if (ChosenEntry == null) return;
@@ -230,7 +230,7 @@ namespace Slyvina {
 				Crash("UpdateGUIEntry not yet implemented");
 			}
 
-			void _CSenario::UpdateGUITag() {
+			void _CScenario::UpdateGUITag() {
 				/*
 				var old = MainWindow.scenario_allowmodify;
 				if (ChosenEntry != null && ChosenEntry.CurrentTag != null) {
