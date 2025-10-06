@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XIII
+// Version: 25.10.06 XIV
 // End License
 
 #pragma once
@@ -201,13 +201,13 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 
 			String ChosenLangName1();// { return Parent->Parent->Parent->Parent->Settings->Value("::SCENARIO::", "LANG1"); }
 			String ChosenLangName2();// { return  Parent->Parent->Parent->Parent->Settings->Value("::SCENARIO::", "LANG2"); }
-			CSLang* ChosenLang1() { return  (*this)[ChosenLangName1]; }
-			CSLang* ChosenLang2() { return  (*this)[ChosenLangName2]; }
+			CSLang* ChosenLang1() { return  (*this)[ChosenLangName1()]; }
+			CSLang* ChosenLang2() { return  (*this)[ChosenLangName2()]; }
 			CSLang* ChosenLang(int idx) {
 				switch(idx) {
 					case 1: return ChosenLang1();
 					case 2: return ChosenLang2();
-					default: throw std::runtime_error(TrSPrintF("ChosenLang(%d): Invalid index",idx);
+					default: throw std::runtime_error(TrSPrintF("ChosenLang(%d): Invalid index",idx));
 				}
 			}
 		};
