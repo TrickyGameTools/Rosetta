@@ -116,11 +116,16 @@
 		<Unit filename="src/Export/XLua.hpp" />
 		<Unit filename="src/Export/XScenLang.hpp" />
 		<Unit filename="src/Export/XXML.hpp" />
+		<Unit filename="src/GUI/Assets.cpp" />
+		<Unit filename="src/GUI/Assets.hpp" />
+		<Unit filename="src/GUI/GUI.cpp" />
+		<Unit filename="src/GUI/GUI.hpp" />
 		<Unit filename="src/Rosetta.cpp" />
 		<Unit filename="src/Rosetta.hpp" />
 		<Extensions>
 			<lib_finder>
 				<lib name="SDL2_mixer" />
+				<lib name="SDL2_image" />
 			</lib_finder>
 		</Extensions>
 	</Project>
