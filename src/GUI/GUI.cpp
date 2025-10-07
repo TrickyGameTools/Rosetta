@@ -1,35 +1,39 @@
 // License:
-// 
+//
 // Rosetta
 // Graphics User Interface
-// 
-// 
-// 
+//
+//
+//
 // 	(c) Jeroen P. Broks, 2025
-// 
+//
 // 		This program is free software: you can redistribute it and/or modify
 // 		it under the terms of the GNU General Public License as published by
 // 		the Free Software Foundation, either version 3 of the License, or
 // 		(at your option) any later version.
-// 
+//
 // 		This program is distributed in the hope that it will be useful,
 // 		but WITHOUT ANY WARRANTY; without even the implied warranty of
 // 		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // 		GNU General Public License for more details.
 // 		You should have received a copy of the GNU General Public License
 // 		along with this program.  If not, see <http://www.gnu.org/licenses/>.
-// 
+//
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
-// 
+//
 // Version: 25.10.06 I
 // End License
 
 #include "../Rosetta.hpp"
 #include <SlyvQCol.hpp>
 #include <JCR6_zlib.hpp>
+#include <June19.hpp>
+#include <TQSE.hpp>
+#include <TQSG.hpp>
 
 using namespace Slyvina::Units;
+using namespace Slyvina::June19;
 
 namespace Slyvina {
 	namespace Rosetta {
@@ -45,10 +49,19 @@ namespace Slyvina {
 				QCol->Doing("Run file",args[0]); Exefile=args[0];
 				JCR6::init_zlib();
 				IdentifyAssets();
+				TQSG::Graphics(SW,SH,"Rosetta - (c) Jeroen P. Broks");
 			}
 
-			void Run() {}
-			void Done() {}
+			void Run() {
+				bool Going{true};
+				do {
+					TQSE::Poll(); if (TQSE::AppTerminate()) { QCol->Magenta("Close request done by user!\n"); return; }
+				} while(Going);
+			}
+
+			void Done() {
+				QCol->Doing("Releasing","June19"); FreeJune19();
+			}
 		}
 	}
 }
