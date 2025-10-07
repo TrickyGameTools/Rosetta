@@ -93,6 +93,16 @@
 		<Unit filename="../../Libs/JCR6/3rdParty/zlib/src/zutil.h" />
 		<Unit filename="../../Libs/JCR6/Source/JCR6_Core.cpp" />
 		<Unit filename="../../Libs/JCR6/Source/JCR6_zlib.cpp" />
+		<Unit filename="../../Libs/June19/src/june19_button.cpp" />
+		<Unit filename="../../Libs/June19/src/june19_checkbox.cpp" />
+		<Unit filename="../../Libs/June19/src/june19_core.cpp" />
+		<Unit filename="../../Libs/June19/src/june19_label.cpp" />
+		<Unit filename="../../Libs/June19/src/june19_listbox.cpp" />
+		<Unit filename="../../Libs/June19/src/june19_picture.cpp" />
+		<Unit filename="../../Libs/June19/src/june19_radio.cpp" />
+		<Unit filename="../../Libs/June19/src/june19_scrollbar.cpp" />
+		<Unit filename="../../Libs/June19/src/june19_tabber.cpp" />
+		<Unit filename="../../Libs/June19/src/june19_textfield.cpp" />
 		<Unit filename="../../Libs/TQSL/Source/TQSA.cpp" />
 		<Unit filename="../../Libs/TQSL/Source/TQSE.cpp" />
 		<Unit filename="../../Libs/TQSL/Source/TQSG.cpp" />
