@@ -22,20 +22,40 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06
+// Version: 25.10.08 I
 // End License
 #pragma once
 #include <Slyvina.hpp>
 #include <SlyvQCol.hpp>
 #include <JCR6_Core.hpp>
 #include <SlyvGINIE.hpp>
+#include <SlyvString.hpp>
+#include <TQSG.hpp>
+#include <TQSE.hpp>
+#include <June19.hpp>
 
 #include "../Rosetta.hpp"
+
+
+using namespace Slyvina::TQSG;
+using namespace Slyvina::TQSE;
 
 #define ef else if
 namespace Slyvina {
 	namespace Rosetta{
 		namespace GUI {
+
+			static void Paniek(String A) {
+				Notify("ERROR\n"+A);
+				June19::FreeJune19();
+				Crash(A);
+			}
+
+			static void PaniekJCR(String A) {
+				auto L{JCR6::Last()};
+				Paniek(A+"\nJCR6: "+L->ErrorMessage+"\nEntry: "+L->Entry+"\nMain:  "+L->MainFile);
+			}
+
 			String AssetsFile() {
 				static String _AF{""};
 				if (_AF=="") {
@@ -95,6 +115,30 @@ namespace Slyvina {
 					if (crash) exit(4);
 				}
 			}
+
+
+			void PicGadget(June19::j19gadget* g,String PicFile) {
+				QCol->Doing("Loading image",PicFile);
+				auto img=LoadImage(Assets(),PicFile);
+				if (!img) PaniekJCR("Error loading: "+PicFile);
+				if (!img->Frames()) Paniek("Frameless image: "+PicFile);
+				g->Image(img);
+			}
+
+
+			static TImageFont GetFont(String FntDir) {
+				static std::map<String,TImageFont> Reg{};
+				auto UFntDir{Upper(FntDir)};
+				if (!Reg.count(UFntDir)) {
+					QCol->Doing("Loading font",FntDir);
+					auto R{LoadImageFont(Assets(),FntDir)  };
+					if (!R) PaniekJCR("Error linking to font: "+FntDir);
+					Reg[UFntDir]=R;
+				}
+				return Reg[UFntDir];
+			}
+			void FntGadget(June19::j19gadget* g,String FntDir) { g->SetFont(GetFont(FntDir)); }
+			void FntDefault(String FntDir) { June19::j19gadget::SetDefaultFont(GetFont(FntDir)); }
 		}
 	}
 }

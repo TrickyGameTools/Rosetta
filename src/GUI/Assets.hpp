@@ -22,12 +22,13 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06
+// Version: 25.10.08 I
 // End License
 
 #pragma once
 #include <Slyvina.hpp>
 #include <JCR6_Core.hpp>
+#include <June19.hpp>
 
 namespace Slyvina {
 	namespace Rosetta{
@@ -35,6 +36,11 @@ namespace Slyvina {
 			String AssetsFile();
 			JCR6::JT_Dir Assets();
 			void IdentifyAssets(bool crash=true);
+
+			void PicGadget(June19::j19gadget* g,String PicFile);
+			void Mascot(June19::j19gadget*g,String Mascot);
+			void FntGadget(June19::j19gadget* g,String FntDir);
+			void FntDefault(String FntDir);
 		}
 	}
 }

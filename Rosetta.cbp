@@ -20,6 +20,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
+				<Option parameters='&quot;/media/tricky/Scyndi/Projects/Applications/Scyndi/House Of Cards/Dev/Rosetta/House of Cards.ini&quot;' />
 				<Compiler>
 					<Add option="-O2" />
 				</Compiler>
@@ -136,6 +137,7 @@
 			<lib_finder>
 				<lib name="SDL2_mixer" />
 				<lib name="SDL2_image" />
+				<lib name="libjpeg" />
 			</lib_finder>
 		</Extensions>
 	</Project>
