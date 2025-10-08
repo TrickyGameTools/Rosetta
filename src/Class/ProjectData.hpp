@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 IV
+// Version: 25.10.08
 // End License
 
 #pragma once
@@ -34,6 +34,9 @@
 namespace Slyvina {
 	namespace Rosetta {
 	namespace Class {
+
+	class TGetProject{ public: ProjectData operator[](String p); };
+	extern TGetProject Project;
 
 
 	class _ProjectData {
@@ -72,8 +75,8 @@ namespace Slyvina {
 
 		~_ProjectData();
 
-		inline String StringsDir() { return Units::Dirry(Settings->Value("Directories", "Strings") ); }
-		inline String ExportDir() { return Units::Dirry(Settings->Value("Export", "Scenario")); }
+		inline String StringsDir() { return Units::Dirry(Settings->Value("Directories::"+Platform(), "Strings") ); }
+		inline String ExportDir() { return Units::Dirry(Settings->Value("Export::"+Platform(), "Scenario")); }
 
 		void SaveMe(bool dontexport=false);
 

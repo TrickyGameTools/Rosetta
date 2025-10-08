@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.08 I
+// Version: 25.10.08 II
 // End License
 
 #include "../Rosetta.hpp"
@@ -58,6 +58,9 @@ namespace Slyvina {
 	namespace Rosetta {
 		namespace GUI {
 
+			static double hue{0};
+
+			bool AllowModify = true;
 			String Exefile{};
 			VecString Args{NewVecString()};
 
@@ -69,6 +72,11 @@ namespace Slyvina {
 			MakeCol1(MakeAmber,255,180,0);
 			MakeCol2(BoxPurple,180,0,255);
 
+			static void HSV(j19gadget*g,j19action) {
+				g->SetForegroundHSV(hue,1,1.0);
+				g->SetBackgroundHSV(hue,1,0.1);
+			}
+
 			static j19gadget
 				* Back{nullptr},
 				* ProjectsLabel{nullptr},
@@ -76,8 +84,11 @@ namespace Slyvina {
 				* PanStrings{nullptr},
 				* ButStrings{nullptr},
 				* ButScenario{nullptr},
-				* PanScenario{nullptr};
+				* PanScenario{nullptr},
+				* Myrah{nullptr},
+				* LabCategories{nullptr};
 			j19gadget
+				* ListCategories{nullptr},
 				* ProjectsList{nullptr},
 				* MainWindow{nullptr};
 
@@ -109,11 +120,33 @@ namespace Slyvina {
 			void RenewProjects(j19gadget*,j19action) { RenewProjects(); }
 
 			static void PJ_Draw(j19gadget*g,j19action a) {
+				hue+=0.01; if (hue>360) hue-=360;
 				BoxPurple(g,a);
 				StringsOrScenario->Visible=(g->SelectedItem()>=0);
+				//std::cout<<"Panel Strings Visible: "<<boolstring(PanStrings->Visible)<<" <- "<<boolstring(ButStrings->checked)<<"\n";
 			}
-			static void DrawButtonStrings(j19gadget*g,j19action a) { MakeAmber(g,a); PanStrings->Visible=g->checked; }
-			static void DrawButtonScenario(j19gadget*g,j19action a) { MakeAmber(g,a); PanScenario->Visible=g->checked; }
+			static void DrawButtonStrings(j19gadget*g,j19action a) {
+				MakeAmber(g,a); PanStrings->Visible=ButStrings->checked;
+				//std::cout<<"DBS> Panel Strings Visible: "<<boolstring(PanStrings->Visible)<<" <- "<<boolstring(ButStrings->checked)<<"\n";
+			}
+			static void DrawButtonScenario(j19gadget*g,j19action a) { MakeAmber(g,a); PanScenario->Visible=ButScenario->checked; }
+
+
+			String SelectedProject() {
+				if (ProjectsList->SelectedItem()<0) return "";
+				auto SI{ProjectsList->ItemText()};
+				auto SP{IndexOf(SI,':')};
+				if (SP<0) {return "";}
+				return SI.substr(SP+1);
+			}
+
+			static void PJ_Select(j19gadget*g,j19action a) {
+				using namespace Slyvina::Rosetta::Class;
+				if (ProjectsList->SelectedItem()<0) return;
+				QCol->Doing("Userselect",SelectedProject());
+				_ProjectData::CurrentProject = Project[SelectedProject()];
+				_ProjectData::CurrentProject->UpdateStrings();
+			}
 
 			void Init(int argc,char** args) {
 				QCol->White("Rosetta\n\n");
@@ -130,6 +163,7 @@ namespace Slyvina {
 				PicGadget(Back,"Alg/Background.jpg");
 				ProjectsList = CreateListBox(2,25,300,250,Back);
 				ProjectsList->CBDraw=PJ_Draw;
+				ProjectsList->CBAction=PJ_Select;
 				RenewProjects();
 				ProjectsLabel = CreateLabel("Projects:",0,0,100,30,Back);
 				FntGadget(ProjectsLabel,"Fonts/Ryanna.jfbf");
@@ -146,8 +180,15 @@ namespace Slyvina {
 				ButStrings->CBDraw = DrawButtonStrings;
 				FntGadget(ButStrings,"Fonts/Ryanna.jfbf");
 				ButScenario = CreateRadioButton("Scenario",ProjectsList->W()+250,0,0,0,StringsOrScenario,false);
+				ButScenario->CBDraw = DrawButtonScenario;
 				FntGadget(ButScenario,"Fonts/Ryanna.jfbf");
-				ButStrings->CBDraw = DrawButtonScenario;
+				Myrah = CreatePicture(SW-120,2,120,118,PanStrings,Pic_FullStretch); //std::cout << "Myrah: ("<<Myrah->X()<<","<<Myrah->Y()<<")("<<Myrah->DrawX()<<","<<Myrah->DrawY()<<") Visible:"<<boolstring(Myrah->Visible)<<" Screen: "<<SW<<"x"<<SH<<std::endl;
+				Mascot(Myrah,"Myrah");
+				LabCategories = CreateLabel("Categories:",ProjectsList->W()+25,35,100,30,PanStrings);
+				FntGadget(LabCategories,"Fonts/Ryanna.jfbf");
+				LabCategories->CBDraw=MakeSkyBlue;
+				ListCategories = CreateListBox(LabCategories->DrawX(),LabCategories->DrawY()+30,400,(ProjectsList->Y()+ProjectsList->H())-(LabCategories->DrawY()+30),PanStrings);
+				ListCategories->CBDraw=HSV;
 			}
 
 			void Run() {

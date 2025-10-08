@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 III
+// Version: 25.10.08
 // End License
 
 #include "../Rosetta.hpp"
@@ -36,7 +36,10 @@ using namespace Slyvina::Units;
 namespace Slyvina {
 	namespace Rosetta {
 		namespace Class {
+
+			static std::map<String,ProjectData> _Project;
 			ProjectData _ProjectData::CurrentProject = nullptr;
+
 
 
 			_ProjectData::_ProjectData(String FileName)  {
@@ -68,7 +71,16 @@ namespace Slyvina {
 				foreach (var cat in Settings.List("Strings", "^Categories^")) sc.Items.Add(cat);
 				MainWindow.strings_allowmodify = old;
 				*/
-				Crash("Update Strings Not Yet Implemented");
+
+				//Crash("Update Strings Not Yet Implemented");
+				using namespace Slyvina::Rosetta::GUI;
+				if (!AllowModify) return;
+				auto Old{AllowModify };
+				AllowModify=false;
+				ListCategories->ClearItems();
+				auto L{Settings->List("Strings","^Categories^")};
+				for(auto&cat:*L) ListCategories->AddItem(cat);
+				AllowModify=true;
 			}
 
 			void _ProjectData::UpdateStringsCats() {
@@ -158,6 +170,15 @@ namespace Slyvina {
 				//*/
 				Crash("Renew Settings not yet implemented");
 			}
+
+			ProjectData TGetProject::operator[](String p) {
+				if (!_Project.count(p)) {
+					QCol->Doing("Get Project",p);
+					_Project[p] = std::shared_ptr<_ProjectData>(new _ProjectData(p));
+				}
+				return _Project[p];
+			}
+			TGetProject Project{};
 		}
 	}
 }

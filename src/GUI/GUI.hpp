@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.08 I
+// Version: 25.10.08 II
 // End License
 
 #pragma once
@@ -40,8 +40,13 @@ namespace Slyvina {
 			extern String Exefile;
 			extern VecString Args;
 
+			extern bool AllowModify;
+
 			extern June19::j19gadget
-				* MainWindow;
+				* MainWindow,
+				* ListCategories;
+
+			String SelectedProject();
 
 			void Init(int argc,char** args);
 			void Run();

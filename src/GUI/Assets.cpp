@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.08 I
+// Version: 25.10.08 II
 // End License
 #pragma once
 #include <Slyvina.hpp>
@@ -139,6 +139,17 @@ namespace Slyvina {
 			}
 			void FntGadget(June19::j19gadget* g,String FntDir) { g->SetFont(GetFont(FntDir)); }
 			void FntDefault(String FntDir) { June19::j19gadget::SetDefaultFont(GetFont(FntDir)); }
+
+
+			void Mascot(June19::j19gadget*g,String Mascot) {
+				String M{"Mascots/"+Mascot+".png"};
+				PicGadget(
+							g,
+							Assets()->EntryExists(M) ?
+							M:
+							"Alg/Icon.png"
+							);
+			}
 		}
 	}
 }
