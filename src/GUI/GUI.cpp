@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.08 II
+// Version: 25.10.11
 // End License
 
 #include "../Rosetta.hpp"
@@ -71,11 +71,39 @@ namespace Slyvina {
 			}
 			MakeCol1(MakeAmber,255,180,0);
 			MakeCol2(BoxPurple,180,0,255);
+			MakeCol2(BoxLightGreen,180,255,0);
+			MakeCol2(BoxDark,100,100,100);
+			MakeCol2(BoxMint,0,180,255);
+			MakeCol2(BoxMagenta2,255,0,180);
 
 			static void HSV(j19gadget*g,j19action) {
 				g->SetForegroundHSV(hue,1,1.0);
 				g->SetBackgroundHSV(hue,1,0.1);
 			}
+
+			static int CatItems{0};
+			static const int
+				CatItemHeight{20},
+				CatLangs{2};
+
+			struct TStringsLine {
+				j19gadget
+					* Group{nullptr},
+					* Label{nullptr},
+					* Box[CatLangs]{nullptr,nullptr};
+				uint32 index{0};
+			};
+			std::map<uint32,TStringsLine> StringLine;
+			struct TStrHead {
+				j19gadget
+					* Group{nullptr},
+					* Label{nullptr},
+					* Back{nullptr},
+					* Forward{nullptr};
+				int index{0};
+			};
+			TStrHead StrHead[CatLangs];
+			std::map<String,uint64> StrCatStart{};
 
 			static j19gadget
 				* Back{nullptr},
@@ -86,7 +114,11 @@ namespace Slyvina {
 				* ButScenario{nullptr},
 				* PanScenario{nullptr},
 				* Myrah{nullptr},
-				* LabCategories{nullptr};
+				* LabCategories{nullptr},
+				* PanStringsEdit{nullptr},
+				* Aziella{nullptr},
+				* NewString{nullptr},
+				* NewStringAction{nullptr};
 			j19gadget
 				* ListCategories{nullptr},
 				* ProjectsList{nullptr},
@@ -131,6 +163,13 @@ namespace Slyvina {
 			}
 			static void DrawButtonScenario(j19gadget*g,j19action a) { MakeAmber(g,a); PanScenario->Visible=ButScenario->checked; }
 
+			static void SC_Draw(j19gadget*g,j19action a) { HSV(g,a); PanStringsEdit->Visible=ListCategories->SelectedItem()>=0; }
+
+			static void SC_FW_Draw(j19gadget*g,j19action a) {
+				BoxLightGreen(g,a);
+				g->X(g->GetParent()->W()-g->W());
+			}
+
 
 			String SelectedProject() {
 				if (ProjectsList->SelectedItem()<0) return "";
@@ -147,6 +186,34 @@ namespace Slyvina {
 				_ProjectData::CurrentProject = Project[SelectedProject()];
 				_ProjectData::CurrentProject->UpdateStrings();
 			}
+
+			static void NS_Draw(j19gadget*,j19action a) {
+				bool allow{Trim(NewString->Text).size()>0};
+				BoxMint(NewString,a);
+				(allow?BoxMint:BoxDark)(NewStringAction,a);
+				NewStringAction->Enabled=allow;
+			}
+
+			void RenewStringsPanel(){
+				using namespace Slyvina::Rosetta::Class;
+				ProjectData CP{_ProjectData::CurrentProject};
+				for (int i=0;i<CatLangs;i++) { StrHead[i].Label->Caption=CP->Settings->Value("Strings",TrSPrintF("LANG%d",i+1)); }
+				for(auto&g:StringLine) g.second.Group->Visible=false;
+				if (ListCategories->SelectedItem()<0) return;
+				auto Cat{ListCategories->ItemText()};
+				uint64 idx{StrCatStart.count(Cat)?StrCatStart[Cat]:0u};
+				for(auto&g:StringLine) {
+					String BTag{TrSPrintF( ((String)("KEY_"+Cat+"_%d")).c_str(),idx) };
+					if (CP->Settings->Value("Strings",BTag)!="") {
+						g.second.Group->Visible=true;
+						g.second.Label->Caption=CP->Settings->Value("Strings",BTag);
+					}
+					idx++;
+				}
+
+			}
+
+			static void RenewStringsPanel(j19gadget*,j19action) { RenewStringsPanel(); }
 
 			void Init(int argc,char** args) {
 				QCol->White("Rosetta\n\n");
@@ -188,7 +255,43 @@ namespace Slyvina {
 				FntGadget(LabCategories,"Fonts/Ryanna.jfbf");
 				LabCategories->CBDraw=MakeSkyBlue;
 				ListCategories = CreateListBox(LabCategories->DrawX(),LabCategories->DrawY()+30,400,(ProjectsList->Y()+ProjectsList->H())-(LabCategories->DrawY()+30),PanStrings);
-				ListCategories->CBDraw=HSV;
+				ListCategories->CBDraw=SC_Draw;
+				ListCategories->CBAction=RenewStringsPanel;
+				int
+					Y2{ProjectsList->Y()+ProjectsList->H()+2},
+					H2{SH-Y2}; //std::cout << Y2<<"/"<<H2<<"\n";
+				PanStringsEdit = CreateGroup(0,Y2,SW,H2,PanStrings);
+				Aziella = CreatePicture(0,H2-551,334,551,PanStringsEdit,Pic_FullStretch);
+				Mascot(Aziella,"Aziella");
+				CatItems = H2 / CatItemHeight;
+				for(int i=0;i<CatLangs;++i) {
+					auto CH{&StrHead[i]};
+					CH->index=i;
+					CH->Group = CreateGroup(500+(i*505),0,500,30,PanStringsEdit);
+					CH->Back = CreateButton("<",0,0,0,0,CH->Group);
+					CH->Forward = CreateButton(">",0,0,0,0,CH->Group);
+					CH->Back->CBDraw = BoxLightGreen;
+					CH->Forward->CBDraw = SC_FW_Draw;
+					FntGadget(CH->Back,"Symbols");
+					FntGadget(CH->Forward,"Symbols");
+					CH->Label = CreateLabel(TrSPrintF("Lang%d",i+1),0,0,500,30,CH->Group,8);
+					CH->Label->CBDraw = BoxLightGreen;
+					FntGadget(CH->Label,"Fonts/Ryanna.jfbf");
+				}
+				NewString = CreateTextfield(500,PanStringsEdit->H()-25,500,PanStringsEdit);
+				NewStringAction = CreateButton("New String",NewString->X()+NewString->W()+5,NewString->Y(),PanStringsEdit);
+				NewString->CBDraw=NS_Draw;
+				uint32 idx{0};
+				for (int y=40;y<NewString->Y()-50;y+=25) {
+					auto SLS{&StringLine[idx]}; SLS->index=idx++;
+					SLS->Group=CreatePanel(0,y,SW,25,PanStringsEdit);
+					SLS->Group->BA=127;
+					SLS->Label=CreateLabel(TrSPrintF("%d::%d",idx,y),0,0,495,20,SLS->Group,1);
+					for(int i=0;i<CatLangs;++i) {
+						SLS->Box[i] = CreateTextfield(500+(i*505),0,500,25,SLS->Group);
+						SLS->Box[i]->CBDraw = BoxMagenta2;
+					}
+				}
 			}
 
 			void Run() {
