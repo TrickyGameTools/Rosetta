@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.08 II
+// Version: 25.11.01
 // End License
 #pragma once
 #include <Slyvina.hpp>
@@ -108,10 +108,22 @@ namespace Slyvina {
 				QCol->Doing("Identifying",AssetsFile());
 				auto IDS{Assets()->GetString("ID/ID.ini")};
 				auto IDD{Units::ParseGINIE(IDS)};
+				if  (JCR6::Last()->ErrorMessage!="") {
+					QCol->Error("JCR6 error during identification");
+					QCol->Doing("Error",JCR6::Last()->ErrorMessage);
+					QCol->Doing("Main",JCR6::Last()->MainFile);
+					QCol->Doing("Entry",JCR6::Last()->Entry);
+				}
+				if (!IDD) {
+					QCol->Error("Identification GINIE is NULL!");
+					QCol->Magenta(IDS);
+					QCol->Reset();
+				}
 				if ((IDD->Value("data","app")!="Rosetta") || (IDD->Value("data","fw")!="Slyvina")) {
 					QCol->Error("Assets file not identified as for Rosetta!");
 					QCol->Doing("- app",IDD->Value("data","app"));
 					QCol->Doing("- fw",IDD->Value("data","fw"));
+					QCol->Reset();
 					if (crash) exit(4);
 				}
 			}

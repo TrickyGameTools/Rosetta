@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XXVIII
+// Version: 25.11.01
 // End License
 
 #include <algorithm>
@@ -66,7 +66,7 @@ namespace Slyvina {
 				Modified = false;
 			}
 
-			String _CEntry::EntryFile(){ return Dirry(Project()->Settings->Value("DIRECTORIES","SCENARIO")+"/"+EntryName+".ini"); }
+			String _CEntry::EntryFile(){ return Dirry(Project()->Settings->Value("DIRECTORIES::"+Platform(),"SCENARIO")+"/"+EntryName+".ini"); }
 
 			GINIE _CEntry::Data() {
 				if (_Data == nullptr) {
@@ -202,7 +202,7 @@ namespace Slyvina {
 			}
 
 			VecString _CScenario::AllEntries() {
-				auto SDir { Dirry(CurrentProject()->Settings->Value("DIRECTORIES", "SCENARIO"))};
+				auto SDir { Dirry(_ProjectData::CurrentProject->Settings->Value("DIRECTORIES::"+Platform(), "SCENARIO"))};
 				if (!DirectoryExists(SDir)) return nullptr;
 				auto got {GetTree(SDir)};
 				auto ret {NewVecString()};

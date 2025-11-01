@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 XXXIV
+// Version: 25.10.21
 // End License
 
 #pragma once
@@ -305,7 +305,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 		void UpdateGUI();
 
 		//internal string[] AllEntries {
-		VecString AllEntries();
+		static VecString AllEntries();
 
 		//internal string ChosenEntryName {
 		//	get {

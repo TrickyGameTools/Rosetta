@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.08
+// Version: 25.10.21
 // End License
 
 #include "../Rosetta.hpp"
@@ -53,7 +53,7 @@ namespace Slyvina {
 
 			GINIE _ProjectData::GetStrings(String Language) {
 				if (!Strings.count(Language)) {
-					Strings[Language] = LoadGINIE(StringsDir()+"/"+Language+".ini");
+					Strings[Language] = LoadOptGINIE(StringsDir()+"/"+Language+".ini");
 					Strings[Language]->NewValue("^SYS^","CreationDate",Now());
 					Strings[Language]->NewValue("^SYS^", "CreationTool", "Rosetta");
 					Strings[Language]->NewValue("^SYS^", "Active", "Yes"); // Setting for my own programs to make it easy to hide languages.

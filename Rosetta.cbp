@@ -21,7 +21,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
-				<Option parameters='&quot;/media/tricky/Scyndi/Projects/Applications/Scyndi/House Of Cards/Dev/Rosetta/House of Cards.ini&quot;' />
+				<Option parameters='&quot;/media/tricky/Scyndi/Projects/Applications/Scyndi/House Of Cards/Dev/Rosetta/House of Cards.ini&quot; &quot;/media/tricky/Scyndi/Projects/Applications/Scyndi/Luna&apos;s Father/src/Assets/Tricky Private/Languages/.Project/Luna&apos;s Father.ini&quot;' />
 				<Compiler>
 					<Add option="-O2" />
 				</Compiler>
@@ -95,6 +95,18 @@
 		<Unit filename="../../Libs/JCR6/3rdParty/zlib/src/zutil.h" />
 		<Unit filename="../../Libs/JCR6/Source/JCR6_Core.cpp" />
 		<Unit filename="../../Libs/JCR6/Source/JCR6_zlib.cpp" />
+		<Unit filename="../../Libs/June19/head/june19.hpp" />
+		<Unit filename="../../Libs/June19/head/june19_button.hpp" />
+		<Unit filename="../../Libs/June19/head/june19_checkbox.hpp" />
+		<Unit filename="../../Libs/June19/head/june19_core.hpp" />
+		<Unit filename="../../Libs/June19/head/june19_label.hpp" />
+		<Unit filename="../../Libs/June19/head/june19_listbox.hpp" />
+		<Unit filename="../../Libs/June19/head/june19_picture.hpp" />
+		<Unit filename="../../Libs/June19/head/june19_radio.hpp" />
+		<Unit filename="../../Libs/June19/head/june19_scrollbar.hpp" />
+		<Unit filename="../../Libs/June19/head/june19_tabber.hpp" />
+		<Unit filename="../../Libs/June19/head/june19_textarea.hpp" />
+		<Unit filename="../../Libs/June19/head/june19_textfield.hpp" />
 		<Unit filename="../../Libs/June19/src/june19_button.cpp" />
 		<Unit filename="../../Libs/June19/src/june19_checkbox.cpp" />
 		<Unit filename="../../Libs/June19/src/june19_core.cpp" />
@@ -104,6 +116,7 @@
 		<Unit filename="../../Libs/June19/src/june19_radio.cpp" />
 		<Unit filename="../../Libs/June19/src/june19_scrollbar.cpp" />
 		<Unit filename="../../Libs/June19/src/june19_tabber.cpp" />
+		<Unit filename="../../Libs/June19/src/june19_textarea.cpp" />
 		<Unit filename="../../Libs/June19/src/june19_textfield.cpp" />
 		<Unit filename="../../Libs/TQSL/Source/TQSA.cpp" />
 		<Unit filename="../../Libs/TQSL/Source/TQSE.cpp" />
