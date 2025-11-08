@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.21
+// Version: 25.11.08
 // End License
 
 #pragma once
@@ -55,7 +55,11 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 
 			void SaveMe() ;
 
-			Units::GINIE Data();
+			Units::RawGINIE* Data();
+
+			void Value(std::string cat,std::string key,std::string val);
+			String Value(std::string cat,std::string key);
+			inline bool BoolValue(String C,String K) { return (Upper(Value(C,K))=="TRUE"); }
 
 			inline ~_CEntry() {
 				if (_Data != nullptr && Modified) {
@@ -96,7 +100,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 				int __currentpagenumber { 0 };
 			public:
 				_CEntry* Parent { nullptr };
-				Units::GINIE Data() { return Parent->Data(); }
+				Units::RawGINIE* Data() { return Parent->Data(); }
 				String Tag { "" };
 
 				_CTag (_CEntry* _Parent,String _Tag);
@@ -155,7 +159,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			_CTag* Parent = nullptr;
 
 			inline _CPage(_CTag* _parent) { Parent = _parent; Modified.Ouwe=this; } // Here the property is finally defined! I told ya it was possible.
-			inline GINIE Data() { return Parent->Parent->Data(); }
+			inline RawGINIE* Data() { return Parent->Parent->Data(); }
 
 
 			//bool Modified {
@@ -225,7 +229,7 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			public:
 			_CPage* Parent { nullptr };
 			String Lang { "" };
-			GINIE Data() {return Parent->Parent->Data();}
+			RawGINIE* Data() {return Parent->Parent->Data();}
 			CSLangModified Modified{this};
 			inline CSLang() {} // Must exist for no reason at all!
 			inline CSLang(_CPage* _Parent,String _Lang) { Parent= _Parent; Lang = _Lang; Parent->_Lang[Lang] = *this;  }
@@ -284,6 +288,9 @@ namespace Slyvina { namespace Rosetta { namespace Class {
 			void SaveMe(bool force=false);
 
 			ProjectData CurrentProject();
+
+			String Lang(int i); //{ return Parent->Settings->Value("::Scenario::",TrSPrintF("LANG%d",i)); }
+			inline String Lang0(int i) { return Lang(i+1);}
 
 		//internal CEntry this[string ekey] {
 		//	get {

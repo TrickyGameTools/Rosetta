@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.11.01
+// Version: 25.11.08
 // End License
 
 #include <algorithm>
@@ -68,15 +68,27 @@ namespace Slyvina {
 
 			String _CEntry::EntryFile(){ return Dirry(Project()->Settings->Value("DIRECTORIES::"+Platform(),"SCENARIO")+"/"+EntryName+".ini"); }
 
-			GINIE _CEntry::Data() {
+			RawGINIE* _CEntry::Data() {
 				if (_Data == nullptr) {
 					QCol->Doing("Loading",EntryFile());
 					_Data = LoadOptGINIE(EntryFile());
 					_Data->NewValue("::SYS::", "Created", Now());
 					_Data->NewValue("::SYS::", "Tool", "Rosetta");
 					_Data->NewValue("::SYS::", "Entry", EntryName);
+					QCol->Doing("Initiated","EntryData");
 				}
-				return _Data;
+				if (!_Data) QCol->Error("Loading GINIE data failed");
+				return _Data.get();
+			}
+			void _CEntry::Value(String c,String k,String v) { Data(); _Data->Value(c,k,v);}
+
+			String _CEntry::Value(String c,String k) {
+				Data();
+				QCol->Doing("EVG:"+c,k);
+				QCol->Doing("--->",boolstring(_Data!=nullptr));
+				auto ret{ _Data->Value(c,k) };
+				QCol->Doing("Returning",ret);
+				return ret;
 			}
 
 			String _CEntry::CurrentTagName() {
@@ -104,7 +116,7 @@ namespace Slyvina {
 			_CEntry::_CEntry(_CScenario* _Parent, String EN){
 				this->Parent = _Parent;
 				EntryName = EN;
-				Parent->Entries[EN] = std::shared_ptr<_CEntry>(this);
+				//Parent->Entries[EN] = std::shared_ptr<_CEntry>(this);
 
 			}
 			//}
@@ -184,7 +196,7 @@ namespace Slyvina {
 			CEntry _CScenario::GetByIdx(String ekey){
 				Trans2Upper(ekey);
 				if (!Entries.count(ekey))
-					return std::shared_ptr<_CEntry>(new _CEntry(this,ekey)); //new CEntry(this, ekey);
+					Entries[ekey] = std::shared_ptr<_CEntry>(new _CEntry(this,ekey)); //new CEntry(this, ekey);
 				return Entries[ekey];
 			}
 
@@ -261,6 +273,7 @@ namespace Slyvina {
 
 			ProjectData _CScenario::CurrentProject() {return _ProjectData::CurrentProject; }
 			String _CScenario::Workspace() { return Parent->Settings->Value("DIRECTORIES", "SCENARIO"); }
+			String _CScenario::Lang(int i) { return Parent->Settings->Value("::Scenario::",TrSPrintF("LANG%d",i)); }
 
 			//}
 		}
