@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.08 II
+// Version: 25.11.08
 // End License
 
 #pragma once
@@ -47,6 +47,8 @@ namespace Slyvina {
 				* ListCategories;
 
 			String SelectedProject();
+
+			void ScenUpdateGUI();
 
 			void Init(int argc,char** args);
 			void Run();

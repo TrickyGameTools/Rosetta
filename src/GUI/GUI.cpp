@@ -22,12 +22,14 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.11.01
+// Version: 25.11.14
 // End License
 
 #include "../Rosetta.hpp"
 #include <SlyvQCol.hpp>
 #include <SlyvDir.hpp>
+#include <SlyvTime.hpp>
+#include <SlyvGINIE.hpp>
 #include <JCR6_zlib.hpp>
 #include <June19.hpp>
 #include <TQSE.hpp>
@@ -77,6 +79,7 @@ namespace Slyvina {
 			MakeCol2(BoxDark,100,100,100);
 			MakeCol2(BoxMint,0,180,255);
 			MakeCol2(BoxMagenta2,255,0,180);
+			MakeCol2(BoxYellow,255,255,0);
 
 			static void HSV(j19gadget*g,j19action) {
 				g->SetForegroundHSV(hue,1,1.0);
@@ -147,12 +150,19 @@ namespace Slyvina {
 				* ListFiles{nullptr},
 				* ListTags{nullptr},
 				* GroupScenTags{nullptr},
-				* ChkLinkName{nullptr};
+				* ChkLinkName{nullptr},
+				* ScenPgUp{nullptr},
+				* ScenPgDn{nullptr},
+				* ScenPageShow{nullptr};
 
 			j19gadget
 				* ListCategories{nullptr},
 				* ProjectsList{nullptr},
 				* MainWindow{nullptr};
+			//static std::vector<j19gadget*> NameLinkFields;
+			struct NL{ Byte Col; j19gadget* TF; String Key;};
+			std::vector<NL> NameLinkFields{};
+			uint32 ScenPage{0};
 
 			void RenewProjects(){
 				uint32 c{0};
@@ -361,29 +371,220 @@ namespace Slyvina {
 				g->Enabled = ListFiles->SelectedItem()>=0 && ListTags->SelectedItem()>=0;
 			}
 
+			static void Flash(j19gadget*gg,byte r,byte g,byte b) {
+				byte d{(CurrentSecond()%2)+1};
+				gg->SetForeground(r/d,g/d,b/d,255);
+			}
+			static void FlashCB(j19gadget*g,j19action) { Flash(g,255,100,0); }
+
 			static void TagEn(j19gadget*g,j19action a) {
 				(
 					GroupScenTags->Enabled ?
-					MakeYellow :
+					(g->checked?MakeYellow:FlashCB) :
 					MakeDark
 				)(g,a);
 			}
 
-			void ScLabel(String Caption,int y) {
+			static void ScLabel(String Caption,int y) {
 				auto
 					s{CreateLabel(Caption,2,y+2,1,30,GroupScenTags,1)},
 					g{CreateLabel(Caption,0,y,1,30,GroupScenTags,1)};
 				g->CBDraw=MakeYellow;
 				s->SetForeground(0,0,0);
 			}
-			int ScLabel(String Caption) {
+			static int ScLabel(String Caption) {
 				static int y{ProjectsList->H()+ProjectsList->Y()+90};
 				auto ret{y};
 				ScLabel(Caption,y);
 				y+=30;
 				return ret;
 			}
+			static void UpdateNameLink(j19gadget* ignore=nullptr) {
+				using namespace Class;
+				auto T{ListTags}; if (!T) { TQSE::Notify("No gadget"); return; }
+				auto Tag{T->ItemText()}; {if(!Tag.size()) return;}
+				auto Scn{ListFiles->ItemText()}; if(!Scn.size()) return;
+				auto CP{_ProjectData::CurrentProject}; if (!CP) { TQSE::Notify("No project!"); return; }
+				auto SC{CP->Scenario}; if (!SC) { TQSE::Notify("Error! No scenario"); return;}
+				auto EN{(*SC)[Scn]}; if (!EN) { TQSE::Notify("Error! No entry on :"+Scn); return;}
+				auto Data{EN->Data()}; if (!Data) { TQSE::Notify("Error! No data on :"+Scn); return;}
+				String CTag{"::CENTRAL::"+Tag+TrSPrintF("::%d::",ScenPage)};
+				auto cln{Upper(EN->Value(CTag,"NAMELINKING"))=="TRUE"};
+				if (!cln) return;
+				for(auto g:NameLinkFields) {
+					if (g.TF!=ignore) g.TF->Text = EN->Value(CTag,"PICDIR");
+				}
+				for(Byte i=0;i<MaxScenGroup;++i) {
+					if (ignore!=ScenGroup[i].PicSpc) ScenGroup[i].PicSpc->Text=EN->Value(CTag,"PICSPECIFIC");
+				}
+			}
 
+
+			void ScenUpdateGUI(){
+				using namespace Class;
+				auto T{ListTags}; if (!T) { TQSE::Notify("No gadget"); return; }
+				auto Tag{T->ItemText()}; {if(!Tag.size()) return;}
+				auto Scn{ListFiles->ItemText()}; if(!Scn.size()) return;
+				auto CP{_ProjectData::CurrentProject}; if (!CP) { TQSE::Notify("No project!"); return; }
+				auto SC{CP->Scenario}; if (!SC) { TQSE::Notify("Error! No scenario"); return;}
+				auto EN{(*SC)[Scn]}; if (!EN) { TQSE::Notify("Error! No entry on :"+Scn); return;}
+				auto Data{EN->Data()}; if (!Data) { TQSE::Notify("Error! No data on :"+Scn); return;}
+				String CTag{"::CENTRAL::"+Tag+TrSPrintF("::%d::",ScenPage)};
+				//for (size_t i=0;i<CTag.size();i++) printf("%d>%d\n",i,CTag[i]);
+				if (!ChkLinkName) { TQSE::Notify("No link"); return; }
+				//TQSE::Notify(CTag);
+				//std::cout << CTag <<"\n";
+				auto cln{Upper(EN->Value(CTag,"NAMELINKING"))=="TRUE"};
+				ChkLinkName->checked = cln;
+				UpdateNameLink();
+				for(byte i=0;i<MaxScenGroup;++i){
+					auto &SGP{ScenGroup[i]};
+					String
+						LNG{CP->Settings->Value("::SCENARIO::",TrSPrintF("LANG%d",i+1))},
+						LTag{"::LANG::"+LNG+"::"+Tag+TrSPrintF("::%d::",ScenPage)};
+					auto Cnt{Data->List(LTag,"Content")};
+					if (!cln) {
+						SGP.Caption->Text = EN->Value(LTag,"Caption");
+						SGP.PicDir->Text = EN->Value(LTag,"Pic_dir");
+						SGP.PicSpc->Text = EN->Value(LTag,"Pic_spc");
+					}
+					SGP.Font->Text = EN->Value(LTag,"Font");
+					SGP.Voice->Text = EN->Value(LTag,"Voice");
+					SGP.Head.Label->Caption = LNG;
+					SGP.Content->AddItems(Cnt,true);
+					SGP.Content->_tax=0;
+					SGP.Content->_tay=0;
+				}
+			}
+
+			static int MaxPages(String Tag){
+				using namespace Class;
+				auto Scn{ListFiles->ItemText()}; if(!Scn.size()) return 0;
+				auto CP{_ProjectData::CurrentProject}; if (!CP) { TQSE::Notify("No project!"); return 0; }
+				auto SC{CP->Scenario}; if (!SC) { TQSE::Notify("Error! No scenario"); return 0;}
+				auto EN{(*SC)[Scn]}; if (!EN) { TQSE::Notify("Error! No entry on :"+Scn); return 0;}
+				return EN->Data()->IntValue("::PAGES::",Tag);
+			}
+			static int MaxPages() {
+				using namespace Class;
+				auto T{ListTags}; if (!T) { TQSE::Notify("No gadget"); return 0; }
+				auto Tag{T->ItemText()}; {if(!Tag.size()) return 0;}
+				return MaxPages(Tag);
+			}
+
+			static void ScenUpdateGUI(j19gadget*,j19action) { ScenUpdateGUI(); }
+
+			static void SelectScenTag(j19gadget*T,j19action a) {
+				ScenPage=0;
+				ScenUpdateGUI();
+			}
+
+			static void DrawPgUp(j19gadget*g,j19action a) { g->Enabled = ScenPage>0; BoxYellow(g,a); }
+			static void DrawPgDn(j19gadget*g,j19action a) {
+				g->Y(GroupScenTags->H()-g->H()-10);
+				BoxYellow(g,a);
+				auto T{ListTags}; if (!T) { TQSE::Notify("No gadget"); return; }
+				auto Tag{T->ItemText()}; if(!Tag.size()) { g->Enabled=false; return;}
+				g->Enabled = ScenPage<MaxPages(Tag);
+			}
+			static void DrawScenPage(j19gadget*g,j19action a){
+				MakeYellow(g,a);
+				g->Caption = TrSPrintF("%02d/%02d",ScenPage+1,std::max(1,MaxPages()));
+			}
+			static void ActPgUp(j19gadget*,j19action a) { ScenPage--; ScenUpdateGUI(); }
+			static void ActPgDn(j19gadget*,j19action a) { ScenPage++; ScenUpdateGUI(); }
+
+			static void NLEdit(j19gadget* g,j19action a){
+				using namespace Class;
+				auto T{ListTags}; if (!T) { TQSE::Notify("No gadget"); return; }
+				auto Tag{T->ItemText()}; {if(!Tag.size()) return;}
+				auto Scn{ListFiles->ItemText()}; if(!Scn.size()) return;
+				auto CP{_ProjectData::CurrentProject}; if (!CP) { TQSE::Notify("No project!"); return; }
+				auto SC{CP->Scenario}; if (!SC) { TQSE::Notify("Error! No scenario"); return;}
+				auto EN{(*SC)[Scn]}; if (!EN) { TQSE::Notify("Error! No entry on :"+Scn); return;}
+				auto Data{EN->Data()}; if (!Data) { TQSE::Notify("Error! No data on :"+Scn); return;}
+				String CTag{"::CENTRAL::"+Tag+TrSPrintF("::%d::",ScenPage)};
+				auto cln{Upper(EN->Value(CTag,"NAMELINKING"))=="TRUE"};
+				if (cln) {
+					EN->Value(CTag,"PICDIR",g->Text);
+					UpdateNameLink(g);
+				} else {
+					for(auto&NLE:NameLinkFields) {
+						if (NLE.TF==g) {
+							String
+								LNG{CP->Settings->Value("::SCENARIO::",TrSPrintF("LANG%d",NLE.Col+1))},
+								LTag{"::LANG::"+LNG+"::"+Tag+TrSPrintF("::%d::",ScenPage)};
+							EN->Value(LTag,NLE.Key,g->Text);
+							EN->Modified = true;
+						}
+					}
+				}
+			}
+
+			static void EditPicSpecific(j19gadget *g,j19action a) {
+				using namespace Class;
+				auto T{ListTags}; if (!T) { TQSE::Notify("No gadget"); return; }
+				auto Tag{T->ItemText()}; {if(!Tag.size()) return;}
+				auto Scn{ListFiles->ItemText()}; if(!Scn.size()) return;
+				auto CP{_ProjectData::CurrentProject}; if (!CP) { TQSE::Notify("No project!"); return; }
+				auto SC{CP->Scenario}; if (!SC) { TQSE::Notify("Error! No scenario"); return;}
+				auto EN{(*SC)[Scn]}; if (!EN) { TQSE::Notify("Error! No entry on :"+Scn); return;}
+				auto Data{EN->Data()}; if (!Data) { TQSE::Notify("Error! No data on :"+Scn); return;}
+				String CTag{"::CENTRAL::"+Tag+TrSPrintF("::%d::",ScenPage)};
+				auto cln{Upper(EN->Value(CTag,"NAMELINKING"))=="TRUE"};
+				if (cln) {
+					EN->Value(CTag,"PICSPECIFIC",g->Text);
+					UpdateNameLink(g);
+				} else {
+					for(byte i=0;i<MaxScenGroup;i++) {
+						String
+							LNG{CP->Settings->Value("::SCENARIO::",TrSPrintF("LANG%d",i+1))},
+							LTag{"::LANG::"+LNG+"::"+Tag+TrSPrintF("::%d::",ScenPage)};
+						if (g==ScenGroup[i].PicSpc) EN->Value(LTag,"PIC_SPC",g->Text);
+					}
+				}
+			}
+
+			void ToggleNameLink(j19gadget*g,j19action) {
+				using namespace Class;
+				auto T{ListTags}; if (!T) { TQSE::Notify("No gadget"); return; }
+				auto Tag{T->ItemText()}; {if(!Tag.size()) return;}
+				auto Scn{ListFiles->ItemText()}; if(!Scn.size()) return;
+				auto CP{_ProjectData::CurrentProject}; if (!CP) { TQSE::Notify("No project!"); return; }
+				auto SC{CP->Scenario}; if (!SC) { TQSE::Notify("Error! No scenario"); return;}
+				auto EN{(*SC)[Scn]}; if (!EN) { TQSE::Notify("Error! No entry on :"+Scn); return;}
+				auto Data{EN->Data()}; if (!Data) { TQSE::Notify("Error! No data on :"+Scn); return;}
+				String CTag{"::CENTRAL::"+Tag+TrSPrintF("::%d::",ScenPage)};
+				//auto cln{Upper(EN->Value(CTag,"NAMELINKING"))=="TRUE"};
+				EN->Value(CTag,"NAMELINKING",boolstring(g->checked));
+				EN->Modified=true;
+				ScenUpdateGUI();
+			}
+
+			void EditContent(j19gadget* g,j19action a) {
+				using namespace Class;
+				auto T{ListTags}; if (!T) { TQSE::Notify("No gadget"); return; }
+				auto Tag{T->ItemText()}; {if(!Tag.size()) return;}
+				auto Scn{ListFiles->ItemText()}; if(!Scn.size()) return;
+				auto CP{_ProjectData::CurrentProject}; if (!CP) { TQSE::Notify("No project!"); return; }
+				auto SC{CP->Scenario}; if (!SC) { TQSE::Notify("Error! No scenario"); return;}
+				auto EN{(*SC)[Scn]}; if (!EN) { TQSE::Notify("Error! No entry on :"+Scn); return;}
+				auto Data{EN->Data()}; if (!Data) { TQSE::Notify("Error! No data on :"+Scn); return;}
+				for(byte i=0;i<MaxScenGroup;i++) {
+					String
+						LNG{CP->Settings->Value("::SCENARIO::",TrSPrintF("LANG%d",i+1))},
+						LTag{"::LANG::"+LNG+"::"+Tag+TrSPrintF("::%d::",ScenPage)};
+					if (g==ScenGroup[i].Content) {
+						Data->ClearList(LTag,"Content");
+						for(size_t ln=0;ln<g->NumItems();ln++) {
+							auto TXT{g->ItemText(ln)};
+							//printf("Content %03d/%03d: %s\n",ln,g->NumItems(),TXT.c_str());
+							Data->Add(LTag,"Content",TXT);
+						}
+						EN->Modified=true;
+					}
+				}
+			}
 
 			void Init(int argc,char** args) {
 				// Start
@@ -486,10 +687,12 @@ namespace Slyvina {
 				ListFiles->CBAction = SelectScenEntry;
 				ListTags = CreateListBox(LabFiles->X()+500,70,490,ListFiles->H(),PanScenario);
 				ListTags->CBDraw = ScenTagDraw;
+				ListTags->CBAction = SelectScenTag;
 				GroupScenTags = CreateGroup(ListFiles->X(),0,PanScenario->W()-ListFiles->X(),PanScenario->H(),PanScenario);
 				GroupScenTags->CBDraw = EnTagSelected;
 				ChkLinkName = CreateCheckBox("Name Link",(LabTags->X()+LabTags->W()+10)-GroupScenTags->X(),40,100,20,GroupScenTags);
 				ChkLinkName->CBDraw = TagEn;
+				ChkLinkName->CBAction = ToggleNameLink;
 				{
 					int
 						ycap = ScLabel("Caption"),
@@ -501,6 +704,19 @@ namespace Slyvina {
 					for(int i=0;i<MaxScenGroup;++i) {
 						auto &SC{ScenGroup[i]};
 						int XHue{i*150};
+						SC.Head.Group = CreateGroup(5+(i*505),ycap-50,500,30,GroupScenTags);
+						SC.Head.Back = CreateButton("<",0,0,0,0,SC.Head.Group);
+						SC.Head.Forward = CreateButton(">",SC.Head.Group->W()-50,0,0,0,SC.Head.Group);
+						SC.Head.Label = CreateLabel("???",0,0,500,30,SC.Head.Group,2);
+						SC.Head.Back->CBDraw = BoxMint;
+						SC.Head.Forward->CBDraw = BoxMint;
+						SC.Head.Label->CBDraw = BoxMint;
+						FntGadget(SC.Head.Forward,"Symbols");
+						FntGadget(SC.Head.Back,"Symbols");
+						FntGadget(SC.Head.Label,"Fonts/Ryanna.jfbf");
+						//SC.Head.Back->CBAction = ActPrevLanguage;
+						//SC.Head.Forward->CBDraw = SC_FW_Draw;
+						//SC.Head.Forward->CBAction = ActNextLanguage;
 						SC.Caption = CreateTextfield(5+(i*500),ycap,495,GroupScenTags);
 						SC.Caption-> SetForegroundHSV(25+XHue,1,1);
 						SC.PicDir  = CreateTextfield(5+(i*500),ypdr,495,GroupScenTags);
@@ -514,8 +730,25 @@ namespace Slyvina {
 						SC.Content = CreateTextArea(5+(i*500),ycnt,495,GroupScenTags->H()-(ycnt+5),GroupScenTags);
 						SC.Content-> SetForegroundHSV(150+XHue,1,1);
 						SC.Content->Content("Testing one-two-three\nTest een-twee-drie");
+						NameLinkFields.push_back(NL{i,SC.Caption,"CAPTION"});
+						NameLinkFields.push_back(NL{i,SC.PicDir,"PIC_DIR"});
+						SC.PicSpc->CBAction = EditPicSpecific;
+						SC.Content->CBAction = EditContent;
 					}
+					for(auto&N:NameLinkFields) N.TF->CBAction=NLEdit;
+					ScenPgUp = CreateButton("^",GroupScenTags->W()-80,ycap,0,0,GroupScenTags);
+					ScenPgUp->CBDraw = DrawPgUp;
+					ScenPgUp->CBAction = ActPgUp;
+					FntGadget(ScenPgUp,"Symbols");
+					ScenPgDn = CreateButton("V",GroupScenTags->W()-80,0,0,0,GroupScenTags);
+					ScenPgDn->CBDraw = DrawPgDn;
+					ScenPgDn->CBAction = ActPgDn;
+					FntGadget(ScenPgDn,"Symbols");
+					ScenPageShow = CreateLabel("--/--",GroupScenTags->W()-120,GroupScenTags->H()-(ycap/2),120,60,GroupScenTags,1);
+					FntGadget(ScenPageShow,"Fonts/Ryanna.jfbf");
+					ScenPageShow->CBDraw = DrawScenPage;
 				}
+
 			}
 
 			void Run() {
