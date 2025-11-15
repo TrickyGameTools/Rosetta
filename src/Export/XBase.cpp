@@ -22,13 +22,18 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06
+// Version: 25.11.15
 // End License
+#include "SlyvString.hpp"
 #include "XBase.hpp"
 namespace Slyvina {
 	namespace Rosetta {
 		namespace Export {
 			std::map<String,XBase> XBase::Register{};
+
+			void XBase::Reg(String Key,ExportDelegate D) {
+				Register[Units::Upper(Key)].Export=D;
+			}
 		}
 	}
 }

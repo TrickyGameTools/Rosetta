@@ -22,12 +22,13 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 25.10.06 III
+// Version: 25.11.15
 // End License
 
 #pragma once
 #include <Slyvina.hpp>
 #include "../Class/AllClasses.hpp"
+#include "XScenLang.hpp"
 
 namespace Slyvina {
 	namespace Rosetta {
@@ -45,13 +46,14 @@ namespace Slyvina {
 				//readonly static internal SortedDictionary<string,XBase> Register = new SortedDictionary<string,XBase>();
 				static std::map<String,XBase> Register;
 
+
 				//static void Reg(String key, XBase value) { Register[key]= value; }
 				static void Reg(String Key,ExportDelegate D);
 
 				static void Init() {
 					// True code comes later
 					//new XLua();
-					//new XScenLang();
+					Init_X_ScenLang(); //new XScenLang();
 					//new XXML();
 				}
 			};
