@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+echo "Creating main header"
+cd src
+python3 qhead.py > Rosetta.hpp
+cd ..

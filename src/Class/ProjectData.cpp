@@ -1,0 +1,184 @@
+// License:
+// 
+// Rosetta
+// Project Data
+// 
+// 
+// 
+// 	(c) Jeroen P. Broks, 2025
+// 
+// 		This program is free software: you can redistribute it and/or modify
+// 		it under the terms of the GNU General Public License as published by
+// 		the Free Software Foundation, either version 3 of the License, or
+// 		(at your option) any later version.
+// 
+// 		This program is distributed in the hope that it will be useful,
+// 		but WITHOUT ANY WARRANTY; without even the implied warranty of
+// 		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// 		GNU General Public License for more details.
+// 		You should have received a copy of the GNU General Public License
+// 		along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// 
+// 	Please note that some references to data like pictures or audio, do not automatically
+// 	fall under this licenses. Mostly this is noted in the respective files.
+// 
+// Version: 25.10.21
+// End License
+
+#include "../Rosetta.hpp"
+#include <SlyvGINIE.hpp>
+#include <SlyvTime.hpp>
+#include <SlyvStream.hpp>
+#include <SlyvDir.hpp>
+
+using namespace Slyvina::Units;
+
+namespace Slyvina {
+	namespace Rosetta {
+		namespace Class {
+
+			static std::map<String,ProjectData> _Project;
+			ProjectData _ProjectData::CurrentProject = nullptr;
+
+
+
+			_ProjectData::_ProjectData(String FileName)  {
+				Settings = LoadGINIE(FileName,FileName,"Rosetta project");
+				ProjectFile = FileName;
+				//Settings.AutoSaveSource = FileName;
+				Settings->NewValue("Support", "Languages", "English, Dutch");
+				Settings->NewValue("Support", "Language_Def", "English"); // Used when no suitable translation is found.
+				Scenario = std::shared_ptr<_CScenario>(new _CScenario(this)); //cpnew(CScenario,this);
+			}
+
+			GINIE _ProjectData::GetStrings(String Language) {
+				if (!Strings.count(Language)) {
+					Strings[Language] = LoadOptGINIE(StringsDir()+"/"+Language+".ini");
+					Strings[Language]->NewValue("^SYS^","CreationDate",Now());
+					Strings[Language]->NewValue("^SYS^", "CreationTool", "Rosetta");
+					Strings[Language]->NewValue("^SYS^", "Active", "Yes"); // Setting for my own programs to make it easy to hide languages.
+				}
+				return Strings[Language];
+			}
+
+			void _ProjectData::UpdateStrings() {
+				/* Original C# code
+				if (!MainWindow.strings_allowmodify) return;
+				var old = MainWindow.strings_allowmodify;
+				MainWindow.strings_allowmodify = false;
+				var sc = MainWindow.Me.StringCats;
+				sc.Items.Clear();
+				foreach (var cat in Settings.List("Strings", "^Categories^")) sc.Items.Add(cat);
+				MainWindow.strings_allowmodify = old;
+				*/
+
+				//Crash("Update Strings Not Yet Implemented");
+				using namespace Slyvina::Rosetta::GUI;
+				if (!AllowModify) return;
+				auto Old{AllowModify };
+				AllowModify=false;
+				ListCategories->ClearItems();
+				auto L{Settings->List("Strings","^Categories^")};
+				for(auto&cat:*L) ListCategories->AddItem(cat);
+				AllowModify=true;
+			}
+
+			void _ProjectData::UpdateStringsCats() {
+				/*
+				if (MainWindow.Me.StringCat == "") return;
+				var old = MainWindow.strings_allowmodify;
+				var Lst = Settings.List("Strings", $"CAT_{MainWindow.Me.StringCat}");
+				MainWindow.strings_allowmodify = false;
+				foreach (var ES in RegisterStrings.Lijst) {
+					ES.Key.Items.Clear();
+					foreach (var K in Lst) {
+						ES.Key.Items.Add(K);
+					}
+					var CKey = CurrentProject.Settings["Strings", $"Key_{MainWindow.Me.StringCat}_{ES.Index}"];
+					for (int i = 0; i < Lst.Count; ++i) {
+						if (Lst[i] == CKey) ES.Key.SelectedIndex = i;
+					}
+					if (CKey=="") {
+						ES.Value1.Text = "";
+						ES.Value2.Text = "";
+					} else {
+						if (MainWindow.Lang1 == "")
+							ES.Value1.Text = "";
+						else {
+							var LG=CurrentProject.GetStrings(MainWindow.Lang1);
+							ES.Value1.Text = LG[MainWindow.Me.StringCat, CKey];
+						}
+						if (MainWindow.Lang2 == "")
+							ES.Value2.Text = "";
+						else {
+							var LG = CurrentProject.GetStrings(MainWindow.Lang2);
+							ES.Value2.Text = LG[MainWindow.Me.StringCat, CKey];
+						}
+					}
+				}
+				MainWindow.strings_allowmodify = old;
+				//*/
+				Crash("UpdateCats not yet implemented");
+			}
+
+			_ProjectData::~_ProjectData()  { SaveMe(); }
+
+
+			void _ProjectData::SaveMe(bool dontexport) {
+				try {
+					// Strings
+					auto StrDir = StringsDir();
+					if (StrDir != "") {
+						//Debug.WriteLine(StrDir);
+					    if (!DirectoryExists(StringsDir())) {
+								MakeDir(StringsDir());
+						}
+						for (auto& str : Strings) {
+							SaveString(StringsDir()+"/"+str.first+".ini", str.second->UnParse("Saved by Rosetta"));
+						}
+					}
+					// Scenario
+					Scenario->SaveMe();
+
+					// Export
+					if (dontexport) return;
+					auto Langs { SupportedLanguages() };
+					if (Settings->Value("Export", "Method") != "") {
+						if (!Export::XBase::Register.count(Settings->Value("Export", "Method"))) {
+							QCol->Error("\7Export method "+Settings->Value("Export", "Method")+" does not appear to exist!\tInternal error");
+							return;
+						}
+						for (auto& L : *Langs) {
+							Export::XBase::Register[Settings->Value("Export", "Method")].Export(this, L);
+						}
+					}
+				} catch(std::runtime_error ex) {
+					QCol->Error((String)"\7An error occurred while saving a project! -> "+(String)ex.what());
+				}
+			}
+
+			void _ProjectData::RenewSettings() {
+				/*
+				var tallow = MainWindow.config_allowmodify;
+				MainWindow.config_allowmodify = false;
+				foreach(var item in RegisterSettings.Reg.Values) {
+					item.TarTextBox.Text = Settings[item.Category, item.Key];
+				}
+				Settings.NewValue("Export", "Method", "ScenLang");
+				MainWindow.Me.ExportMethod = Settings["Export", "Method"];
+				MainWindow.config_allowmodify = tallow;
+				//*/
+				Crash("Renew Settings not yet implemented");
+			}
+
+			ProjectData TGetProject::operator[](String p) {
+				if (!_Project.count(p)) {
+					QCol->Doing("Get Project",p);
+					_Project[p] = std::shared_ptr<_ProjectData>(new _ProjectData(p));
+				}
+				return _Project[p];
+			}
+			TGetProject Project{};
+		}
+	}
+}

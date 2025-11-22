@@ -1,0 +1,16 @@
+JQL
+
+# JCR6 Quick Link
+# Will easily fool JCR6, and for Jalondi it makes it easier to include these
+# fonts as "dependencies" during builds.
+
+Platform:Linux
+Let:PRJ=/media/tricky/Scyndi/Projects
+platform:Windows
+Let:PRJ=/Projects
+platform:All
+
+rawdir:$PRJ$/Fonts/JFBF/Ryanna>Ryanna.jfbf
+Rawdir:$PRJ$/Fonts/JFBF/Mini>Mini.jfbf
+
+Patch:$PRJ$/Fonts/DOSFont/DOSFont.jfbf>DOSFont.jfbf

@@ -4,8 +4,10 @@ MKL_*
 *.MKL.*
 Test
 .vs
+Exe
 
-
+Rosetta.depend
+Rosetta.layout
 
 # MINE! Put in your own mascot pictures if you want to!
 Myrah.png
